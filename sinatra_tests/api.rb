@@ -1,4 +1,5 @@
 require "sinatra"
+require_relative "card_deck"
 
 get '/' do
 	@link = "click me!"
