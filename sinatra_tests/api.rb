@@ -23,13 +23,15 @@ end
 
 #TODO permit only some params
 post '/register' do
-  "#{params[:credentials]}"
-  user = User.new(params)
-  if user.save!
-    session['token'] = user.id.hash
-    status 201
-  else
-    "Hello"
+  session["token"] = "1234"
+  status 422
+  begin
+    user = User.new(params)
+    if user.save!
+      session['token'] = user.id.hash
+      status 201
+    end
+  rescue Exception
     status 422
   end
 
