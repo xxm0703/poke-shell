@@ -15,12 +15,14 @@ helpers do
 	def generate_token(ip)
 		ip.hash
 	end
+
+	
 end
 
 get '/new' do
 	token = generate_token(request.ip)
 	connections[token] = request.ip
-	"#{generate_token(request.ip)}"
+	"#{generate_token(request.ip)}  #{session['counter']}"
 end
 
 get '/' do
