@@ -9,20 +9,25 @@ class Card
   def beats(other_card)
     @rank > other_card.rank
   end
+
+  def to_s
+    "#{@suit} #{@rank}"
+  end
 end
 
 class Deck
-  @suits = %w[Spades Hearths Diamonds Clubs]
-  @ranks = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
-  def initialize
-    @suits.each do |suit|
-      @ranks.each do |rank|
-        @cards << Card(suit, rank)
-      end
+    def initialize
+        @ranks = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+        @suits = %w[Spades Hearths Diamonds Clubs]
+        @cards = []
+        @suits.each do |suit|
+            @ranks.each do |rank|
+                @cards.push Card.new(suit, rank)
+            end
+        end
     end
-  end
 
-  def self.deal
-    @cards[Random.rand]
-  end
+    def deal
+        @cards[Random.rand*52]
+    end
 end
