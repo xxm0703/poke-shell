@@ -1,10 +1,21 @@
 # frozen_string_literal: true
 
 require 'sinatra'
+require 'active_record'
 require_relative 'cards'
 require 'rubygems'
+require 'json'
 
 current_dir = File.dirname(__FILE__)
+Dir["#{current_dir}/models/*.rb"].each { |file| require file }
+
+ActiveRecord::Base.establish_connection(
+  { :adapter => 'postgresql',
+    :database => 'development',
+    :host => 'localhost',
+    :username => 'postgres',
+    :password => "postgres" }
+  )
 
 enable :sessions
 connections = {}
@@ -16,9 +27,23 @@ s_rd_pipe.close
 s_wr_pipe.close
 
 helpers do
-  def generate_token(ip)
-    ip.hash
+  def generate_token(user)
+    (user.username + user.password).hash
   end
+end
+
+#TODO permit only some params
+post '/register' do
+  begin
+    user = User.new(params)
+    if user.save!
+      status 201
+      session["token"] = generate_token(user)
+    end
+  # rescue Exception
+  #   status 422
+  end
+
 end
 
 get '/new' do

@@ -3,7 +3,7 @@ require 'rubygems'
 require 'active_record'
 require_relative "card_deck"
 
-enable :session
+enable :sessions
 
 current_dir = File.join(File.dirname(__FILE__), '../../')
 
