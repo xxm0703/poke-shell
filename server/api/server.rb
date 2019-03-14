@@ -29,7 +29,7 @@ end
 
 get '/join_table' do
 	d = Deck.new()
-	"#{d.deal.to_s}  #{Random.rand}"
+	"#{d.deal.to_s}"
 end
 
 get '/' do

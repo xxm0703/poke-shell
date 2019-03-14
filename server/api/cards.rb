@@ -17,7 +17,7 @@ end
 
 class Deck
     def initialize
-        @ranks = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+        @ranks = 2..14
         @suits = %w[Spades Hearths Diamonds Clubs]
         @cards = []
         @suits.each do |suit|
