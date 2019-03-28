@@ -2,7 +2,7 @@
 
 require 'sinatra'
 require 'active_record'
-require_relative 'cards'
+# require_relative 'cards'
 require 'rubygems'
 require 'json'
 
@@ -19,6 +19,7 @@ ActiveRecord::Base.establish_connection(
 
 enable :sessions
 @@connections = {}
+@@rooms = {}
 
 before do
   s_rd_pipe, a_wr_pipe = IO.pipe
@@ -38,7 +39,7 @@ helpers do
  def log(user)
    session['token'] = generate_token(user)
    @@connections[session['token']] = user.id
-   {'logged': user.username}.to_json
+   session['username'] = user.username
  end
 end
 
@@ -62,15 +63,33 @@ end
 post '/log' do
   user = User.find_by username: params[:username]
   if user.nil? == true or user.password != params[:password]
-    {'error': "Username or password, not currect"}.to_json
+    {'error': "Username or password, not correct", params[:password]=> params[:username]}.to_json
   else
     log(user)
+    session.to_json
   end
 end
 
 get '/join_table' do
- d = Deck.new
- "#{d.deal}  #{Random.rand}"
+  token = params['token']
+
+  if(token.nil? or @@connections[token].nil?)
+    status 401
+    return token.to_json
+  end
+  values = @@rooms.values
+  if values.empty? or values[-1].size == 5
+    room_id = rand.hash
+    if @@rooms[room_id].nil?
+      @@rooms[room_id] = []
+    end
+  else
+    room_id = @@rooms.keys[-1]
+  end
+  @@rooms[room_id].push session[:token]
+  session[:roomId] = room_id
+  status 200
+  session.to_json
 end
 
 get '/' do
