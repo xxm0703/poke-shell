@@ -39,7 +39,7 @@ helpers do
  def log(user)
    session['token'] = generate_token(user)
    @@connections[session['token']] = user.id
-   session['username'] = user.username
+   session['token']
  end
 end
 
@@ -52,21 +52,20 @@ post '/register' do
    log(user)
   end
  rescue ActiveRecord::RecordNotUnique
-  status 422
-  {'error': 'username already taken'}.to_json
+  
+  {'status': 422,'message': 'Username already taken'}.to_json
  rescue Exception
-  status 400
-  {'error': 'Something went wrong with your registration'}.to_json
+  {'status': 400, 'message': 'Something went wrong with your registration'}.to_json
  end
 end
 
 post '/log' do
   user = User.find_by username: params[:username]
   if user.nil? == true or user.password != params[:password]
-    {'error': "Username or password, not correct", params[:password]=> params[:username]}.to_json
+    {'status': 408,'message': "Username or password, not correct", params[:password]=> params[:username]}.to_json
   else
-    log(user)
-    session.to_json
+    token = log(user)
+    {'status': 0,'message': "Success", 'session_id': toksewsen}.to_json
   end
 end
 
