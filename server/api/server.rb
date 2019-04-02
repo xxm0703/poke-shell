@@ -48,8 +48,7 @@ end
 post '/register' do
   user = User.new(params)
   if user.save!
-  status 201
-  log(user)
+    { 'status': 0, 'message': 'Success' }.to_json
   end
 rescue ActiveRecord::RecordNotUnique
   { 'status': 422, 'message': 'Username already taken' }.to_json
