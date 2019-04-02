@@ -18,6 +18,7 @@ ActiveRecord::Base.establish_connection(
 )
 
 enable :sessions
+# To make instance
 @@connections = {}
 @@rooms = {}
 
@@ -32,56 +33,52 @@ before do
 end
 
 helpers do
- def generate_token(user)
-  (user.username + user.password).hash
- end
+  def generate_token(user)
+    (user.username + user.password).hash
+  end
 
- def log(user)
-   session['token'] = generate_token(user)
-   @@connections[session['token']] = user.id
-   session['token']
- end
+  def log(user)
+    session['token'] = generate_token(user)
+    @@connections[session['token']] = user.id
+    session['token']
+  end
 end
 
 # TODO: permit only some params
 post '/register' do
- begin
   user = User.new(params)
   if user.save!
-   status 201
-   log(user)
+  status 201
+  log(user)
   end
- rescue ActiveRecord::RecordNotUnique
-  
-  {'status': 422,'message': 'Username already taken'}.to_json
- rescue Exception
-  {'status': 400, 'message': 'Something went wrong with your registration'}.to_json
- end
+rescue ActiveRecord::RecordNotUnique
+  { 'status': 422, 'message': 'Username already taken' }.to_json
+rescue Exception
+  { 'status': 400, 'message': 'Something went wrong with your registration' }.to_json
 end
 
 post '/log' do
   user = User.find_by username: params[:username]
-  if user.nil? == true or user.password != params[:password]
-    {'status': 408,'message': "Username or password, not correct", params[:password]=> params[:username]}.to_json
+  if user.nil? == true || user.password != params[:password]
+    # To remove debug message
+    { 'status': 408, 'message': 'Username or password, not correct', params[:password]=> params[:username] }.to_json
   else
     token = log(user)
-    {'status': 0,'message': "Success", 'session_id': toksewsen}.to_json
+    { 'status': 0, 'message': 'Success', 'session_id': token }.to_json
   end
 end
 
 get '/join_table' do
   token = params['token']
 
-  if(token.nil? or @@connections[token].nil?)
+  if token.nil? || @@connections[token].nil?
     status 401
     return token.to_json
   end
   values = @@rooms.values
   if values.empty? or values[-1].size == 5
     room_id = rand.hash
-    if @@rooms[room_id].nil?
-      @@rooms[room_id] = []
-    end
+    @@rooms[room_id] = [] if @@rooms[room_id].nil?
   else
     room_id = @@rooms.keys[-1]
   end
@@ -92,7 +89,7 @@ get '/join_table' do
 end
 
 get '/' do
- @link = generate_token(request.ip).to_s
+ @link = request.ip.hash.to_s
  session['counter'] ||= 0
  session['counter'] += 1
  @counter = session['counter']
