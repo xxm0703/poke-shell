@@ -18,9 +18,7 @@ ActiveRecord::Base.establish_connection(
 )
 
 enable :sessions
-# To make instance
-@@connections = {}
-@@rooms = {}
+$rooms = []
 
 before do
   s_rd_pipe, a_wr_pipe = IO.pipe
@@ -36,18 +34,13 @@ helpers do
   def generate_token(user)
     (user.username + user.password).hash
   end
-
-  def log(user)
-    session['token'] = generate_token(user)
-    @@connections[session['token']] = user.id
-    session['token']
-  end
 end
 
 # TODO: permit only some params
 post '/register' do
   user = User.new(params)
   if user.save!
+    user.update(id: generate_token(user))
     return { 'status': 0, 'message': 'Success' }.to_json
   end
 rescue ActiveRecord::RecordNotUnique
@@ -64,29 +57,25 @@ post '/log' do
     status 408
     { 'status': 408, 'message': 'Username or password, not correct' }.to_json
   else
-    token = log(user)
-    { 'status': 0, 'message': 'Success', 'session_id': token }.to_json
+    { 'status': 0, 'message': 'Success', 'session_id': user.id }.to_json
   end
 end
 
 get '/join_table' do
   token = params['token']
 
-  if token.nil? || @@connections[token].nil?
+  if token.nil? || User.find(token).nil?
     status 401
     return token.to_json
   end
-  values = @@rooms.values
-  if values.empty? or values[-1].size == 5
-    room_id = rand.hash
-    @@rooms[room_id] = [] if @@rooms[room_id].nil?
-  else
-    room_id = @@rooms.keys[-1]
+
+  user = User.find(token)
+
+  if Room.find_by(player_id: user).nil?
+    last_room = Room.last
+    room = last_room.nil? 
   end
-  @@rooms[room_id].push session[:token]
-  session[:roomId] = room_id
-  status 200
-  session.to_json
+
 end
 
 get '/' do
@@ -94,5 +83,5 @@ get '/' do
  session['counter'] ||= 0
  session['counter'] += 1
  @counter = session['counter']
- @@connections.to_json
+ $connections.to_json
 end

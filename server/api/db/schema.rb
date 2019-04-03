@@ -10,18 +10,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_02_220718) do
+ActiveRecord::Schema.define(version: 2019_04_03_172655) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "rooms", force: :cascade do |t|
+    t.boolean "pending", default: true
+    t.integer "entered"
+    t.integer "capacity", default: 5
+    t.boolean "full", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", force: :cascade do |t|
-    t.string "username"
-    t.string "password"
+    t.bigint "room_id"
+    t.string "username", null: false
+    t.string "password", null: false
+    t.string "display_name", null: false
     t.integer "balance", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "display_name", null: false
+    t.index ["room_id"], name: "index_users_on_room_id"
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
