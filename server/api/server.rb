@@ -2,7 +2,6 @@
 
 require 'sinatra'
 require 'active_record'
-# require_relative 'cards'
 require 'rubygems'
 require 'json'
 
@@ -33,11 +32,23 @@ helpers do
   def generate_token(user)
     (user.username + user.password).hash
   end
+
+  # Cheaty way of checking
+  def check_encoding(str)
+    str[/[A-Za-z0-9_]+/] == str
+  end
 end
 
 # TODO: permit only some params
 post '/register' do
   user = User.new(params)
+
+  unless check_encoding(user.password) && check_encoding(user.username)
+    status 411
+    return { status: 411,
+      message: 'Username and password should use only letters, digits and underscore' }.to_json
+  end
+
   if user.save!
     user.update(id: generate_token(user))
     return { 'status': 0, 'message': 'Success' }.to_json
@@ -82,7 +93,7 @@ get '/join_table' do
   end
 
   # Just for testing
-  until Room.find(room.id).entered == 2
+  until Room.find(room.id).full
     puts Room.find(room.id).entered.to_s + user.username
   end
 
