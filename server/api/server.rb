@@ -10,15 +10,14 @@ current_dir = File.dirname(__FILE__)
 Dir["#{current_dir}/models/*.rb"].each { |file| require file }
 
 ActiveRecord::Base.establish_connection(
- adapter: 'postgresql',
- database: 'development',
- host: 'localhost',
- username: 'postgres',
- password: 'postgres'
+  adapter: 'postgresql',
+  database: 'development',
+  host: 'localhost',
+  username: 'postgres',
+  password: 'postgres'
 )
 
 enable :sessions
-$rooms = []
 
 before do
   s_rd_pipe, a_wr_pipe = IO.pipe
@@ -76,7 +75,6 @@ get '/join_table' do
 
     room = Room.new if room.nil?
     room.entered += 1
-    
     room.full = true if room.entered == room.capacity
     room.save
     user.room = room
@@ -90,8 +88,7 @@ get '/join_table' do
 
   { 'room_id': room.id, 'people': User
     .where(room_id: room.id)
-    .map { |u| { 'display_name': u.display_name } } }
-
+    .map { |u| { 'display_name': u.display_name } } }.to_json
 end
 
 get '/exit_table' do
@@ -99,12 +96,4 @@ get '/exit_table' do
   room = user.room
   room.update(entered: room.entered - 1)
   user.update(room_id: nil)
-end
-
-get '/' do
- @link = request.ip.hash.to_s
- session['counter'] ||= 0
- session['counter'] += 1
- @counter = session['counter']
- $connections.to_json
 end
