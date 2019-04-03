@@ -71,11 +71,34 @@ get '/join_table' do
 
   user = User.find(token)
 
-  if Room.find_by(player_id: user).nil?
-    last_room = Room.last
-    room = last_room.nil? 
+  if user.room_id.nil?
+    room = Room.find_by(full: false)
+
+    room = Room.new if room.nil?
+    room.entered += 1
+    
+    room.full = true if room.entered == room.capacity
+    room.save
+    user.room = room
+    user.save
   end
 
+  # Just for testing
+  until Room.find(room.id).entered == 2
+    puts Room.find(room.id).entered.to_s + user.username
+  end
+
+  { 'room_id': room.id, 'people': User
+    .where(room_id: room.id)
+    .map { |u| { 'display_name': u.display_name } } }
+
+end
+
+get '/exit_table' do
+  user = User.find(params[:token])
+  room = user.room
+  room.update(entered: room.entered - 1)
+  user.update(room_id: nil)
 end
 
 get '/' do

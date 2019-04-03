@@ -16,8 +16,7 @@ ActiveRecord::Schema.define(version: 2019_04_03_172655) do
   enable_extension "plpgsql"
 
   create_table "rooms", force: :cascade do |t|
-    t.boolean "pending", default: true
-    t.integer "entered"
+    t.integer "entered", default: 0
     t.integer "capacity", default: 5
     t.boolean "full", default: false
     t.datetime "created_at", null: false
