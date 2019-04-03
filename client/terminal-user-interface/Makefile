@@ -43,7 +43,7 @@ CXXFLAGS := -Wall --pedantic --std=c++11 -I $(INCLUDE)
 
 # The project's helper modules.
 # They should be essential for every executable module.
-HELPER_MODULES :=
+HELPER_MODULES := ncurses_helper
 
 # Executable modules - specific representations of the same project.
 # They have the following characteristics:

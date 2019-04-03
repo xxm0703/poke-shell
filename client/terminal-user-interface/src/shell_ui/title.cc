@@ -3,13 +3,15 @@
 #include <cstring>
 #include <ncurses.h>
 
+#include "ncurses_helper/colors.hh"
+
 extern bool colored;
 
 namespace terminal_user_interface {
     namespace shell_ui {
         namespace {
-            const unsigned short int title_rows = 6;
-            const unsigned short int title_row_len = 81;
+            const unsigned short title_rows = 6;
+            const unsigned short title_row_len = 81;
             const char title[title_rows][title_row_len] = {
                 ".------..------..------..------..------..------..------..------..------..------.",
                 "|P.--. ||O.--. ||K.--. ||E.--. ||-.--. ||S.--. ||H.--. ||E.--. ||L.--. ||L.--. |",
@@ -18,28 +20,26 @@ namespace terminal_user_interface {
                 "| '--'P|| '--'O|| '--'K|| '--'E|| '--'-|| '--'S|| '--'H|| '--'E|| '--'L|| '--'L|",
                 "`------'`------'`------'`------'`------'`------'`------'`------'`------'`------'"
             };
-            const unsigned short int card_len = 8;
-            const unsigned short int upper_letter_index = 1;
-            const unsigned short int lower_letter_index = 6;
+            const unsigned short card_len = 8;
+            const unsigned short upper_letter_index = 1;
+            const unsigned short lower_letter_index = 6;
         }  // private namespace
 
         void mvprintw_title(WINDOW *win, int y, int x) { 
             int ch;
-            short int color_pair_id;
+            int color_pair = ncurses_helper::get_color_pair(TITLE_LETTER_COLOR_PAIR_NAME);
 
             move(y, x);
-            for (register unsigned short int i = 0; i < title_rows; ++i) {
+            for (register unsigned short i = 0; i < title_rows; ++i) {
                 if (i == 1 || i == title_rows - 2) {
-                    for (register unsigned short int j = 0; j < title_row_len - 1; ++j) {
+                    for (register unsigned short j = 0; j < title_row_len - 1; ++j) {
                         ch = title[i][j];
                         if (colored && (j % card_len == upper_letter_index 
                                     || j % card_len == lower_letter_index)) {
                             ch |= A_BOLD;  // bold title letter
-                            color_pair_id = 1;
-                            // use color pair for title letter
-                            attron(COLOR_PAIR(color_pair_id));
+                            attron(color_pair);  // use color pair for title letter
                             addch(ch);
-                            attroff(COLOR_PAIR(color_pair_id));
+                            attroff(color_pair);
                         } else {
                             addch(ch);
                         }

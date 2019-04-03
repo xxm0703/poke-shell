@@ -1,6 +1,7 @@
 #include <ncurses.h>
 
 #include "shell_ui/title.hh"
+#include "ncurses_helper/colors.hh"
 
 using namespace terminal_user_interface;
 using namespace terminal_user_interface::shell_ui;
@@ -29,7 +30,8 @@ static void setup_colors(void) {
         if (can_change_color())
             init_color(COLOR_BLACK, 0, 0, 0);
 
-        init_pair(1, COLOR_YELLOW, COLOR_BLACK);
+        ncurses_helper::add_color_pair(TITLE_LETTER_COLOR_PAIR_NAME, 
+                COLOR_YELLOW, COLOR_BLACK);
     } else {  // terminal does not support colors
         colored = false;
     }
