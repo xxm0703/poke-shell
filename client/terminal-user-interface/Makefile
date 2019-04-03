@@ -118,6 +118,7 @@ clean:
 	@echo $(LOG_STAMP): Project object files output directory: $(OBJ)
 	rm -r -i -f ././bin/*
 	rm -r -i -f ././tmp/obj/*
+	@echo $(LOG_STAMP): Completed cleaning process
 
 # Include all executable modules' targets.
 include $(patsubst %,$(SRC)/%/target.mk,$(EXECUTABLE_MODULES))

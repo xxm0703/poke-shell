@@ -4,6 +4,13 @@ SHELL_UI__MODULE_NAME := shell_ui
 # Produced executable file name.
 SHELL_UI__EXECUTABLE := shell_ui
 
+# C++ header files of 'shell_ui' executable module.
+# Each implementation file ('.cc' file) in this module depends on the interface
+# which each header provides. Source files are recompiled if any one of these 
+# headers is altered.
+SHELL_UI__INCLUDE := title.hh
+SHELL_UI__INCLUDE := $(patsubst %,$(INCLUDE)/$(SHELL_UI__MODULE_NAME)/%,$(SHELL_UI__INCLUDE))
+
 # C++ source files of 'shell_ui' executable module.
 # NOTE: do not include source file with 'main' function definition (see below).
 SHELL_UI__SRC := title.cc
@@ -20,7 +27,7 @@ SHELL_UI__MAIN_OBJ := $(patsubst $(SRC)/%.cc,$(OBJ)/%.o,$(SHELL_UI__MAIN_SRC))
 ALL_TARGETS += shell_ui
 
 # Make target for 'shell_ui' module's object files
-$(OBJ)/$(SHELL_UI__MODULE_NAME)/%.o: $(SRC)/$(SHELL_UI__MODULE_NAME)/%.cc
+$(OBJ)/$(SHELL_UI__MODULE_NAME)/%.o: $(SRC)/$(SHELL_UI__MODULE_NAME)/%.cc $(SHELL_UI__INCLUDE)
 	@# Create temporary directory for object files.
 	@mkdir -p $(OBJ)/$(SHELL_UI__MODULE_NAME)
 	$(CXX) $(CXXFLAGS) -o $@ -c $< 
