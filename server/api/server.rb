@@ -64,8 +64,8 @@ get '/join_table' do
   token = params['token']
 
   if token.nil? || User.find(token).nil?
-    status 401
-    return token.to_json
+    status 420
+    { status: 420, message: 'Authentication error' } if room.nil?
   end
 
   user = User.find(token)
@@ -86,7 +86,7 @@ get '/join_table' do
     puts Room.find(room.id).entered.to_s + user.username
   end
 
-  { 'room_id': room.id, 'people': User
+  { status: 0, room_id: room.id, 'people': User
     .where(room_id: room.id)
     .map { |u| { 'display_name': u.display_name } } }.to_json
 end
@@ -94,6 +94,8 @@ end
 get '/exit_table' do
   user = User.find(params[:token])
   room = user.room
+  { status: 405, message: 'You are not in a room' } if room.nil?
   room.update(entered: room.entered - 1)
   user.update(room_id: nil)
+  { 'status': 0, 'message': 'Success' }.to_json
 end
