@@ -48,19 +48,21 @@ end
 post '/register' do
   user = User.new(params)
   if user.save!
-    { 'status': 0, 'message': 'Success' }.to_json
+    return { 'status': 0, 'message': 'Success' }.to_json
   end
 rescue ActiveRecord::RecordNotUnique
+  status 422
   { 'status': 422, 'message': 'Username already taken' }.to_json
 rescue Exception
-  { 'status': 400, 'message': 'Something went wrong with your registration' }.to_json
+  status 400
+  { 'status': 400, 'message': user.errors.to_a }.to_json
 end
 
 post '/log' do
   user = User.find_by username: params[:username]
   if user.nil? == true || user.password != params[:password]
-    # To remove debug message
-    { 'status': 408, 'message': 'Username or password, not correct', params[:password]=> params[:username] }.to_json
+    status 408
+    { 'status': 408, 'message': 'Username or password, not correct' }.to_json
   else
     token = log(user)
     { 'status': 0, 'message': 'Success', 'session_id': token }.to_json
