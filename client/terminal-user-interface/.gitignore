@@ -1,0 +1,6 @@
+# Compiled object files
+tmp/obj/**/*.o
+
+# Compiled binaries
+bin/
+
