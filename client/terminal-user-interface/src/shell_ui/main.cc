@@ -1,4 +1,5 @@
 #include <ncurses.h>
+#include <string>
 
 #include "shell_ui/title.hh"
 #include "ncurses_helper/colors.hh"
@@ -13,10 +14,11 @@ static void setup_colors(void);
 int main(void) {
     initscr();  // initialize main ncurses window
     setup_colors();
-    
-    WINDOW *title_win = newwin(120, 120, 0, 0);
-    mvprintw_title(title_win, 0, 0);
     refresh();
+    
+    title::Title heading;
+    heading.center_window().offset_y(-10);
+    heading.clear_window().mvwprint();
 
     getch();
     endwin();  // destroy main ncurses window
@@ -24,13 +26,15 @@ int main(void) {
 }
 
 static void setup_colors(void) {
+    std::string title_letter_color_pair_name = title::Title::get_letter_color_pair_name();
+
     if (has_colors()) {  // terminal supports colors
         colored = true;
         start_color();
         if (can_change_color())
             init_color(COLOR_BLACK, 0, 0, 0);
 
-        ncurses_helper::add_color_pair(TITLE_LETTER_COLOR_PAIR_NAME, 
+        ncurses_helper::colors::add_color_pair(title_letter_color_pair_name, 
                 COLOR_YELLOW, COLOR_BLACK);
     } else {  // terminal does not support colors
         colored = false;

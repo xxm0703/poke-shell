@@ -65,7 +65,7 @@ THIRD_PARTY_OBJ := tmp/obj/lib
 # Third party libraries should be self-contained i.e. they shouldn't depend
 # on any project specific module (usually libraries are contained within
 # their own header files and occasionally source files).
-THIRD_PARTY_LIBS := jsoncpp
+THIRD_PARTY_LIBS :=
 
 # Targets which are run with 'make all' (or just 'make').
 # Every executable module should add their declared target's name to this 
