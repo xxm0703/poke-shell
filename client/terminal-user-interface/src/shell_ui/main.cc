@@ -16,9 +16,10 @@ int main(void) {
     setup_colors();
     refresh();
     
-    title::Title heading;
-    heading.center_window().offset_y(-10);
-    heading.clear_window().mvwprint();
+    Title title;
+    title.center_window().offset_y(-10);
+    title.clear_window();
+    title.mvwprint();
 
     getch();
     endwin();  // destroy main ncurses window
@@ -26,15 +27,13 @@ int main(void) {
 }
 
 static void setup_colors(void) {
-    std::string title_letter_color_pair_name = title::Title::get_letter_color_pair_name();
-
     if (has_colors()) {  // terminal supports colors
         colored = true;
         start_color();
         if (can_change_color())
             init_color(COLOR_BLACK, 0, 0, 0);
 
-        ncurses_helper::colors::add_color_pair(title_letter_color_pair_name, 
+        ncurses_helper::colors::add_color_pair(Title::letter_color_pair_name, 
                 COLOR_YELLOW, COLOR_BLACK);
     } else {  // terminal does not support colors
         colored = false;
