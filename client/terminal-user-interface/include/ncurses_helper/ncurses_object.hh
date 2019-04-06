@@ -7,19 +7,19 @@ namespace terminal_user_interface {
     namespace ncurses_helper {
         class NCursesObject {
         public:
-            explicit NCursesObject(int, int, int = 0, int = 0) noexcept;
+            explicit NCursesObject(int, int, int = 0, int = 0);
             virtual ~NCursesObject() noexcept;
             virtual void mvwprint(int, int) = 0;
             NCursesObject& refresh_window() noexcept;
             NCursesObject& clear_window() noexcept;
-            NCursesObject& move_window(int, int) noexcept;
-            NCursesObject& center_window(WINDOW * = stdscr, bool = true, bool = true) noexcept;
-            NCursesObject& move_y(int) noexcept; 
-            NCursesObject& offset_y(int) noexcept;
-            NCursesObject& center_y(WINDOW * = stdscr) noexcept;
-            NCursesObject& move_x(int) noexcept;
-            NCursesObject& offset_x(int) noexcept;
-            NCursesObject& center_x(WINDOW * = stdscr) noexcept;
+            NCursesObject& move_window(int, int);
+            NCursesObject& center_window(WINDOW * = stdscr, bool = true, bool = true);
+            NCursesObject& move_y(int);
+            NCursesObject& offset_y(int);
+            NCursesObject& center_y(WINDOW * = stdscr);
+            NCursesObject& move_x(int);
+            NCursesObject& offset_x(int);
+            NCursesObject& center_x(WINDOW * = stdscr);
             WINDOW *get_win() const noexcept;
         private:
             WINDOW *win_;

@@ -1,9 +1,8 @@
 #include "catch2/catch.hpp"
-
-#include <exception>
-#include <sstream>
-
 #include "ncurses_helper/ncurses_exception.hh"
+
+#include <stdexcept>
+#include <sstream>
 
 using namespace terminal_user_interface;
 using namespace terminal_user_interface::ncurses_helper;
