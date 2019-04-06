@@ -3,8 +3,8 @@
 #include <ncurses.h>
 #include <stdexcept>
 
-#include "ncurses_helper/windows.hh"
 #include "ncurses_helper/ncurses_exception.hh"
+#include "ncurses_helper/windows.hh"
 
 namespace terminal_user_interface {
     namespace ncurses_helper {
@@ -42,10 +42,10 @@ namespace terminal_user_interface {
         NCursesObject& NCursesObject::center_window(WINDOW *ref_win, 
                 bool should_center_y, bool should_center_x) {
             int y, x;
-            int height = getmaxy(win_);
-            int width = getmaxx(win_);
-            int ref_height = getmaxy(ref_win);
-            int ref_width = getmaxx(ref_win);
+            int height = windows::get_window_height(win_);
+            int width = windows::get_window_width(win_);
+            int ref_height = windows::get_window_height(ref_win);
+            int ref_width = windows::get_window_width(ref_win);
 
             if (ref_height < height || ref_width < width)
                 throw std::logic_error("reference window dimensions are smaller than this window");

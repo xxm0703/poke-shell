@@ -7,7 +7,7 @@
 
 namespace terminal_user_interface {
     namespace shell_ui {
-        class Title : public ncurses_helper::NCursesObject {
+        class Title: public ncurses_helper::NCursesObject {
         public:
             static constexpr unsigned short nrows = 6;
             static constexpr unsigned short row_len = 80;

@@ -5,10 +5,6 @@
 
 #include "ncurses_helper/colors.hh"
 
-// both macros must be defined in order to initialize title string array
-#define _NROWS 6
-#define _ROW_LEN 80
-
 extern bool colored;
 
 namespace terminal_user_interface {

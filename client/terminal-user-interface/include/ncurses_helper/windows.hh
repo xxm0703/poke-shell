@@ -6,8 +6,8 @@
 namespace terminal_user_interface {
     namespace ncurses_helper {
         namespace windows {
-            unsigned int get_window_height(WINDOW *) noexcept;
-            unsigned int get_window_width(WINDOW *) noexcept;
+            int get_window_height(WINDOW *);
+            int get_window_width(WINDOW *);
         }  // namespace windows
     }  // namespace ncurses_helper
 }  // namespace terminal_user_interface

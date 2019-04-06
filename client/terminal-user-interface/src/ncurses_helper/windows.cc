@@ -2,15 +2,23 @@
 
 #include <ncurses.h>
 
+#include "ncurses_helper/ncurses_exception.hh"
+
 namespace terminal_user_interface {
     namespace ncurses_helper {
         namespace windows {
-            unsigned int get_window_height(WINDOW *win) noexcept {
-                return getmaxy(win) - getbegy(win);
+            int get_window_height(WINDOW *win) {
+                int result = getmaxy(win);
+
+                if (result == ERR) throw NCursesException("getmaxy", ERR);
+                return result;
             }
 
-            unsigned int get_window_width(WINDOW *win) noexcept {
-                return getmaxx(win) - getbegx(win);
+            int get_window_width(WINDOW *win) {
+                int result = getmaxx(win);
+
+                if (result == ERR) throw NCursesException("getmaxx", ERR);
+                return result;
             }
         }  // namespace windows
     }  // namespace ncurses_helper
