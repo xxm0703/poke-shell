@@ -1,6 +1,6 @@
 # C++ source files of 'ncurses_helper' module's tests.
 # They are prepended their module's relative path to the main Makefile.
-NCURSES_HELPER__TEST_SRC := ncurses_exception_test.cc
+NCURSES_HELPER__TEST_SRC := ncurses_exception_test.cc ncurses_object_test.cc
 NCURSES_HELPER__TEST_SRC := $(patsubst %,$(TEST)/$(NCURSES_HELPER__MODULE_NAME)/%,$(NCURSES_HELPER__TEST_SRC))
 
 # Object files of 'ncurses_helper' module's tests.
@@ -12,7 +12,7 @@ ALL_TEST_TARGETS += ncurses_helper_test
 .PHONY: ncurses_helper_test
 
 # Make target for all of 'ncurses_helper' module's tests.
-ncurses_helper_test: setup_testing $(NCURSES_HELPER__TEST_OBJ) $(HELPER_OBJ)
+ncurses_helper_test: $(TEST_CONFIG_OBJ) $(NCURSES_HELPER__TEST_OBJ) $(HELPER_OBJ)
 	@# Create temporary directory for tests' binaries.
 	mkdir -p $(TEST_OUT)/$(NCURSES_HELPER__MODULE_NAME)
 	@# Compile each test file into its own test binary.

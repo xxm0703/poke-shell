@@ -97,7 +97,7 @@ THIRD_PARTY_LIBS_OBJ :=
 # Include all third party libraries' descriptions.
 include $(patsubst %,$(THIRD_PARTY_SRC)/%/module.mk,$(THIRD_PARTY_LIBS))
 
-.PHONY: all helper libs clean setup_testing clean_tests
+.PHONY: all helper libs clean setup_testing test clean_tests
 
 all: $(ALL_TARGETS) 
 	@echo $(LOG_STAMP): Project compilation successful.
