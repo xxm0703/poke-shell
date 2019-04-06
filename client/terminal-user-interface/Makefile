@@ -156,4 +156,5 @@ clean_tests:
 	@echo $(LOG_STAMP): Test object files output directory: $(TEST_OBJ)
 	rm -r -i -f ././bin/test/*
 	rm -r -i -f ././tmp/obj/test/*
+	@echo $(LOG_STAMP): Completed test cleaning process
 
