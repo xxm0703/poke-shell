@@ -29,6 +29,16 @@ namespace terminal_user_interface {
                 if ((termscr = newterm(NULL, termout, stdin)) == nullptr)
                     throw NCursesException("newterm", nullptr);
                 set_term(termscr);
+
+                // setup colors
+                if (!has_colors()) {
+                    throw std::runtime_error("terminal does not support colors");
+                } else {
+                    int rc;
+
+                    rc = start_color();
+                    if (rc == ERR) throw NCursesException("start_color", rc);
+                }
                 refresh();
             }
 
