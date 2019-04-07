@@ -6,6 +6,7 @@
 
 #include "catch2/catch.hpp"
 
-TEST_CASE("Setup and compile catch for use in other test files (empty)") {
+TEST_CASE("Setup and compile catch for use in other test files", "[compilation-only]") {
+    SUCCEED("Nothing to test.");
 }
 

@@ -1,10 +1,12 @@
 #include "catch2/catch.hpp"
+#include "__test/test_helper.hh"
 #include "ncurses_helper/ncurses_exception.hh"
 
 #include <stdexcept>
-#include <sstream>
 
 using namespace terminal_user_interface;
+using namespace terminal_user_interface::__test;
+using namespace terminal_user_interface::__test::ncurses_helper;
 using namespace terminal_user_interface::ncurses_helper;
 
 TEST_CASE("NCursesException describes an exception that occurred with the ncurses library", "[NCursesException]") {
@@ -62,12 +64,8 @@ TEST_CASE("NCursesException describes an exception that occurred with the ncurse
             }
 
             SECTION("formats proper error message") {
-                std::ostringstream expected_result;
-
-                expected_result << "ncurses function '" << func_name 
-                    << "' returned error code " << rc;
                 REQUIRE_NOTHROW(ex.what());
-                REQUIRE(ex.what() == expected_result.str());
+                REQUIRE(ex.what() == ncurses_error_msg(func_name, rc));
             }
         }
     }
@@ -94,12 +92,8 @@ TEST_CASE("NCursesException describes an exception that occurred with the ncurse
             }
 
             SECTION("formats proper error message") {
-                std::ostringstream expected_result;
-
-                expected_result << "ncurses function '" << func_name 
-                    << "' returned error code " << "NULL";
                 REQUIRE_NOTHROW(ex.what());
-                REQUIRE(ex.what() == expected_result.str());
+                REQUIRE(ex.what() == ncurses_error_msg(func_name, nullptr));
             }
         }
     }

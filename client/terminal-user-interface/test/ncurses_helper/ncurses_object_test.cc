@@ -1,18 +1,18 @@
 #include "catch2/catch.hpp"
+#include "__test/test_helper.hh"
 #include "ncurses_helper/ncurses_object.hh"
 
-#include <ncurses.h>
-#include <sstream>
 #include <stdexcept>
 
+#include <ncurses.h>
 #include "ncurses_helper/ncurses_exception.hh"
 
 using namespace terminal_user_interface;
+using namespace terminal_user_interface::__test;
+using namespace terminal_user_interface::__test::ncurses_helper;
 using namespace terminal_user_interface::ncurses_helper;
 
 namespace {
-    static FILE *ncurses_out;
-
     class NCursesObjectStub: public NCursesObject {
     public:
         NCursesObjectStub(int, int, int = 0, int = 0);
@@ -28,34 +28,19 @@ namespace {
         if (y) {}  // do nothing
         if (x) {}  // do nothing
     }
-
-    inline void setup_testing_env() noexcept {
-        // initialize ncurses library
-        ncurses_out = fopen("./tmp/streams/ncurses_test_out", "w");
-        newterm(NULL, ncurses_out, stdin);
-        refresh();
-    }
-
-    inline void destroy_testing_env() noexcept {
-        fclose(ncurses_out);
-        endwin();
-    }
-    
-    std::string ncurses_error_msg(const char *func_name, int rc) noexcept {
-        std::ostringstream msg;
-
-        msg << "ncurses function '" << func_name << "' returned error code " << rc;
-        return msg.str();
-    }
-}  // unnamed namespace
+}  // anonymous namespace
 
 TEST_CASE("NCursesObject represents an ncurses window with some content", "[NCursesObject]") {
-    setup_testing_env();
+    SECTION("setup") {
+        ncurses_setup();
+    }
 
     SECTION("object construction") {
         SECTION("with valid arguments") {
-            int height = 10, width = 10;
-            int y = 5, x = 5;
+            int height = 10;
+            int width = 10;
+            int y = 5;
+            int x = 5;
 
             SECTION("causes no errors") {
                 REQUIRE_NOTHROW(NCursesObjectStub(height, width, y, x));
@@ -64,7 +49,7 @@ TEST_CASE("NCursesObject represents an ncurses window with some content", "[NCur
             SECTION("can retrieve associated ncurses window") {
                 NCursesObjectStub stub(height, width, y, x);
 
-                REQUIRE(stub.get_win() != NULL);
+                REQUIRE(stub.get_win() != nullptr);
             }
 
             SECTION("starting coordinates default to 0") {
@@ -77,8 +62,10 @@ TEST_CASE("NCursesObject represents an ncurses window with some content", "[NCur
         }
         
         SECTION("with invalid arguments") {
-            int height = 10, width = 10;
-            int y = -5, x = 5;
+            int height = 10;
+            int width = 10;
+            int y = -5;
+            int x = 5;
 
             SECTION("throws NCursesException on instance creation") {
                 REQUIRE_THROWS_AS(NCursesObjectStub(height, width, y, x), NCursesException);
@@ -269,6 +256,8 @@ TEST_CASE("NCursesObject represents an ncurses window with some content", "[NCur
         }
     }
 
-    destroy_testing_env();
+    SECTION("teardown") {
+        ncurses_teardown();
+    }
 }
 

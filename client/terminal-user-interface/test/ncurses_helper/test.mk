@@ -12,14 +12,14 @@ ALL_TEST_TARGETS += ncurses_helper_test
 .PHONY: ncurses_helper_test
 
 # Make target for all of 'ncurses_helper' module's tests.
-ncurses_helper_test: $(TEST_CONFIG_OBJ) $(NCURSES_HELPER__TEST_OBJ) $(HELPER_OBJ)
+ncurses_helper_test: $(TEST_CONFIG_OBJ) $(TEST_HELPER_OBJ) $(NCURSES_HELPER__TEST_OBJ) $(HELPER_OBJ)
 	@# Create temporary directory for tests' binaries.
 	mkdir -p $(TEST_OUT)/$(NCURSES_HELPER__MODULE_NAME)
 	@# Compile each test file into its own test binary.
 	$(foreach obj, \
 			  $(NCURSES_HELPER__TEST_OBJ), \
 			  $(CXX) $(CXXFLAGS) -o $(patsubst $(TEST_OBJ)/%.o,$(TEST_OUT)/%,$(obj)) \
-			  $(TEST_CONFIG_OBJ) $(obj) $(HELPER_OBJ) $(LIBS)$(NEWLINE))
+			  $(TEST_CONFIG_OBJ) $(TEST_HELPER_OBJ) $(obj) $(HELPER_OBJ) $(LIBS)$(NEWLINE))
 	@echo $(LOG_STAMP): $(NCURSES_HELPER__MODULE_NAME) tests compilation successful.
 
 # Make target for 'ncurses_helper' module's tests' object files.

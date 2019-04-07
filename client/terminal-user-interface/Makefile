@@ -33,6 +33,11 @@ TEST_CONFIG_FILE := $(TEST)/$(TEST_CONFIG_FILENAME).cc
 TEST_CONFIG_OBJ := $(TEST_OBJ)/$(TEST_CONFIG_FILENAME).o
 # Compiled config binary with empty example test for 'Catch2'
 TEST_CONFIG_BIN := $(TEST_OUT)/$(TEST_CONFIG_FILENAME)
+# File with helper functionality for unit tests
+TEST_HELPER_FILENAME = test_helper
+TEST_HELPER_FILE := $(TEST)/$(TEST_HELPER_FILENAME).cc
+# Compiled test helper object file
+TEST_HELPER_OBJ := $(TEST_OBJ)/$(TEST_HELPER_FILENAME).o
 # Targets which compile the module's unit tests.
 # All of them are run with 'make test'.
 ALL_TEST_TARGETS :=
@@ -134,6 +139,8 @@ setup_testing:
 	mkdir -p $(TEST_OBJ)
 	@# Compile config file into object file for linking by other tests
 	make $(TEST_CONFIG_OBJ)
+	@# Compile test helper file into object file for linking by other tests
+	make $(TEST_HELPER_OBJ)
 	@# Compile example empty test
 	$(CXX) $(CXXFLAGS) $(TEST_CONFIG_OBJ) -o $(TEST_CONFIG_BIN)
 	@echo $(LOG_STAMP): \'Catch2\' testing environment setup successful.
@@ -147,6 +154,12 @@ $(TEST_CONFIG_OBJ): $(TEST_CONFIG_FILE)
 	mkdir -p $(TEST_OBJ)
 	$(CXX) $(CXXFLAGS) -o $@ -c $<
 	@echo $(LOG_STAMP): Test config file compiled successfully.
+
+# Compile test helper source file to object file.
+$(TEST_HELPER_OBJ): $(TEST_HELPER_FILE)
+	mkdir -p $(TEST_OBJ)
+	$(CXX) $(CXXFLAGS) -o $@ -c $<
+	@echo $(LOG_STAMP): Test helper file compiled successfully.
 
 # WARNING: ALWAYS hardcode the directories which are to be cleaned.
 # Using 'rm -r' with make variables may lead to removal of directories or
