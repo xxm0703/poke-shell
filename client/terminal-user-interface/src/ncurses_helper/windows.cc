@@ -6,15 +6,15 @@
 namespace terminal_user_interface {
     namespace ncurses_helper {
         namespace windows {
-            int get_window_height(WINDOW *win) {
-                int result = getmaxy(win);
+            win_size_t get_window_height(WINDOW *win) {
+                win_size_t result = getmaxy(win);
 
                 if (result == ERR) throw NCursesException("getmaxy", ERR);
                 return result;
             }
 
-            int get_window_width(WINDOW *win) {
-                int result = getmaxx(win);
+            win_size_t get_window_width(WINDOW *win) {
+                win_size_t result = getmaxx(win);
 
                 if (result == ERR) throw NCursesException("getmaxx", ERR);
                 return result;

@@ -16,10 +16,10 @@ TEST_CASE("Provide helper functions for use with ncurses windows", "[ncurses]") 
 
     SECTION("can retrieve the dimensions of an ncurses WINDOW") {
         SECTION("when an initialized ncurses WINDOW is provided") {
-            int height = 10;
-            int width = 9;
-            int start_y = 2;
-            int start_x = 5;
+            win_size_t height = 10;
+            win_size_t width = 9;
+            win_coord_t start_y = 2;
+            win_coord_t start_x = 5;
             WINDOW *win = newwin(height, width, start_y, start_x);
 
             SECTION("can get a window's height") {
