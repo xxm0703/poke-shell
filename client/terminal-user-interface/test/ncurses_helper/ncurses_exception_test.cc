@@ -5,8 +5,6 @@
 #include <stdexcept>
 
 using namespace terminal_user_interface;
-using namespace terminal_user_interface::__test;
-using namespace terminal_user_interface::__test::ncurses_helper;
 using namespace terminal_user_interface::ncurses_helper;
 
 TEST_CASE("NCursesException describes an exception that occurred with the ncurses library", "[NCursesException]") {
@@ -65,7 +63,7 @@ TEST_CASE("NCursesException describes an exception that occurred with the ncurse
 
             SECTION("formats proper error message") {
                 REQUIRE_NOTHROW(ex.what());
-                REQUIRE(ex.what() == ncurses_error_msg(func_name, rc));
+                REQUIRE(ex.what() == __test::ncurses_helper::ncurses_error_msg(func_name, rc));
             }
         }
     }
@@ -93,7 +91,7 @@ TEST_CASE("NCursesException describes an exception that occurred with the ncurse
 
             SECTION("formats proper error message") {
                 REQUIRE_NOTHROW(ex.what());
-                REQUIRE(ex.what() == ncurses_error_msg(func_name, nullptr));
+                REQUIRE(ex.what() == __test::ncurses_helper::ncurses_error_msg(func_name, nullptr));
             }
         }
     }

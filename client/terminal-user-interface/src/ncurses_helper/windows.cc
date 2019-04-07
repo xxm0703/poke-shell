@@ -1,7 +1,6 @@
 #include "ncurses_helper/windows.hh"
 
 #include <ncurses.h>
-
 #include "ncurses_helper/ncurses_exception.hh"
 
 namespace terminal_user_interface {

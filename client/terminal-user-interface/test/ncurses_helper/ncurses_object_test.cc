@@ -8,8 +8,6 @@
 #include "ncurses_helper/ncurses_exception.hh"
 
 using namespace terminal_user_interface;
-using namespace terminal_user_interface::__test;
-using namespace terminal_user_interface::__test::ncurses_helper;
 using namespace terminal_user_interface::ncurses_helper;
 
 namespace {
@@ -32,7 +30,7 @@ namespace {
 
 TEST_CASE("NCursesObject represents an ncurses window with some content", "[NCursesObject]") {
     SECTION("setup") {
-        ncurses_setup();
+        __test::ncurses_helper::ncurses_setup();
     }
 
     SECTION("object construction") {
@@ -70,7 +68,7 @@ TEST_CASE("NCursesObject represents an ncurses window with some content", "[NCur
             SECTION("throws NCursesException on instance creation") {
                 REQUIRE_THROWS_AS(NCursesObjectStub(height, width, y, x), NCursesException);
                 REQUIRE_THROWS_WITH(NCursesObjectStub(height, width, y, x), 
-                        "ncurses function 'newwin' returned error code NULL");
+                        __test::ncurses_helper::ncurses_error_msg("newwin", nullptr));
             }
         }
     }
@@ -120,7 +118,7 @@ TEST_CASE("NCursesObject represents an ncurses window with some content", "[NCur
 
                 REQUIRE_THROWS_AS(stub.move_window(move_y, move_x), NCursesException);
                 REQUIRE_THROWS_WITH(stub.move_window(move_y, move_x), 
-                        ncurses_error_msg("mvwin", ERR));
+                        __test::ncurses_helper::ncurses_error_msg("mvwin", ERR));
             }
         }
 
@@ -257,7 +255,7 @@ TEST_CASE("NCursesObject represents an ncurses window with some content", "[NCur
     }
 
     SECTION("teardown") {
-        ncurses_teardown();
+        __test::ncurses_helper::ncurses_teardown();
     }
 }
 
