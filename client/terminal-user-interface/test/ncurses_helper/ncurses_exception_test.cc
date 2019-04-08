@@ -9,7 +9,7 @@ using namespace terminal_user_interface::ncurses_helper;
 
 TEST_CASE("NCursesException describes an exception that occurred with the ncurses library", "[NCursesException]") {
     SECTION("can construct object") {
-        int rc = -1;
+        ncurses_errno_t rc = -1;
 
         SECTION("with c-string argument for function name") {
             char func_name[] = "move";
@@ -41,14 +41,14 @@ TEST_CASE("NCursesException describes an exception that occurred with the ncurse
     SECTION("erroneous function returned an error code") {
         SECTION("object construction causes no errors") {
             auto func_name = GENERATE(as<std::string>{}, "getmaxyx", "");
-            auto rc = GENERATE(-32, 0, 23);
+            ncurses_errno_t rc = GENERATE(-32, 0, 23);
 
             REQUIRE_NOTHROW(NCursesException(func_name, rc));
         }
 
         SECTION("can get exception information") {
             std::string func_name = "wmove";
-            int rc = -23;
+            ncurses_errno_t rc = -23;
             NCursesException ex(func_name, rc);
 
             SECTION("return code should not be null") {
@@ -71,7 +71,7 @@ TEST_CASE("NCursesException describes an exception that occurred with the ncurse
     SECTION("exception constructor is parsed a pointer to an arbitrary address") {
         SECTION("object construction causes error") {
             auto func_name = GENERATE(as<std::string>{}, "getmaxyx", "");
-            auto rc = GENERATE(-1, 0, 33);
+            ncurses_errno_t rc = GENERATE(-1, 0, 33);
 
             REQUIRE_THROWS_AS(NCursesException(func_name, &rc), std::invalid_argument);
         }

@@ -7,7 +7,7 @@
 
 namespace terminal_user_interface {
     namespace ncurses_helper {
-        NCursesException::NCursesException(const char *func_name, int rc) noexcept
+        NCursesException::NCursesException(const char *func_name, ncurses_errno_t rc) noexcept
             : std::exception(),
               func_name_(func_name),
               rc_({ false, rc }),
@@ -23,7 +23,7 @@ namespace terminal_user_interface {
                 throw std::invalid_argument("parsed pointer is not null");
         }
 
-        NCursesException::NCursesException(const std::string& func_name, int rc) noexcept
+        NCursesException::NCursesException(const std::string& func_name, ncurses_errno_t rc) noexcept
             : NCursesException(func_name.c_str(), rc) {
         }
 
@@ -43,7 +43,7 @@ namespace terminal_user_interface {
             return func_name_;
         }
 
-        int NCursesException::get_rc() const {
+        ncurses_errno_t NCursesException::get_rc() const {
             if (rc_.is_null)  // no error code to report
                 throw std::logic_error("erroneous function did not return an \
                         error code (returned NULL)");

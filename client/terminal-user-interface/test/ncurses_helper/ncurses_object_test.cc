@@ -6,23 +6,26 @@
 
 #include <ncurses.h>
 #include "ncurses_helper/ncurses_exception.hh"
+#include "ncurses_helper/windows.hh"
 
 using namespace terminal_user_interface;
 using namespace terminal_user_interface::ncurses_helper;
+using terminal_user_interface::ncurses_helper::windows::win_coord_t;
+using terminal_user_interface::ncurses_helper::windows::win_size_t;
 
 namespace {
     class NCursesObjectStub: public NCursesObject {
     public:
-        NCursesObjectStub(int, int, int = 0, int = 0);
-        void mvwprint(int = 0, int = 0) noexcept final;
+        NCursesObjectStub(win_size_t, win_size_t, win_coord_t = 0, win_coord_t = 0);
+        void mvwprint(win_coord_t = 0, win_coord_t = 0) noexcept final;
     };  // class NCursesObjectStub
 
-    inline NCursesObjectStub::NCursesObjectStub(int height, int width, 
-            int start_y, int start_x)
+    inline NCursesObjectStub::NCursesObjectStub(win_size_t height, win_size_t width, 
+            win_coord_t start_y, win_coord_t start_x)
         : NCursesObject(height, width, start_y, start_x) {
     }
 
-    inline void NCursesObjectStub::mvwprint(int y, int x) noexcept {
+    inline void NCursesObjectStub::mvwprint(win_coord_t y, win_coord_t x) noexcept {
         if (y) {}  // do nothing
         if (x) {}  // do nothing
     }
@@ -35,10 +38,10 @@ TEST_CASE("NCursesObject represents an ncurses window with some content", "[NCur
 
     SECTION("object construction") {
         SECTION("with valid arguments") {
-            int height = 10;
-            int width = 10;
-            int y = 5;
-            int x = 5;
+            win_size_t height = 10;
+            win_size_t width = 10;
+            win_coord_t y = 5;
+            win_coord_t x = 5;
 
             SECTION("causes no errors") {
                 REQUIRE_NOTHROW(NCursesObjectStub(height, width, y, x));
@@ -60,10 +63,10 @@ TEST_CASE("NCursesObject represents an ncurses window with some content", "[NCur
         }
         
         SECTION("with invalid arguments") {
-            int height = 10;
-            int width = 10;
-            int y = -5;
-            int x = 5;
+            win_size_t height = 10;
+            win_size_t width = 10;
+            win_coord_t y = -5;
+            win_coord_t x = 5;
 
             SECTION("throws NCursesException on instance creation") {
                 REQUIRE_THROWS_AS(NCursesObjectStub(height, width, y, x), NCursesException);
@@ -74,17 +77,17 @@ TEST_CASE("NCursesObject represents an ncurses window with some content", "[NCur
     }
 
     SECTION("window manipulation") {
-        int rc;
-        int height = 10;
-        int width = 10;
-        int start_y = 0;
-        int start_x = 0;
+        ncurses_errno_t rc;
+        win_size_t height = 10;
+        win_size_t width = 10;
+        win_coord_t start_y = 0;
+        win_coord_t start_x = 0;
         NCursesObjectStub stub(height, width, start_y, start_x);
         WINDOW *stub_win = stub.get_win();
 
         SECTION("can clear the window") {
-            int move_y = 7;
-            int move_x = 9;
+            win_coord_t move_y = 7;
+            win_coord_t move_x = 9;
 
             rc = wmove(stub_win, move_y, move_x); 
             REQUIRE(rc != ERR);  // ensure ncurses does not return an error code
@@ -100,8 +103,8 @@ TEST_CASE("NCursesObject represents an ncurses window with some content", "[NCur
 
         SECTION("can move the window") {
             SECTION("successfully moves window with valid coordinates") {
-                int move_y = 9;
-                int move_x = 8;
+                win_coord_t move_y = 9;
+                win_coord_t move_x = 8;
 
                 REQUIRE(getbegy(stub_win) == start_y);
                 REQUIRE(getbegx(stub_win) == start_x);
@@ -113,8 +116,8 @@ TEST_CASE("NCursesObject represents an ncurses window with some content", "[NCur
             }
 
             SECTION("throws error on invalid coordinates") {
-                int move_y = -1;
-                int move_x = 8;
+                win_coord_t move_y = -1;
+                win_coord_t move_x = 8;
 
                 REQUIRE_THROWS_AS(stub.move_window(move_y, move_x), NCursesException);
                 REQUIRE_THROWS_WITH(stub.move_window(move_y, move_x), 
@@ -124,12 +127,12 @@ TEST_CASE("NCursesObject represents an ncurses window with some content", "[NCur
 
         SECTION("can center a window to another reference window") {
             SECTION("successfully center object's window") {
-                int ref_height = 20;
-                int ref_width = 80;
-                int ref_start_y = GENERATE(0, 3);
-                int ref_start_x = GENERATE(0, 3);
+                win_size_t ref_height = 20;
+                win_size_t ref_width = 80;
+                win_coord_t ref_start_y = GENERATE(0, 3);
+                win_coord_t ref_start_x = GENERATE(0, 3);
                 WINDOW *ref_win = newwin(ref_height, ref_width, ref_start_y, ref_start_x);
-                int centered_y, centered_x;
+                win_coord_t centered_y, centered_x;
 
                 REQUIRE(ref_height >= height);
                 REQUIRE(ref_width >= width);
@@ -167,8 +170,8 @@ TEST_CASE("NCursesObject represents an ncurses window with some content", "[NCur
             } 
 
             SECTION("raises logic error if reference window is smaller than this window") {
-                int ref_height = 6;
-                int ref_width = 4;
+                win_size_t ref_height = 6;
+                win_size_t ref_width = 4;
                 WINDOW *ref_win = newwin(ref_height, ref_width, 0, 0);
 
                 REQUIRE_THROWS_AS(stub.center_window(ref_win), std::logic_error);
@@ -180,59 +183,59 @@ TEST_CASE("NCursesObject represents an ncurses window with some content", "[NCur
         SECTION("can move the window") {
             SECTION("arbitrary move") {
                 SECTION("with valid input") {
-                    int move_y = 5;
+                    win_coord_t move_y = 5;
                     REQUIRE_NOTHROW(stub.move_y(move_y));
                     REQUIRE(getbegy(stub_win) == move_y);
 
-                    int move_x = 7;
+                    win_coord_t move_x = 7;
                     REQUIRE_NOTHROW(stub.move_x(move_x));
                     REQUIRE(getbegx(stub_win) == move_x);
                 }
 
                 SECTION("with invalid input") {
-                    int move_y = -1;
+                    win_coord_t move_y = -1;
                     REQUIRE_THROWS_AS(stub.move_y(move_y), NCursesException);
 
-                    int move_x = -23;
+                    win_coord_t move_x = -23;
                     REQUIRE_THROWS_AS(stub.move_x(move_x), NCursesException);
                 }
             }
 
             SECTION("applying an offset") {
                 SECTION("with valid input") {
-                    int move_y = 5;
-                    int offset_y = 2;
+                    win_coord_t move_y = 5;
+                    win_coord_t offset_y = 2;
                     stub.move_y(move_y);
                     REQUIRE_NOTHROW(stub.offset_y(offset_y));
                     REQUIRE(getbegy(stub_win) == move_y + offset_y);
 
-                    int move_x = 4;
-                    int offset_x = 4;
+                    win_coord_t move_x = 4;
+                    win_coord_t offset_x = 4;
                     stub.move_x(move_x);
                     REQUIRE_NOTHROW(stub.offset_x(offset_x));
                     REQUIRE(getbegx(stub_win) == move_x + offset_x);
                 }
 
                 SECTION("with invalid input") {
-                    int move_y = 5;
-                    int offset_y = -7;
+                    win_coord_t move_y = 5;
+                    win_coord_t offset_y = -7;
                     stub.move_y(move_y);
                     REQUIRE_THROWS_AS(stub.offset_y(offset_y), NCursesException);
 
-                    int move_x = 4;
-                    int offset_x = -8;
+                    win_coord_t move_x = 4;
+                    win_coord_t offset_x = -8;
                     stub.move_x(move_x);
                     REQUIRE_THROWS_AS(stub.offset_x(offset_x), NCursesException);
                 }
             }
 
             SECTION("centering") {
-                int ref_height = 20;
-                int ref_width = 80;
-                int ref_start_y = GENERATE(0, 3);
-                int ref_start_x = GENERATE(0, 3);
+                win_size_t ref_height = 20;
+                win_size_t ref_width = 80;
+                win_coord_t ref_start_y = GENERATE(0, 3);
+                win_coord_t ref_start_x = GENERATE(0, 3);
                 WINDOW *ref_win = newwin(ref_height, ref_width, ref_start_y, ref_start_x);
-                int centered_y, centered_x;
+                win_coord_t centered_y, centered_x;
 
                 REQUIRE(ref_height >= height);
                 REQUIRE(ref_width >= width);

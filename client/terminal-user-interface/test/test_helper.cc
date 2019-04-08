@@ -11,9 +11,10 @@
 
 #define _NULL_NAME "NULL"
 
-namespace terminal_user_interface {
-    using ncurses_helper::NCursesException;
+using terminal_user_interface::ncurses_helper::ncurses_errno_t;
+using terminal_user_interface::ncurses_helper::NCursesException;
 
+namespace terminal_user_interface {
     namespace __test {
         namespace ncurses_helper {
             namespace {
@@ -53,14 +54,16 @@ namespace terminal_user_interface {
                 }
             }
 
-            std::string ncurses_error_msg(const char *func_name, int rc) noexcept {
+            std::string ncurses_error_msg(const char *func_name, 
+                    ncurses_errno_t rc) noexcept {
                 std::ostringstream msg;
                 msg << "ncurses function '" << func_name 
                     << "' returned error code " << rc;
                 return msg.str();
             }
 
-            std::string ncurses_error_msg(const std::string& func_name, int rc) noexcept {
+            std::string ncurses_error_msg(const std::string& func_name, 
+                    ncurses_errno_t rc) noexcept {
                 return ncurses_error_msg(func_name.c_str(), rc);
             }
 
