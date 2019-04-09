@@ -1,7 +1,7 @@
 # C++ source files of 'ncurses_helper' module's tests.
 # They are prepended their module's relative path to the main Makefile.
 NCURSES_HELPER__TEST_SRC := windows_test.cc colors_test.cc ncurses_exception_test.cc \
-	ncurses_object_test.cc
+	ncurses_object_test.cc ncurses_menu_object_test.cc
 NCURSES_HELPER__TEST_SRC := $(patsubst %,$(TEST)/$(NCURSES_HELPER__MODULE_NAME)/%,$(NCURSES_HELPER__TEST_SRC))
 
 # Object files of 'ncurses_helper' module's tests.

@@ -2,7 +2,6 @@
 #define TERMINAL_USER_INTERFACE__NCURSES_HELPER__NCURSES_OBJECT_HH
 
 #include <ncurses.h>
-
 #include "ncurses_helper/windows.hh"
 
 namespace terminal_user_interface {

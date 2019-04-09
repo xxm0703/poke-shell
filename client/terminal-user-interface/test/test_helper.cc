@@ -1,10 +1,12 @@
 #include "__test/test_helper.hh"
 
 #include <cstdio>
+#include <algorithm>
 #include <stdexcept>
 #include <string>
 #include <sstream>
 #include <stdexcept>
+#include <vector>
 
 #include <ncurses.h>
 #include "ncurses_helper/ncurses_exception.hh"
@@ -81,6 +83,13 @@ namespace terminal_user_interface {
                 return ncurses_error_msg(func_name.c_str(), null_ptr);
             }
         }  // namespace ncurses_helper
+
+        const std::string& get_longest_string(const std::vector<std::string>& v) noexcept {
+            return *std::max_element(v.begin(), v.end(), 
+                    [](const std::string& a, const std::string& b) {
+                        return a.length() < b.length();
+                    });
+        }
     }  // namespace __test
 }  // namespace terminal_user_interface
 
