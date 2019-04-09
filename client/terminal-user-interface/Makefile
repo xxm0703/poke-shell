@@ -53,7 +53,7 @@ CXXFLAGS := -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic --std=c++14 \
 
 # The project's helper modules.
 # They should be essential for every executable module.
-HELPER_MODULES := ncurses_helper
+HELPER_MODULES := std_helper ncurses_helper
 
 # Executable modules - specific representations of the same project.
 # They have the following characteristics:

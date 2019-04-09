@@ -18,8 +18,6 @@ namespace terminal_user_interface {
             std::string ncurses_error_msg(const char *, void *);
             std::string ncurses_error_msg(const std::string&, void *);
         }  // namespace ncurses_helper
-
-        const std::string& get_longest_string(const std::vector<std::string>&) noexcept;
     }  // namespace __test
 }  // namespace terminal_user_interface
 
