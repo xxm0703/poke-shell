@@ -21,7 +21,6 @@ TEST_CASE("Display the title of the game", "[shell_ui::Title]") {
         SECTION("with default arguments") {
             Title title;
             win = title.get_win();
-            
             REQUIRE(getbegy(win) == 0);
             REQUIRE(getbegx(win) == 0);
         }
@@ -29,9 +28,9 @@ TEST_CASE("Display the title of the game", "[shell_ui::Title]") {
         SECTION("with custom coordinates") {
             cur_coord_t start_y = 3;
             cur_coord_t start_x = 5;
+
             Title title(start_y, start_x);
             win = title.get_win();
-            
             REQUIRE(getbegy(win) == start_y);
             REQUIRE(getbegx(win) == start_x);
         }
@@ -39,23 +38,21 @@ TEST_CASE("Display the title of the game", "[shell_ui::Title]") {
         SECTION("defaults dimensions of window to title sting dimensions") {
             cur_coord_t start_y = GENERATE(0, 2, 6);
             cur_coord_t start_x = GENERATE(0, 3, 10);
+
             Title title(start_y, start_x);
             win = title.get_win();
-            
             REQUIRE(getmaxy(win) == Title::nrows);
-            REQUIRE(getmaxx(win) == Title::row_len + 2);
+            REQUIRE(getmaxx(win) == Title::row_len);
         }
     }
 
     SECTION("can print the title of the game on the screen") {
-        cur_coord_t y = GENERATE(0, 1, 2);
-        cur_coord_t x = GENERATE(0, 3, 10);
         Title title;
         win = title.get_win();
 
-        title.mvwprint(y, x);
+        title.mvwprint();
         REQUIRE(getcury(win) == Title::nrows - 1);
-        REQUIRE(getcurx(win) == Title::row_len);
+        REQUIRE(getcurx(win) == Title::row_len - 1);
     }
 
     SECTION("teardown") {

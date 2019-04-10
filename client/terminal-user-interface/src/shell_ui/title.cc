@@ -5,14 +5,11 @@
 #include <ncurses.h>
 #include "ncurses_helper/colors.hh"
 #include "ncurses_helper/windows.hh"
-#include "ncurses_helper/ncurses_exception.hh"
 
 using terminal_user_interface::ncurses_helper::color_pair_t;
 using terminal_user_interface::ncurses_helper::win_size_t;
 using terminal_user_interface::ncurses_helper::win_coord_t;
 using terminal_user_interface::ncurses_helper::cur_coord_t;
-using terminal_user_interface::ncurses_helper::ncurses_errno_t;
-using terminal_user_interface::ncurses_helper::NCursesException;
 
 extern bool colored;
 
@@ -36,28 +33,29 @@ namespace terminal_user_interface {
         constexpr char Title::letter_color_pair_name[];
 
         Title::Title(win_coord_t start_y, win_coord_t start_x)
-            : NCursesObject(nrows, row_len + 2, start_y, start_x) {
+            : NCursesObject(nrows, row_len, start_y, start_x) {
         }
 
         void Title::mvwprint(cur_coord_t y, cur_coord_t x) {
-            ncurses_errno_t rc;
+            if (y) {}  // avoid compiler warnings
+            if (x) {}  // avoid compiler warnings
+
             int ch;
             WINDOW *win = get_win();
             color_pair_t color_pair = colored ? ncurses_helper::colors::get_color_pair(
                         letter_color_pair_name) : 0;
 
-            for (register win_size_t i = 0; i < nrows; ++i) {
-                if (wmove(win, y + i, x) == ERR) break;
-                for (register win_size_t j = 0; j < row_len - x; ++j) {
-                    ch = title[i][j];
-                    if (colored && ((i == 1 || i == nrows - 2)
-                            && (j % card_len == upper_letter_index 
-                                || j % card_len == lower_letter_index))) {
+            for (register win_size_t row = 0; row < nrows; ++row) {
+                wmove(win, row, 0);
+                for (register win_size_t col = 0; col < row_len; ++col) {
+                    ch = title[row][col];
+                    if (colored && ((row == 1 || row == nrows - 2)
+                            && (col % card_len == upper_letter_index 
+                                || col % card_len == lower_letter_index))) {
                         ch |= A_BOLD;  // bold title letter
                         wattron(win, color_pair);  // use color pair for title letter
                     }
-                    rc = waddch(win, ch);
-                    if (rc == ERR) throw NCursesException("waddch", rc);
+                    waddch(win, ch);
                     wattroff(win, color_pair);
                 }
             }
