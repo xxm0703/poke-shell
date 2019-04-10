@@ -1,68 +1,56 @@
-#ifndef TERMINAL_USER_INTERFACE__NCURSES_HELPER__NCURSES_MENU_OBJECT_CC
-#define TERMINAL_USER_INTERFACE__NCURSES_HELPER__NCURSES_MENU_OBJECT_CC
-
 #include "ncurses_helper/ncurses_menu_object.hh"
 
+#include <cstdio>
+#include <algorithm>
 #include <string>
+#include <stdexcept>
+#include <limits>
+
+#include "std_helper/string.hh"
+#include "ncurses_helper/ncurses_exception.hh"
 
 using terminal_user_interface::ncurses_helper::windows::win_coord_t;
 using terminal_user_interface::ncurses_helper::windows::win_size_t;
 
 namespace terminal_user_interface {
     namespace ncurses_helper {
-        template <template <class...> class ContainerT>
-        const menu_option_t NCursesMenuObject<ContainerT>::no_option_index = -1;
+        const menu_option_t NCursesMenuObject::no_option_index = std::numeric_limits<menu_option_t>::max();
 
-        template <template <class...> class ContainerT>
-        NCursesMenuObject<ContainerT>::NCursesMenuObject(const ContainerT<std::string>&,
+        NCursesMenuObject::NCursesMenuObject(const std::vector<std::string>& options,
                 win_size_t height, win_size_t width, 
                 win_coord_t start_y, win_coord_t start_x)
-            : NCursesObject(get_min_height(height), get_min_width(width), start_y, start_x) {
-            // TODO: implement
+            : NCursesObject(height, width, start_y, start_x),
+              options_(options),
+              selected_option_(no_option_index) {
         }
 
-        template <template <class...> class ContainerT>
-        void NCursesMenuObject<ContainerT>::mvwprint(win_coord_t y, win_coord_t x) {
-            // TODO: implement
+        void NCursesMenuObject::select_option(menu_option_t option_index) {
+            if (option_index >= options_.size()) {
+                static constexpr size_t err_msg_size = 50;
+                char msg[err_msg_size];
+
+                sprintf(msg, "invalid option index parsed (%d)", option_index);
+                throw std::invalid_argument(msg);
+            }
+
+            selected_option_ = option_index;
         }
 
-        template <template <class...> class ContainerT>
-        void NCursesMenuObject<ContainerT>::select_option(menu_option_t option_index) {
-            // TODO: implement
+        void NCursesMenuObject::deselect() noexcept {
+            selected_option_ = no_option_index;
         }
 
-        template <template <class...> class ContainerT>
-        void NCursesMenuObject<ContainerT>::deselect() {
-            // TODO: implement
+        bool NCursesMenuObject::is_selected() const noexcept {
+            return selected_option_ != no_option_index;
         }
 
-        template <template <class...> class ContainerT>
-        bool NCursesMenuObject<ContainerT>::is_selected() const noexcept {
-            // TODO implement
-            return false;
+        const std::vector<std::string>& NCursesMenuObject::get_options() const noexcept {
+            return options_;
         }
 
-        template <template <class...> class ContainerT>
-        menu_option_t NCursesMenuObject<ContainerT>::get_selected_option() const noexcept {
-            // TODO implement
-            return 0;
-        }
-
-        template <template <class...> class ContainerT>
-        win_size_t NCursesMenuObject<ContainerT>::get_min_height(
-                win_size_t height) const noexcept {
-            // TODO: implement
-            return 0;
-        }
-
-        template <template <class...> class ContainerT>
-        win_size_t NCursesMenuObject<ContainerT>::get_min_width(
-                win_size_t width) const noexcept {
-            // TODO: implement
-            return 0;
+        menu_option_t NCursesMenuObject::get_selected_option() const noexcept {
+            return selected_option_;
         }
     }  // namespace ncurses_helper
 }  // namespace terminal_user_interface
-
-#endif
 
