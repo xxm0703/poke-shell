@@ -16,6 +16,28 @@ namespace terminal_user_interface {
                             return a.length() < b.length();
                         });
             }
+
+            std::string lpad_string(const std::string& str, size_t n, char c) {
+                std::string res(str);
+
+                res.insert(0, n, c);
+                return res;
+            }
+
+            std::string rpad_string(const std::string& str, size_t n, char c) {
+                std::string res(str);
+
+                res.append(n, c);
+                return res;
+            }
+
+            std::string pad_string(const std::string& str, size_t n, char c) {
+                std::string res(str);
+
+                res.insert(0, n, c);
+                res.append(n, c);
+                return res;
+            }
         }  // namespace string
     }  // namespace std_helper
 }  // namespace terminal_user_interface
