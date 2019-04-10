@@ -14,7 +14,7 @@ using terminal_user_interface::ncurses_helper::win_coord_t;
 using terminal_user_interface::ncurses_helper::win_size_t;
 
 namespace {
-    class NCursesObjectStub: public NCursesObject {
+    class NCursesObjectStub final: public NCursesObject {
     public:
         explicit NCursesObjectStub(win_size_t, win_size_t, 
                 win_coord_t = 0, win_coord_t = 0);

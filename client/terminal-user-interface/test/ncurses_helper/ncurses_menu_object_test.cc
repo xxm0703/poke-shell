@@ -12,7 +12,7 @@ using terminal_user_interface::ncurses_helper::win_coord_t;
 using terminal_user_interface::ncurses_helper::win_size_t;
 
 namespace {
-    class NCursesMenuObjectStub: public NCursesMenuObject {
+    class NCursesMenuObjectStub final: public NCursesMenuObject {
     public:
         explicit NCursesMenuObjectStub(const std::vector<std::string>&, 
                 win_size_t = 0, win_size_t = 0, win_coord_t = 0, win_coord_t = 0);
@@ -87,8 +87,8 @@ TEST_CASE("NCursesMenuObject extends NCursesObject, providing a selectable menu 
 
         SECTION("can get selected option") {
             menu_option_t selected_option = GENERATE(0, 1, 2);
-            NCursesMenuObjectStub stub(options);
 
+            NCursesMenuObjectStub stub(options);
             stub.select_option(selected_option);
             REQUIRE(stub.get_selected_option() == selected_option);
         }
@@ -96,7 +96,6 @@ TEST_CASE("NCursesMenuObject extends NCursesObject, providing a selectable menu 
         SECTION("can retrieve all options") {
             NCursesMenuObjectStub stub(options);
             const std::vector<std::string>& retrieved_options = stub.get_options();
-
             for (register size_t i = 0; i < options.size(); ++i)
                 REQUIRE(options[i] == retrieved_options[i]);
         }
