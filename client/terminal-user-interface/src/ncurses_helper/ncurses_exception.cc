@@ -3,6 +3,8 @@
 #include <sstream>
 #include <exception>
 
+#include <ncurses.h>
+
 #define _NULL_MSG "NULL"
 
 namespace terminal_user_interface {
@@ -12,6 +14,7 @@ namespace terminal_user_interface {
               func_name_(func_name),
               rc_({ false, rc }),
               error_message_(build_message()) {
+            endwin();
         }
 
         NCursesException::NCursesException(const char *func_name, void *null_ptr)
@@ -21,6 +24,7 @@ namespace terminal_user_interface {
               error_message_(build_message()) {
             if (null_ptr != nullptr)  // passed pointer is not null
                 throw std::invalid_argument("parsed pointer is not null");
+            endwin();
         }
 
         NCursesException::NCursesException(const std::string& func_name, ncurses_errno_t rc) noexcept
