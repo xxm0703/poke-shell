@@ -7,7 +7,7 @@
 using namespace terminal_user_interface;
 using namespace terminal_user_interface::ncurses_helper;
 
-TEST_CASE("NCursesException describes an exception that occurred with the ncurses library", "[NCursesException]") {
+TEST_CASE("NCursesException describes an exception that occurred with the ncurses library", "[ncurses_helper::NCursesException]") {
     SECTION("can construct object") {
         ncurses_errno_t rc = -1;
 

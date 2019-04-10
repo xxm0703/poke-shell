@@ -8,8 +8,8 @@
 
 using namespace terminal_user_interface;
 using namespace terminal_user_interface::ncurses_helper;
-using terminal_user_interface::ncurses_helper::windows::win_coord_t;
-using terminal_user_interface::ncurses_helper::windows::win_size_t;
+using terminal_user_interface::ncurses_helper::win_coord_t;
+using terminal_user_interface::ncurses_helper::win_size_t;
 
 namespace {
     class NCursesMenuObjectStub: public NCursesMenuObject {
@@ -47,7 +47,7 @@ namespace {
     }
 }  // anonymous namespace
 
-TEST_CASE("NCursesMenuObject extends NCursesObject, providing a selectable menu as its content", "[NCursesMenuObject]") {
+TEST_CASE("NCursesMenuObject extends NCursesObject, providing a selectable menu as its content", "[ncurses_helper::NCursesMenuObject]") {
     SECTION("setup") {
         __test::ncurses_helper::ncurses_setup();
     }

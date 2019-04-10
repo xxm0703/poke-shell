@@ -14,17 +14,17 @@ namespace terminal_user_interface {
         public:
             static const menu_option_t no_option_index;
             explicit NCursesMenuObject(const std::vector<std::string>&,
-                    windows::win_size_t = 0, windows::win_size_t = 0, 
-                    windows::win_coord_t = 0, windows::win_coord_t = 0);
+                    win_size_t = 0, win_size_t = 0, 
+                    win_coord_t = 0, win_coord_t = 0);
             void select_option(menu_option_t);
             void deselect() noexcept;
             bool is_selected() const noexcept;
             const std::vector<std::string>& get_options() const noexcept;
             menu_option_t get_selected_option() const noexcept;
         protected:
-            virtual windows::win_size_t calc_height(windows::win_size_t,
+            virtual win_size_t calc_height(win_size_t,
                     const std::vector<std::string>&) const = 0;
-            virtual windows::win_size_t calc_width(windows::win_size_t,
+            virtual win_size_t calc_width(win_size_t, 
                     const std::vector<std::string>&) const = 0;
         private:
             std::vector<std::string> options_;

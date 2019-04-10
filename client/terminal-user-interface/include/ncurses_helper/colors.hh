@@ -5,10 +5,10 @@
 
 namespace terminal_user_interface {
     namespace ncurses_helper {
-        namespace colors {
-            using color_t = short;
-            using color_pair_t = short;
+        using color_t = short;
+        using color_pair_t = short;
 
+        namespace colors {
             void add_color_pair(const std::string&, color_t, color_t);
             color_pair_t get_color_pair(const std::string&);
             void _flush_color_pair_map() noexcept;

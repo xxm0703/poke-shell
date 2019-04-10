@@ -10,8 +10,8 @@
 
 using namespace terminal_user_interface;
 using namespace terminal_user_interface::ncurses_helper;
-using terminal_user_interface::ncurses_helper::windows::win_coord_t;
-using terminal_user_interface::ncurses_helper::windows::win_size_t;
+using terminal_user_interface::ncurses_helper::win_coord_t;
+using terminal_user_interface::ncurses_helper::win_size_t;
 
 namespace {
     class NCursesObjectStub: public NCursesObject {
@@ -32,7 +32,7 @@ namespace {
     }
 }  // anonymous namespace
 
-TEST_CASE("NCursesObject represents an ncurses window with some content", "[NCursesObject]") {
+TEST_CASE("NCursesObject represents an ncurses window with some content", "[ncurses_helper::NCursesObject]") {
     SECTION("setup") {
         __test::ncurses_helper::ncurses_setup();
     }

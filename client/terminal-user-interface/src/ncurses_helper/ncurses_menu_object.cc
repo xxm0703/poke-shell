@@ -9,8 +9,8 @@
 #include "std_helper/string.hh"
 #include "ncurses_helper/ncurses_exception.hh"
 
-using terminal_user_interface::ncurses_helper::windows::win_coord_t;
-using terminal_user_interface::ncurses_helper::windows::win_size_t;
+using terminal_user_interface::ncurses_helper::win_coord_t;
+using terminal_user_interface::ncurses_helper::win_size_t;
 
 namespace terminal_user_interface {
     namespace ncurses_helper {

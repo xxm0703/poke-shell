@@ -8,19 +8,19 @@ namespace terminal_user_interface {
     namespace ncurses_helper {
         class NCursesObject {
         public:
-            explicit NCursesObject(windows::win_size_t, windows::win_size_t, 
-                    windows::win_coord_t = 0, windows::win_coord_t = 0);
+            explicit NCursesObject(win_size_t, win_size_t, 
+                    win_coord_t = 0, win_coord_t = 0);
             virtual ~NCursesObject() noexcept;
-            virtual void mvwprint(windows::win_coord_t, windows::win_coord_t) = 0;
+            virtual void mvwprint(win_coord_t, win_coord_t) = 0;
             NCursesObject& refresh_window() noexcept;
             NCursesObject& clear_window() noexcept;
-            NCursesObject& move_window(windows::win_coord_t, windows::win_coord_t);
+            NCursesObject& move_window(win_coord_t, win_coord_t);
             NCursesObject& center_window(WINDOW * = stdscr, bool = true, bool = true);
-            NCursesObject& move_y(windows::win_coord_t);
-            NCursesObject& offset_y(windows::win_coord_t);
+            NCursesObject& move_y(win_coord_t);
+            NCursesObject& offset_y(win_coord_t);
             NCursesObject& center_y(WINDOW * = stdscr);
-            NCursesObject& move_x(windows::win_coord_t);
-            NCursesObject& offset_x(windows::win_coord_t);
+            NCursesObject& move_x(win_coord_t);
+            NCursesObject& offset_x(win_coord_t);
             NCursesObject& center_x(WINDOW * = stdscr);
             WINDOW *get_win() const noexcept;
         private:
