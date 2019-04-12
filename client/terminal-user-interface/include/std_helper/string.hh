@@ -11,6 +11,8 @@ namespace terminal_user_interface {
             std::string lpad_string(const std::string&, size_t, char = ' ');
             std::string rpad_string(const std::string&, size_t, char = ' ');
             std::string pad_string(const std::string&, size_t, char = ' ');
+            std::vector<std::string> split(const std::string&, 
+                    const char * = " ") noexcept;
         }  // namespace string
     }  // namespace std_helper
 }  // namespace terminal_user_interface

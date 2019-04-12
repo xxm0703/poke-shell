@@ -1,5 +1,6 @@
 #include "std_helper/string.hh"
 
+#include <cstring>
 #include <algorithm>
 #include <string>
 #include <vector>
@@ -37,6 +38,21 @@ namespace terminal_user_interface {
                 res.insert(0, n, c);
                 res.append(n, c);
                 return res;
+            }
+
+
+            std::vector<std::string> split(const std::string& str, 
+                    const char *delim) noexcept {
+                std::vector<std::string> result;
+                std::string str_copy(str);
+
+                size_t pos;
+                while ((pos = str_copy.find(delim)) != std::string::npos) {
+                    result.push_back(str_copy.substr(0, pos));
+                    str_copy = str_copy.substr(pos + std::strlen(delim), str_copy.length());
+                }
+                result.push_back(str_copy);
+                return result;
             }
         }  // namespace string
     }  // namespace std_helper

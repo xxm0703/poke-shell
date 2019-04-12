@@ -59,5 +59,50 @@ TEST_CASE("Provides helper functions for use with std::string", "[std::string]")
             REQUIRE(result == expected_result.str());
         }
     }
+
+    SECTION("can split a string into an array of substrings") {
+        SECTION("with a single word") {
+            std::string str("Line");
+            std::vector<std::string> result = split(str);
+            REQUIRE(result.size() == 1);
+            REQUIRE(result[0] == "Line");
+        }
+
+        SECTION("with multiple words") {
+            std::string str("Multiple words sentence");
+            std::vector<std::string> result = split(str);
+            REQUIRE(result.size() == 3);
+            REQUIRE(result[0] == "Multiple");
+            REQUIRE(result[1] == "words");
+            REQUIRE(result[2] == "sentence");
+        }
+
+        SECTION("with a custom delimiter") {
+            SECTION("and string with no occurrence of this delimiter") {
+                std::string str("Multiple words sentence");
+                std::vector<std::string> result = split(str, "\n");
+                REQUIRE(result.size() == 1);
+                REQUIRE(result[0] == "Multiple words sentence");
+            }
+
+            SECTION("and string with occurrences of this delimiter") {
+                std::string str("Multiple\nwords\nsentence");
+                std::vector<std::string> result = split(str, "\n");
+                REQUIRE(result.size() == 3);
+                REQUIRE(result[0] == "Multiple");
+                REQUIRE(result[1] == "words");
+                REQUIRE(result[2] == "sentence");
+            }
+
+            SECTION("which is made of multiple symbols") {
+                std::string str("Multiple->words->sentence");
+                std::vector<std::string> result = split(str, "->");
+                REQUIRE(result.size() == 3);
+                REQUIRE(result[0] == "Multiple");
+                REQUIRE(result[1] == "words");
+                REQUIRE(result[2] == "sentence");
+            }
+        }
+    }
 }
 
