@@ -1,6 +1,6 @@
 # C++ source files of 'shell_ui' module's tests.
 # They are prepended their module's relative path to the main Makefile.
-SHELL_UI__TEST_SRC := title_test.cc vertical_menu_test.cc
+SHELL_UI__TEST_SRC := title_test.cc vertical_menu_test.cc text_test.cc
 SHELL_UI__TEST_SRC := $(patsubst %,$(TEST)/$(SHELL_UI__MODULE_NAME)/%,$(SHELL_UI__TEST_SRC))
 
 # Object files of 'shell_ui' module's tests.
