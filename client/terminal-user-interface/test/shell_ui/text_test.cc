@@ -9,10 +9,10 @@
 
 using namespace terminal_user_interface;
 using namespace terminal_user_interface::shell_ui;
-using terminal_user_interface::ncurses_helper::windows::get_window_height;
-using terminal_user_interface::ncurses_helper::windows::get_window_width;
-using terminal_user_interface::ncurses_helper::windows::get_window_begy;
-using terminal_user_interface::ncurses_helper::windows::get_window_begx;
+using terminal_user_interface::ncurses_helper::get_window_height;
+using terminal_user_interface::ncurses_helper::get_window_width;
+using terminal_user_interface::ncurses_helper::get_window_begy;
+using terminal_user_interface::ncurses_helper::get_window_begx;
 
 bool colored = false;
 
@@ -45,8 +45,8 @@ TEST_CASE("Display a static text", "[shell_ui::Text]") {
         SECTION("with different text contents") {
             auto text_str = GENERATE(as<std::string>{}, "Text", "Hello\nWorld", "This\nis\nPesho");
 
-            std::vector<std::string> str_lines = std_helper::string::split(text_str, "\n");
-            const std::string& longest_string = std_helper::string::get_longest_string(str_lines);
+            std::vector<std::string> str_lines = std_helper::split(text_str, "\n");
+            const std::string& longest_string = std_helper::get_longest_string(str_lines);
             Text text(text_str);
             win = text.get_win();
             REQUIRE(get_window_height(win) == str_lines.size());

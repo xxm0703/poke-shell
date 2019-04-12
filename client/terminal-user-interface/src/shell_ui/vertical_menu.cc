@@ -13,8 +13,8 @@ using terminal_user_interface::ncurses_helper::win_size_t;
 using terminal_user_interface::ncurses_helper::win_coord_t;
 using terminal_user_interface::ncurses_helper::cur_coord_t;
 using terminal_user_interface::ncurses_helper::menu_option_t;
-using terminal_user_interface::ncurses_helper::windows::get_window_height;
-using terminal_user_interface::ncurses_helper::windows::get_window_width;
+using terminal_user_interface::ncurses_helper::get_window_height;
+using terminal_user_interface::ncurses_helper::get_window_width;
 
 namespace terminal_user_interface {
     namespace shell_ui {
@@ -42,8 +42,8 @@ namespace terminal_user_interface {
 
                 const std::string& current_option = options[row];
                 win_size_t nempty_spaces = get_window_width(win) - current_option.length();
-                std::string padded_option = std_helper::string::rpad_string(
-                        std_helper::string::lpad_string(current_option,
+                std::string padded_option = std_helper::rpad_string(
+                        std_helper::lpad_string(current_option,
                             nempty_spaces / 2),
                         nempty_spaces / 2 + current_option.length() % 2);
 
@@ -65,7 +65,7 @@ namespace terminal_user_interface {
 
         win_size_t VerticalMenu::calc_width(win_size_t width,
                 const std::vector<std::string>& options) const {
-            win_size_t min_res = std_helper::string::get_longest_string(options).length();
+            win_size_t min_res = std_helper::get_longest_string(options).length();
             win_size_t result = std::max(min_res, width);
 
             result += result % 2;  // even out the width

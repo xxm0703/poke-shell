@@ -5,35 +5,33 @@
 
 namespace terminal_user_interface {
     namespace ncurses_helper {
-        namespace windows {
-            win_size_t get_window_height(WINDOW *win) {
-                win_size_t result = getmaxy(win);
+        win_size_t get_window_height(WINDOW *win) {
+            win_size_t result = getmaxy(win);
 
-                if (result == ERR) throw NCursesException("getmaxy", ERR);
-                return result;
-            }
+            if (result == ERR) throw NCursesException("getmaxy", ERR);
+            return result;
+        }
 
-            win_size_t get_window_width(WINDOW *win) {
-                win_size_t result = getmaxx(win);
+        win_size_t get_window_width(WINDOW *win) {
+            win_size_t result = getmaxx(win);
 
-                if (result == ERR) throw NCursesException("getmaxx", ERR);
-                return result;
-            }
+            if (result == ERR) throw NCursesException("getmaxx", ERR);
+            return result;
+        }
 
-            win_coord_t get_window_begy(WINDOW *win) {
-                win_coord_t result = getbegy(win);
+        win_coord_t get_window_begy(WINDOW *win) {
+            win_coord_t result = getbegy(win);
 
-                if (result == ERR) throw NCursesException("getbegy", ERR);
-                return result;
-            }
+            if (result == ERR) throw NCursesException("getbegy", ERR);
+            return result;
+        }
 
-            win_coord_t get_window_begx(WINDOW *win) {
-                win_coord_t result = getbegx(win);
+        win_coord_t get_window_begx(WINDOW *win) {
+            win_coord_t result = getbegx(win);
 
-                if (result == ERR) throw NCursesException("getbegx", ERR);
-                return result;
-            }
-        }  // namespace windows
+            if (result == ERR) throw NCursesException("getbegx", ERR);
+            return result;
+        }
     }  // namespace ncurses_helper
 }  // namespace terminal_user_interface
 

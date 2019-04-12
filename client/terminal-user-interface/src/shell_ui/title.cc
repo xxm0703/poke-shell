@@ -42,7 +42,7 @@ namespace terminal_user_interface {
 
             int ch;
             WINDOW *win = get_win();
-            color_pair_t color_pair = colored ? ncurses_helper::colors::get_color_pair(
+            color_pair_t color_pair = colored ? ncurses_helper::get_color_pair(
                         letter_color_pair_name) : 0;
 
             for (register win_size_t row = 0; row < nrows; ++row) {

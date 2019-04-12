@@ -9,7 +9,6 @@
 
 using namespace terminal_user_interface;
 using namespace terminal_user_interface::std_helper;
-using namespace terminal_user_interface::std_helper::string;
 
 TEST_CASE("Provides helper functions for use with std::string", "[std::string]") {
     SECTION("can get the longest string of a sequence") {

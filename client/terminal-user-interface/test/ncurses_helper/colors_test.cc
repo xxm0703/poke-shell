@@ -10,7 +10,6 @@
 
 using namespace terminal_user_interface;
 using namespace terminal_user_interface::ncurses_helper;
-using namespace terminal_user_interface::ncurses_helper::colors;
 
 TEST_CASE("Present interface to map names (strings) to ncurses color pairs", "[ncurses]") {
     SECTION("setup") {

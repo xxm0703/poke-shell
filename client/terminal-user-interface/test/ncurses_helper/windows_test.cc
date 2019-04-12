@@ -7,7 +7,6 @@
 
 using namespace terminal_user_interface;
 using namespace terminal_user_interface::ncurses_helper;
-using namespace terminal_user_interface::ncurses_helper::windows;
 
 TEST_CASE("Provide helper functions for use with ncurses windows", "[ncurses]") {
     SECTION("setup") {

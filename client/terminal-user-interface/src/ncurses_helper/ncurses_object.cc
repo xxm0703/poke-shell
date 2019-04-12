@@ -45,10 +45,10 @@ namespace terminal_user_interface {
         NCursesObject& NCursesObject::center_window(WINDOW *ref_win, 
                 bool should_center_y, bool should_center_x) {
             win_coord_t y, x;
-            win_size_t height = windows::get_window_height(win_);
-            win_size_t width = windows::get_window_width(win_);
-            win_size_t ref_height = windows::get_window_height(ref_win);
-            win_size_t ref_width = windows::get_window_width(ref_win);
+            win_size_t height = get_window_height(win_);
+            win_size_t width = get_window_width(win_);
+            win_size_t ref_height = get_window_height(ref_win);
+            win_size_t ref_width = get_window_width(ref_win);
 
             if (ref_height < height || ref_width < width)
                 throw std::logic_error("reference window dimensions are smaller than this window");

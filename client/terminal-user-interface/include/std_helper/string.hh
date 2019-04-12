@@ -6,14 +6,12 @@
 
 namespace terminal_user_interface {
     namespace std_helper {
-        namespace string {
-            const std::string& get_longest_string(const std::vector<std::string>&);
-            std::string lpad_string(const std::string&, size_t, char = ' ');
-            std::string rpad_string(const std::string&, size_t, char = ' ');
-            std::string pad_string(const std::string&, size_t, char = ' ');
-            std::vector<std::string> split(const std::string&, 
-                    const char * = " ") noexcept;
-        }  // namespace string
+        const std::string& get_longest_string(const std::vector<std::string>&);
+        std::string lpad_string(const std::string&, size_t, char = ' ');
+        std::string rpad_string(const std::string&, size_t, char = ' ');
+        std::string pad_string(const std::string&, size_t, char = ' ');
+        std::vector<std::string> split(const std::string&, 
+                const char * = " ") noexcept;
     }  // namespace std_helper
 }  // namespace terminal_user_interface
 
