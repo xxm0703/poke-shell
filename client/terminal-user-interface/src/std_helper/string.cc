@@ -8,7 +8,7 @@
 
 namespace terminal_user_interface {
     namespace std_helper {
-        const std::string& get_longest_string(const std::vector<std::string>& v) {
+        std::string get_longest_string(const std::vector<std::string>& v) {
             if (v.empty()) throw std::runtime_error("empty sequence of strings presented");
 
             return *std::max_element(v.begin(), v.end(), 

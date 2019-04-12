@@ -21,7 +21,7 @@ TEST_CASE("Display a vertical multiple-choice menu", "[shell_ui::VerticalMenu]")
 
     WINDOW *win;
     std::vector<std::string> options{"Start", "Exit", "Credits", "Show"};
-    const std::string& longest_option = std_helper::get_longest_string(options);
+    std::string longest_option = std_helper::get_longest_string(options);
 
     SECTION("can construct object") {
         SECTION("with default arguments") {

@@ -6,7 +6,7 @@
 
 namespace terminal_user_interface {
     namespace std_helper {
-        const std::string& get_longest_string(const std::vector<std::string>&);
+        std::string get_longest_string(const std::vector<std::string>&);
         std::string lpad_string(const std::string&, size_t, char = ' ');
         std::string rpad_string(const std::string&, size_t, char = ' ');
         std::string pad_string(const std::string&, size_t, char = ' ');

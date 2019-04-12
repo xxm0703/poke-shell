@@ -46,7 +46,7 @@ TEST_CASE("Display a static text", "[shell_ui::Text]") {
             auto text_str = GENERATE(as<std::string>{}, "Text", "Hello\nWorld", "This\nis\nPesho");
 
             std::vector<std::string> str_lines = std_helper::split(text_str, "\n");
-            const std::string& longest_string = std_helper::get_longest_string(str_lines);
+            std::string longest_string = std_helper::get_longest_string(str_lines);
             Text text(text_str);
             win = text.get_win();
             REQUIRE(get_window_height(win) == str_lines.size());
