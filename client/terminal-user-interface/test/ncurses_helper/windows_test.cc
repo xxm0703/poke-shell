@@ -30,6 +30,14 @@ TEST_CASE("Provide helper functions for use with ncurses windows", "[ncurses]") 
                 REQUIRE(get_window_width(win) == width);
             }
 
+            SECTION("can get a window's starting y coordinates") {
+                REQUIRE(get_window_begy(win) == start_y);
+            }
+
+            SECTION("can get a window's starting x coordinates") {
+                REQUIRE(get_window_begx(win) == start_x);
+            }
+
             delwin(win);
         }
 
@@ -42,6 +50,12 @@ TEST_CASE("Provide helper functions for use with ncurses windows", "[ncurses]") 
             REQUIRE_THROWS_AS(get_window_width(win), NCursesException);
             REQUIRE_THROWS_WITH(get_window_width(win), 
                     __test::ncurses_helper::ncurses_error_msg("getmaxx", ERR));
+            REQUIRE_THROWS_AS(get_window_begy(win), NCursesException);
+            REQUIRE_THROWS_WITH(get_window_begy(win), 
+                    __test::ncurses_helper::ncurses_error_msg("getbegy", ERR));
+            REQUIRE_THROWS_AS(get_window_begx(win), NCursesException);
+            REQUIRE_THROWS_WITH(get_window_begx(win), 
+                    __test::ncurses_helper::ncurses_error_msg("getbegx", ERR));
         }
     }
 

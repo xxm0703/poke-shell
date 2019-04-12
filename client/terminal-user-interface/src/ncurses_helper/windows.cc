@@ -19,6 +19,20 @@ namespace terminal_user_interface {
                 if (result == ERR) throw NCursesException("getmaxx", ERR);
                 return result;
             }
+
+            win_coord_t get_window_begy(WINDOW *win) {
+                win_coord_t result = getbegy(win);
+
+                if (result == ERR) throw NCursesException("getbegy", ERR);
+                return result;
+            }
+
+            win_coord_t get_window_begx(WINDOW *win) {
+                win_coord_t result = getbegx(win);
+
+                if (result == ERR) throw NCursesException("getbegx", ERR);
+                return result;
+            }
         }  // namespace windows
     }  // namespace ncurses_helper
 }  // namespace terminal_user_interface

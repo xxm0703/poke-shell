@@ -12,6 +12,8 @@ namespace terminal_user_interface {
         namespace windows {
             win_size_t get_window_height(WINDOW *);
             win_size_t get_window_width(WINDOW *);
+            win_coord_t get_window_begy(WINDOW *);
+            win_coord_t get_window_begx(WINDOW *);
         }  // namespace windows
     }  // namespace ncurses_helper
 }  // namespace terminal_user_interface
