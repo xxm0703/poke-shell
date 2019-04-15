@@ -59,6 +59,16 @@ TEST_CASE("Display a static text", "[shell_ui::Text]") {
             Text text(text_str);
             REQUIRE(text.get_text() == text_str);
         }
+
+        SECTION("can set text contents") {
+            std::string text_str = "Text";
+            std::string replacement_str = "Hello World";
+
+            Text text(text_str);
+            REQUIRE(text.get_text() == text_str);
+            text.set_text(replacement_str);
+            REQUIRE(text.get_text() == replacement_str);
+        }
     }
 
     SECTION("teardown") {

@@ -26,6 +26,7 @@ namespace terminal_user_interface {
             WINDOW *win = get_win();
             std::vector<std::string> text_lines = std_helper::split(text_, "\n");
             
+            alter_split_text(text_lines);
             for (register win_size_t row = 0; row < get_window_height(win); ++row) {
                 wmove(win, row, 0);
                 wprintw(win, "%s", text_lines[row].c_str());
@@ -35,6 +36,16 @@ namespace terminal_user_interface {
 
         std::string Text::get_text() const noexcept {
             return text_;
+        }
+
+        Text& Text::set_text(const std::string& text) noexcept {
+            text_ = text;
+            return *this;
+        }
+
+        void Text::alter_split_text(std::vector<std::string>& text_lines) const {
+            if (text_lines.empty()) {}  // avoid compiler warning
+            // do nothing
         }
 
         win_size_t Text::calc_height(const std::string& text) noexcept {

@@ -2,6 +2,7 @@
 #define TERMINAL_USER_INTERFACE__SHELL_UI__TEXT_HH
 
 #include <string>
+#include <vector>
 
 #include "ncurses_helper/windows.hh"
 #include "ncurses_helper/ncurses_object.hh"
@@ -15,6 +16,9 @@ namespace terminal_user_interface {
             void mvwprint(ncurses_helper::win_coord_t = 0,
                     ncurses_helper::win_coord_t = 0) override;
             std::string get_text() const noexcept;
+            Text& set_text(const std::string&) noexcept;
+        protected:
+            virtual void alter_split_text(std::vector<std::string>&) const;
         private:
             std::string text_;
             ncurses_helper::win_size_t calc_height(const std::string&) noexcept;
