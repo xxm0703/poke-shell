@@ -19,9 +19,11 @@ namespace terminal_user_interface {
             NCursesObject& move_y(win_coord_t);
             NCursesObject& offset_y(win_coord_t);
             NCursesObject& center_y(WINDOW * = stdscr);
+            NCursesObject& anchor_y(WINDOW * = stdscr);
             NCursesObject& move_x(win_coord_t);
             NCursesObject& offset_x(win_coord_t);
             NCursesObject& center_x(WINDOW * = stdscr);
+            NCursesObject& anchor_x(WINDOW * = stdscr);
             WINDOW *get_win() const noexcept;
         private:
             WINDOW *win_;

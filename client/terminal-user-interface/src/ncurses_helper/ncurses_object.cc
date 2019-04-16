@@ -6,9 +6,6 @@
 #include "ncurses_helper/ncurses_exception.hh"
 #include "ncurses_helper/windows.hh"
 
-using terminal_user_interface::ncurses_helper::win_size_t;
-using terminal_user_interface::ncurses_helper::win_coord_t;
-
 namespace terminal_user_interface {
     namespace ncurses_helper {
         NCursesObject::NCursesObject(win_size_t height, win_size_t width, 
@@ -76,6 +73,11 @@ namespace terminal_user_interface {
             return *this;
         }
 
+        NCursesObject& NCursesObject::anchor_y(WINDOW *ref_win) {
+            move_y(get_window_height(ref_win) - 1);
+            return *this;
+        }
+
         NCursesObject& NCursesObject::move_x(win_coord_t x) {
             move_window(getbegy(win_), x);
             return *this;
@@ -88,6 +90,11 @@ namespace terminal_user_interface {
 
         NCursesObject& NCursesObject::center_x(WINDOW *ref_win) {
             center_window(ref_win, false, true);
+            return *this;
+        }
+
+        NCursesObject& NCursesObject::anchor_x(WINDOW *ref_win) {
+            move_x(get_window_width(ref_win) - 1);
             return *this;
         }
 

@@ -12,6 +12,8 @@ using namespace terminal_user_interface;
 using namespace terminal_user_interface::ncurses_helper;
 using terminal_user_interface::ncurses_helper::win_coord_t;
 using terminal_user_interface::ncurses_helper::win_size_t;
+using terminal_user_interface::ncurses_helper::get_window_height;
+using terminal_user_interface::ncurses_helper::get_window_width;
 
 namespace {
     class NCursesObjectStub final: public NCursesObject {
@@ -254,6 +256,36 @@ TEST_CASE("NCursesObject represents an ncurses window with some content", "[ncur
                     REQUIRE(getbegy(stub_win) == start_y);
                     REQUIRE(getbegx(stub_win) == centered_x);
                 }
+
+                delwin(ref_win);
+            }
+
+            SECTION("anchoring") {
+                win_size_t ref_height = 10;
+                win_size_t ref_width = 40;
+                win_coord_t ref_start_y = GENERATE(0, 3);
+                win_coord_t ref_start_x = GENERATE(0, 3);
+                WINDOW *ref_win = newwin(ref_height, ref_width, ref_start_y, ref_start_x);
+                win_coord_t anchored_y, anchored_x;
+
+                REQUIRE(ref_height >= height);
+                REQUIRE(ref_width >= width);
+                anchored_y = get_window_height(ref_win) - 1;
+                anchored_x = get_window_width(ref_win) - 1;
+
+                SECTION("vertically") {
+                    stub.anchor_y(ref_win);
+                    REQUIRE(getbegy(stub_win) == anchored_y);
+                    REQUIRE(getbegx(stub_win) == start_x);
+                }
+
+                SECTION("horizontally") {
+                    stub.anchor_x(ref_win);
+                    REQUIRE(getbegy(stub_win) == start_y);
+                    REQUIRE(getbegx(stub_win) == anchored_x);
+                }
+
+                delwin(ref_win);
             }
         }
     }
