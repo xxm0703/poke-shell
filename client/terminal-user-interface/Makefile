@@ -154,6 +154,11 @@ setup_testing:
 test: $(ALL_TEST_TARGETS)
 	@echo $(LOG_STAMP): All tests have been compiled successfully.
 
+# Execute all tests.
+run_all_tests:
+	$(foreach test,$(shell find $(TEST_OUT)/ -type f),./$(test)$(NEWLINE))
+	@echo $(LOG_STAMP): All tests have been run.
+
 # Compile 'Catch2' tests' config source file to object file.
 $(TEST_CONFIG_OBJ): $(TEST_CONFIG_FILE)
 	mkdir -p $(TEST_OBJ)
