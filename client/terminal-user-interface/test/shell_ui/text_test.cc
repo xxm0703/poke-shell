@@ -18,7 +18,7 @@ bool colored = false;
 
 TEST_CASE("Display a static text", "[shell_ui::Text]") {
     SECTION("setup") {
-        __test::ncurses_helper::ncurses_setup();
+        __test::ncurses_setup();
     }
 
     WINDOW *win;
@@ -72,7 +72,7 @@ TEST_CASE("Display a static text", "[shell_ui::Text]") {
     }
 
     SECTION("teardown") {
-        __test::ncurses_helper::ncurses_teardown();
+        __test::ncurses_teardown();
     }
 }
 

@@ -45,6 +45,8 @@ TEST_HELPER_OBJ := $(TEST_OBJ)/$(TEST_HELPER_FILENAME).o
 # Targets which compile the module's unit tests.
 # All of them are run with 'make test'.
 ALL_TEST_TARGETS :=
+# Object stubs which are utilized to test an abstract class.
+TEST_STUBS = $(shell find $(INCLUDE)/__test/ -type f -name "*_stub.hh")
 
 # Compiler options.
 CXX := g++

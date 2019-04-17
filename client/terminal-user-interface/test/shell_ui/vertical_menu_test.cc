@@ -16,7 +16,7 @@ bool colored = false;
 
 TEST_CASE("Display a vertical multiple-choice menu", "[shell_ui::VerticalMenu]") {
     SECTION("setup") {
-        __test::ncurses_helper::ncurses_setup();
+        __test::ncurses_setup();
     }
 
     WINDOW *win;
@@ -78,7 +78,7 @@ TEST_CASE("Display a vertical multiple-choice menu", "[shell_ui::VerticalMenu]")
     }
 
     SECTION("teardown") {
-        __test::ncurses_helper::ncurses_teardown();
+        __test::ncurses_teardown();
     }
 }
 

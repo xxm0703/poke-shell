@@ -23,7 +23,7 @@ std_helper_test: $(TEST_CONFIG_OBJ) $(TEST_HELPER_OBJ) $(STD_HELPER__TEST_OBJ) $
 	@echo $(LOG_STAMP): $(STD_HELPER__MODULE_NAME) tests compilation successful.
 
 # Make target for 'std_helper' module's tests' object files.
-$(TEST_OBJ)/$(STD_HELPER__MODULE_NAME)/%_test.o: $(TEST)/$(STD_HELPER__MODULE_NAME)/%_test.cc $(SRC)/$(STD_HELPER__MODULE_NAME)/%.cc
+$(TEST_OBJ)/$(STD_HELPER__MODULE_NAME)/%_test.o: $(TEST)/$(STD_HELPER__MODULE_NAME)/%_test.cc $(SRC)/$(STD_HELPER__MODULE_NAME)/%.cc $(TEST_STUBS)
 	@# Create temporary directory for tests' object files.
 	@mkdir -p $(TEST_OBJ)/$(STD_HELPER__MODULE_NAME)
 	$(CXX) $(CXXFLAGS) -o $@ -c $<

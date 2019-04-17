@@ -1,5 +1,6 @@
 #include "catch2/catch.hpp"
 #include "__test/test_helper.hh"
+#include "__test/stubs/ncurses_object_stub.hh"
 #include "ncurses_helper/ncurses_object.hh"
 
 #include <stdexcept>
@@ -14,29 +15,11 @@ using terminal_user_interface::ncurses_helper::win_coord_t;
 using terminal_user_interface::ncurses_helper::win_size_t;
 using terminal_user_interface::ncurses_helper::get_window_height;
 using terminal_user_interface::ncurses_helper::get_window_width;
-
-namespace {
-    class NCursesObjectStub final: public NCursesObject {
-    public:
-        explicit NCursesObjectStub(win_size_t, win_size_t, 
-                win_coord_t = 0, win_coord_t = 0);
-        void mvwprint(win_coord_t = 0, win_coord_t = 0) noexcept final;
-    };  // class NCursesObjectStub
-
-    inline NCursesObjectStub::NCursesObjectStub(win_size_t height, win_size_t width, 
-            win_coord_t start_y, win_coord_t start_x)
-        : NCursesObject(height, width, start_y, start_x) {
-    }
-
-    inline void NCursesObjectStub::mvwprint(win_coord_t y, win_coord_t x) noexcept {
-        if (y) {}  // do nothing
-        if (x) {}  // do nothing
-    }
-}  // anonymous namespace
+using terminal_user_interface::__test::NCursesObjectStub;
 
 TEST_CASE("NCursesObject represents an ncurses window with some content", "[ncurses_helper::NCursesObject]") {
     SECTION("setup") {
-        __test::ncurses_helper::ncurses_setup();
+        __test::ncurses_setup();
     }
 
     SECTION("object construction") {
@@ -74,7 +57,7 @@ TEST_CASE("NCursesObject represents an ncurses window with some content", "[ncur
             SECTION("throws NCursesException on instance creation") {
                 REQUIRE_THROWS_AS(NCursesObjectStub(height, width, y, x), NCursesException);
                 REQUIRE_THROWS_WITH(NCursesObjectStub(height, width, y, x), 
-                        __test::ncurses_helper::ncurses_error_msg("newwin", nullptr));
+                        __test::ncurses_error_msg("newwin", nullptr));
             }
         }
     }
@@ -124,7 +107,7 @@ TEST_CASE("NCursesObject represents an ncurses window with some content", "[ncur
 
                 REQUIRE_THROWS_AS(stub.move_window(move_y, move_x), NCursesException);
                 REQUIRE_THROWS_WITH(stub.move_window(move_y, move_x), 
-                        __test::ncurses_helper::ncurses_error_msg("mvwin", ERR));
+                        __test::ncurses_error_msg("mvwin", ERR));
             }
         }
 
@@ -291,7 +274,7 @@ TEST_CASE("NCursesObject represents an ncurses window with some content", "[ncur
     }
 
     SECTION("teardown") {
-        __test::ncurses_helper::ncurses_teardown();
+        __test::ncurses_teardown();
     }
 }
 

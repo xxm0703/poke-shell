@@ -1,5 +1,6 @@
 #include "catch2/catch.hpp"
 #include "__test/test_helper.hh"
+#include "__test/stubs/ncurses_menu_object_stub.hh"
 #include "ncurses_helper/ncurses_menu_object.hh"
 
 #include <vector>
@@ -10,46 +11,11 @@ using namespace terminal_user_interface;
 using namespace terminal_user_interface::ncurses_helper;
 using terminal_user_interface::ncurses_helper::win_coord_t;
 using terminal_user_interface::ncurses_helper::win_size_t;
-
-namespace {
-    class NCursesMenuObjectStub final: public NCursesMenuObject {
-    public:
-        explicit NCursesMenuObjectStub(const std::vector<std::string>&, 
-                win_size_t = 0, win_size_t = 0, win_coord_t = 0, win_coord_t = 0);
-        void mvwprint(win_coord_t, win_coord_t) final;
-    private:
-        win_size_t calc_height(win_size_t, const std::vector<std::string>&) const noexcept final;
-        win_size_t calc_width(win_size_t, const std::vector<std::string>&) const noexcept final;
-    };  // class NCursesMenuObjectStub
-
-    inline NCursesMenuObjectStub::NCursesMenuObjectStub(const std::vector<std::string>& options,
-            win_size_t height, win_size_t width, win_coord_t start_y, win_coord_t start_x)
-        : NCursesMenuObject(options, 
-                calc_height(height, options), calc_width(width, options), 
-                start_y, start_x) {
-    }
-
-    inline void NCursesMenuObjectStub::mvwprint(win_coord_t y, win_coord_t x) {
-        if (y) {}  // do nothing
-        if (x) {}  // do nothing
-    }
-
-    inline win_size_t NCursesMenuObjectStub::calc_height(win_size_t height,
-            const std::vector<std::string>& options) const noexcept {
-        if (options.empty()) {}  // do nothing
-        return height;
-    }
-
-    inline win_size_t NCursesMenuObjectStub::calc_width(win_size_t width,
-            const std::vector<std::string>& options) const noexcept {
-        if (options.empty()) {}  // do nothing
-        return width;
-    }
-}  // anonymous namespace
+using terminal_user_interface::__test::NCursesMenuObjectStub;
 
 TEST_CASE("NCursesMenuObject extends NCursesObject, providing a selectable menu as its content", "[ncurses_helper::NCursesMenuObject]") {
     SECTION("setup") {
-        __test::ncurses_helper::ncurses_setup();
+        __test::ncurses_setup();
     }
 
     std::vector<std::string> options{"Start", "Exit", "Credits"};
@@ -135,6 +101,6 @@ TEST_CASE("NCursesMenuObject extends NCursesObject, providing a selectable menu 
     }
 
     SECTION("teardown") {
-        __test::ncurses_helper::ncurses_teardown();
+        __test::ncurses_teardown();
     }
 }

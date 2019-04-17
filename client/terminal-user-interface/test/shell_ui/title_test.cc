@@ -12,7 +12,7 @@ bool colored = false;
 
 TEST_CASE("Display the title of the game", "[shell_ui::Title]") {
     SECTION("setup") {
-        __test::ncurses_helper::ncurses_setup();
+        __test::ncurses_setup();
     }
 
     WINDOW *win;
@@ -56,7 +56,7 @@ TEST_CASE("Display the title of the game", "[shell_ui::Title]") {
     }
 
     SECTION("teardown") {
-        __test::ncurses_helper::ncurses_teardown();
+        __test::ncurses_teardown();
     }
 }
 

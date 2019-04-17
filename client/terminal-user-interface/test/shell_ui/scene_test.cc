@@ -1,5 +1,7 @@
 #include "catch2/catch.hpp"
 #include "__test/test_helper.hh"
+#include "__test/stubs/ncurses_object_stub.hh"
+#include "__test/stubs/scene_stub.hh"
 #include "shell_ui/scene.hh"
 
 #include <memory>
@@ -13,68 +15,14 @@ using namespace terminal_user_interface::shell_ui;
 using terminal_user_interface::ncurses_helper::win_coord_t;
 using terminal_user_interface::ncurses_helper::win_size_t;
 using terminal_user_interface::ncurses_helper::NCursesObject;
+using terminal_user_interface::__test::NCursesObjectStub;
+using terminal_user_interface::__test::SceneStub;
 
 bool colored = false;
 
-namespace {
-    class SceneStub final: Scene {
-    public:
-        void init() final;
-        void update() final;
-        void destroy() final;
-        std::shared_ptr<NCursesObject> _ex_get_scene_object(
-                const std::string&) const;
-        void _ex_add_scene_object(const std::string&, 
-                std::shared_ptr<NCursesObject>);
-    };  // class SceneStub
-
-    class NCursesObjectStub final: public NCursesObject {
-    public:
-        explicit NCursesObjectStub(win_size_t, win_size_t, 
-                win_coord_t = 0, win_coord_t = 0);
-        void mvwprint(win_coord_t = 0, win_coord_t = 0) noexcept final;
-    };  // class NCursesObjectStub
-
-
-    inline void SceneStub::init() {
-        // do nothing
-    }
-
-    inline void SceneStub::update() {
-        // do nothing
-    }
-
-    inline void SceneStub::destroy() {
-        // do nothing
-    }
-
-    inline std::shared_ptr<NCursesObject> SceneStub::_ex_get_scene_object(
-            const std::string& name) const {
-        return get_scene_object(name);
-    }
-
-    inline void SceneStub::_ex_add_scene_object(const std::string& name, 
-            std::shared_ptr<NCursesObject> scene_object) {
-        add_scene_object(name, scene_object);
-    }
-
-    inline NCursesObjectStub::NCursesObjectStub(win_size_t height, win_size_t width, 
-            win_coord_t start_y, win_coord_t start_x)
-        : NCursesObject(height, width, start_y, start_x) {
-    }
-
-    inline void NCursesObjectStub::mvwprint(win_coord_t y, win_coord_t x) noexcept {
-        if (y) {}  // do nothing
-        if (x) {}  // do nothing
-    }
-}  // anonymous namespace
-
-namespace {
-}  // anonymous namespace
-
 TEST_CASE("A Scene has multiple NCursesObjects, which are controlled with independent logic", "[shell-ui::Scene]") {
     SECTION("setup") {
-        __test::ncurses_helper::ncurses_setup();
+        __test::ncurses_setup();
     }
 
     SECTION("Can add and retrieve scene objects") {
@@ -100,7 +48,7 @@ TEST_CASE("A Scene has multiple NCursesObjects, which are controlled with indepe
     }
 
     SECTION("teardown") {
-        __test::ncurses_helper::ncurses_teardown();
+        __test::ncurses_teardown();
     }
 }
 

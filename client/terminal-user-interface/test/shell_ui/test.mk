@@ -24,7 +24,7 @@ shell_ui_test: $(TEST_CONFIG_OBJ) $(TEST_HELPER_OBJ) $(SHELL_UI__OBJ) $(SHELL_UI
 	@echo $(LOG_STAMP): $(SHELL_UI__MODULE_NAME) tests compilation successful.
 
 # Make target for 'shell_ui' module's tests' object files.
-$(TEST_OBJ)/$(SHELL_UI__MODULE_NAME)/%_test.o: $(TEST)/$(SHELL_UI__MODULE_NAME)/%_test.cc $(SRC)/$(SHELL_UI__MODULE_NAME)/%.cc
+$(TEST_OBJ)/$(SHELL_UI__MODULE_NAME)/%_test.o: $(TEST)/$(SHELL_UI__MODULE_NAME)/%_test.cc $(SRC)/$(SHELL_UI__MODULE_NAME)/%.cc $(TEST_STUBS)
 	@# Create temporary directory for tests' object files.
 	@mkdir -p $(TEST_OBJ)/$(SHELL_UI__MODULE_NAME)
 	$(CXX) $(CXXFLAGS) -o $@ -c $<

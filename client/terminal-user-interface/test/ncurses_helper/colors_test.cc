@@ -13,7 +13,7 @@ using namespace terminal_user_interface::ncurses_helper;
 
 TEST_CASE("Present interface to map names (strings) to ncurses color pairs", "[ncurses]") {
     SECTION("setup") {
-        __test::ncurses_helper::ncurses_setup();
+        __test::ncurses_setup();
     }
 
     SECTION("can successfully add a string-to-color-pair association and retrive \
@@ -40,7 +40,7 @@ TEST_CASE("Present interface to map names (strings) to ncurses color pairs", "[n
     }
 
     SECTION("teardown") {
-        __test::ncurses_helper::ncurses_teardown();
+        __test::ncurses_teardown();
     }
 }
 

@@ -10,7 +10,7 @@ using namespace terminal_user_interface::ncurses_helper;
 
 TEST_CASE("Provide helper functions for use with ncurses windows", "[ncurses]") {
     SECTION("setup") {
-        __test::ncurses_helper::ncurses_setup();
+        __test::ncurses_setup();
     }
 
     SECTION("can retrieve the dimensions of an ncurses WINDOW") {
@@ -45,21 +45,21 @@ TEST_CASE("Provide helper functions for use with ncurses windows", "[ncurses]") 
 
             REQUIRE_THROWS_AS(get_window_height(win), NCursesException);
             REQUIRE_THROWS_WITH(get_window_height(win), 
-                    __test::ncurses_helper::ncurses_error_msg("getmaxy", ERR));
+                    __test::ncurses_error_msg("getmaxy", ERR));
             REQUIRE_THROWS_AS(get_window_width(win), NCursesException);
             REQUIRE_THROWS_WITH(get_window_width(win), 
-                    __test::ncurses_helper::ncurses_error_msg("getmaxx", ERR));
+                    __test::ncurses_error_msg("getmaxx", ERR));
             REQUIRE_THROWS_AS(get_window_begy(win), NCursesException);
             REQUIRE_THROWS_WITH(get_window_begy(win), 
-                    __test::ncurses_helper::ncurses_error_msg("getbegy", ERR));
+                    __test::ncurses_error_msg("getbegy", ERR));
             REQUIRE_THROWS_AS(get_window_begx(win), NCursesException);
             REQUIRE_THROWS_WITH(get_window_begx(win), 
-                    __test::ncurses_helper::ncurses_error_msg("getbegx", ERR));
+                    __test::ncurses_error_msg("getbegx", ERR));
         }
     }
 
     SECTION("teardown") {
-        __test::ncurses_helper::ncurses_teardown();
+        __test::ncurses_teardown();
     }
 }
 

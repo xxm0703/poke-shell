@@ -24,7 +24,7 @@ ncurses_helper_test: $(TEST_CONFIG_OBJ) $(TEST_HELPER_OBJ) $(NCURSES_HELPER__TES
 	@echo $(LOG_STAMP): $(NCURSES_HELPER__MODULE_NAME) tests compilation successful.
 
 # Make target for 'ncurses_helper' module's tests' object files.
-$(TEST_OBJ)/$(NCURSES_HELPER__MODULE_NAME)/%_test.o: $(TEST)/$(NCURSES_HELPER__MODULE_NAME)/%_test.cc $(SRC)/$(NCURSES_HELPER__MODULE_NAME)/%.cc
+$(TEST_OBJ)/$(NCURSES_HELPER__MODULE_NAME)/%_test.o: $(TEST)/$(NCURSES_HELPER__MODULE_NAME)/%_test.cc $(SRC)/$(NCURSES_HELPER__MODULE_NAME)/%.cc $(TEST_STUBS)
 	@# Create temporary directory for tests' object files.
 	@mkdir -p $(TEST_OBJ)/$(NCURSES_HELPER__MODULE_NAME)
 	$(CXX) $(CXXFLAGS) -o $@ -c $<
