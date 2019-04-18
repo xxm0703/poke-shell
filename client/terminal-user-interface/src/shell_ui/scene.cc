@@ -1,6 +1,7 @@
 #include "shell_ui/scene.hh"
 
 #include <memory>
+#include <unordered_map>
 #include <string>
 #include <stdexcept>
 
@@ -23,6 +24,10 @@ namespace terminal_user_interface {
             if (scene_objects_.find(name) != scene_objects_.end())
                 throw std::runtime_error("scene object already exists");
             scene_objects_.insert(std::make_pair(name, scene_object));
+        }
+
+        Scene::scene_objects_map_t& Scene::all_scene_objects() noexcept {
+            return scene_objects_;
         }
     }  // namespace shell_ui
 }  // namespace terminal_user_interface

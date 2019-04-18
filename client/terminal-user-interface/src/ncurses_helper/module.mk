@@ -5,8 +5,8 @@ NCURSES_HELPER__MODULE_NAME := ncurses_helper
 # Each implementation file ('.cc' file) in this module depends on the interface
 # which each header provides. Source files are recompiled if any one of these 
 # headers is altered.
-NCURSES_HELPER__INCLUDE := colors.hh windows.hh ncurses_object.hh ncurses_exception.hh \
-	ncurses_menu_object.hh
+NCURSES_HELPER__INCLUDE := input.hh colors.hh windows.hh ncurses_object.hh \
+	ncurses_exception.hh ncurses_menu_object.hh
 NCURSES_HELPER__INCLUDE := $(patsubst %,$(INCLUDE)/$(NCURSES_HELPER__MODULE_NAME)/%,$(NCURSES_HELPER__INCLUDE))
 
 # C++ source files of 'ncurses_helper' module.
@@ -17,6 +17,10 @@ NCURSES_HELPER__SRC := $(patsubst %,$(SRC)/$(NCURSES_HELPER__MODULE_NAME)/%,$(NC
 
 # Object files of 'ncurses_helper' helper module.
 NCURSES_HELPER__OBJ := $(patsubst $(SRC)/%.cc,$(OBJ)/%.o,$(NCURSES_HELPER__SRC))
+
+# Create required subdirectories for module's object files
+NCURSES_HELPER__OBJ_DIRS := $(subst $(SRC),$(OBJ),$(shell find $(SRC)/$(NCURSES_HELPER__MODULE_NAME)/ -type d))
+$(foreach obj_dir,$(NCURSES_HELPER__OBJ_DIRS),$(shell mkdir -p $(obj_dir)))
 
 # Include helper module's source files in the project.
 HELPER_SRC += $(NCURSES_HELPER__SRC)

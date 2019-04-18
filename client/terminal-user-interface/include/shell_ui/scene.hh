@@ -10,6 +10,9 @@
 namespace terminal_user_interface {
     namespace shell_ui {
         class Scene {
+            using scene_objects_map_t = std::unordered_map<std::string, 
+                  std::shared_ptr<ncurses_helper::NCursesObject>>;
+
         public:
             virtual ~Scene() noexcept;
             virtual void init() = 0;
@@ -20,9 +23,10 @@ namespace terminal_user_interface {
                     const std::string&) const;
             void add_scene_object(const std::string&, 
                     std::shared_ptr<ncurses_helper::NCursesObject>);
+            // TODO: is this even useful
+            scene_objects_map_t& all_scene_objects() noexcept;
         private:
-            std::unordered_map<std::string, 
-                std::shared_ptr<ncurses_helper::NCursesObject>> scene_objects_;
+            scene_objects_map_t scene_objects_;
         };  // class Scene
     }  // namespace shell_ui
 }  // namespace terminal_user_interface

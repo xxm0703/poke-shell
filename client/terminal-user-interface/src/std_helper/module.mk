@@ -16,6 +16,10 @@ STD_HELPER__SRC := $(patsubst %,$(SRC)/$(STD_HELPER__MODULE_NAME)/%,$(STD_HELPER
 # Object files of 'std_helper' helper module.
 STD_HELPER__OBJ := $(patsubst $(SRC)/%.cc,$(OBJ)/%.o,$(STD_HELPER__SRC))
 
+# Create required subdirectories for module's object files
+STD_HELPER__OBJ_DIRS := $(subst $(SRC),$(OBJ),$(shell find $(SRC)/$(STD_HELPER__MODULE_NAME)/ -type d))
+$(foreach obj_dir,$(STD_HELPER__OBJ_DIRS),$(shell mkdir -p $(obj_dir)))
+
 # Include helper module's source files in the project.
 HELPER_SRC += $(STD_HELPER__SRC)
 

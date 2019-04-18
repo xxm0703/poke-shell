@@ -11,7 +11,7 @@ namespace terminal_user_interface {
             explicit NCursesObject(win_size_t, win_size_t, 
                     win_coord_t = 0, win_coord_t = 0);
             virtual ~NCursesObject() noexcept;
-            virtual void mvwprint(win_coord_t, win_coord_t) = 0;
+            virtual void mvwprint(win_coord_t = 0, win_coord_t = 0) = 0;
             NCursesObject& refresh_window() noexcept;
             NCursesObject& clear_window() noexcept;
             NCursesObject& move_window(win_coord_t, win_coord_t);
