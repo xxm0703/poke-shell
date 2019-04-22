@@ -1,3 +1,6 @@
+#include <chrono>
+#include <thread>
+
 #include <ncurses.h>
 #include "shell_ui/title.hh"
 #include "shell_ui/scene.hh"
@@ -27,8 +30,7 @@ int main() {
 
     while (!quit) {
         menu.update();
-        if (getch() == 'q')
-            break;
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000 / 6));
     }
 
     menu.destroy();

@@ -15,6 +15,7 @@ using terminal_user_interface::ncurses_helper::get_window_begy;
 using terminal_user_interface::ncurses_helper::get_window_begx;
 
 bool colored = false;
+bool quit = false;
 
 TEST_CASE("Display a static text", "[shell_ui::Text]") {
     SECTION("setup") {
