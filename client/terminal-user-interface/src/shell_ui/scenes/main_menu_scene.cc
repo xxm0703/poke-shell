@@ -3,6 +3,7 @@
 #include <memory>
 
 #include <ncurses.h>
+#include "shell_ui/config.hh"
 #include "shell_ui/title.hh"
 #include "shell_ui/text.hh"
 #include "shell_ui/vertical_menu.hh"
@@ -10,8 +11,6 @@
 #include "std_helper/string.hh"
 
 using terminal_user_interface::ncurses_helper::NCursesObject;
-
-extern bool quit;
 
 namespace terminal_user_interface {
     namespace shell_ui {
@@ -57,9 +56,9 @@ namespace terminal_user_interface {
         }
 
         void MainMenuScene::read_input() const {
-            while (!quit) {
+            while (!config::quit) {
                 if (getch() == 'q')
-                    quit = true;  // quit the program
+                    config::quit = true;  // quit the program
             }
         }
     }  // namespace shell_ui

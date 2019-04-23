@@ -12,9 +12,6 @@ using terminal_user_interface::ncurses_helper::win_size_t;
 using terminal_user_interface::ncurses_helper::win_coord_t;
 using terminal_user_interface::ncurses_helper::cur_coord_t;
 
-bool colored = false;
-bool quit = false;
-
 TEST_CASE("Display a vertical multiple-choice menu", "[shell_ui::VerticalMenu]") {
     SECTION("setup") {
         __test::ncurses_setup();

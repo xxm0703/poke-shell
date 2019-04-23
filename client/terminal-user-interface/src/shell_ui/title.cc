@@ -3,6 +3,7 @@
 #include <string>
 
 #include <ncurses.h>
+#include "shell_ui/config.hh"
 #include "ncurses_helper/colors.hh"
 #include "ncurses_helper/windows.hh"
 
@@ -10,8 +11,6 @@ using terminal_user_interface::ncurses_helper::color_pair_t;
 using terminal_user_interface::ncurses_helper::win_size_t;
 using terminal_user_interface::ncurses_helper::win_coord_t;
 using terminal_user_interface::ncurses_helper::cur_coord_t;
-
-extern bool colored;
 
 namespace terminal_user_interface {
     namespace shell_ui {
@@ -42,14 +41,14 @@ namespace terminal_user_interface {
 
             int ch;
             WINDOW *win = get_win();
-            color_pair_t color_pair = colored ? ncurses_helper::get_color_pair(
+            color_pair_t color_pair = config::colored ? ncurses_helper::get_color_pair(
                         letter_color_pair_name) : 0;
 
             for (register win_size_t row = 0; row < nrows; ++row) {
                 wmove(win, row, 0);
                 for (register win_size_t col = 0; col < row_len; ++col) {
                     ch = title[row][col];
-                    if (colored && ((row == 1 || row == nrows - 2)
+                    if (config::colored && ((row == 1 || row == nrows - 2)
                             && (col % card_len == upper_letter_index 
                                 || col % card_len == lower_letter_index))) {
                         ch |= A_BOLD;  // bold title letter

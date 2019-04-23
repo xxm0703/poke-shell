@@ -18,9 +18,6 @@ using terminal_user_interface::ncurses_helper::NCursesObject;
 using terminal_user_interface::__test::NCursesObjectStub;
 using terminal_user_interface::__test::SceneStub;
 
-bool colored = false;
-bool quit = false;
-
 TEST_CASE("A Scene has multiple NCursesObjects, which are controlled with independent logic", "[shell-ui::Scene]") {
     SECTION("setup") {
         __test::ncurses_setup();
