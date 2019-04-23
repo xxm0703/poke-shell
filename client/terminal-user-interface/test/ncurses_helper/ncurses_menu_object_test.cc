@@ -9,8 +9,6 @@
 
 using namespace terminal_user_interface;
 using namespace terminal_user_interface::ncurses_helper;
-using terminal_user_interface::ncurses_helper::win_coord_t;
-using terminal_user_interface::ncurses_helper::win_size_t;
 using terminal_user_interface::__test::NCursesMenuObjectStub;
 
 TEST_CASE("NCursesMenuObject extends NCursesObject, providing a selectable menu as its content", "[ncurses_helper::NCursesMenuObject]") {
@@ -27,8 +25,8 @@ TEST_CASE("NCursesMenuObject extends NCursesObject, providing a selectable menu 
             NCursesMenuObjectStub stub(options);
             stub_win = stub.get_win();
 
-            REQUIRE(getbegy(stub_win) == 0);
-            REQUIRE(getbegx(stub_win) == 0);
+            REQUIRE(get_window_begy(stub_win) == 0);
+            REQUIRE(get_window_begx(stub_win) == 0);
         }
 
         SECTION("with custom sizes") {
@@ -37,8 +35,8 @@ TEST_CASE("NCursesMenuObject extends NCursesObject, providing a selectable menu 
 
             NCursesMenuObjectStub stub(options, height, width);
             stub_win = stub.get_win();
-            REQUIRE(getmaxy(stub_win) == height);
-            REQUIRE(getmaxx(stub_win) == width);
+            REQUIRE(get_window_height(stub_win) == height);
+            REQUIRE(get_window_width(stub_win) == width);
         }
         
         SECTION("with custom coordinates") {
@@ -47,8 +45,8 @@ TEST_CASE("NCursesMenuObject extends NCursesObject, providing a selectable menu 
 
             NCursesMenuObjectStub stub(options, 0, 0, start_y, start_x);
             stub_win = stub.get_win();
-            REQUIRE(getbegy(stub_win) == start_y);
-            REQUIRE(getbegx(stub_win) == start_x);
+            REQUIRE(get_window_begy(stub_win) == start_y);
+            REQUIRE(get_window_begx(stub_win) == start_x);
         }
 
         SECTION("can get selected option") {

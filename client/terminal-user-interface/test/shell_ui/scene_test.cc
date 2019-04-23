@@ -8,13 +8,8 @@
 #include <string>
 #include <stdexcept>
 
-#include "ncurses_helper/ncurses_object.hh"
-
 using namespace terminal_user_interface;
 using namespace terminal_user_interface::shell_ui;
-using terminal_user_interface::ncurses_helper::win_coord_t;
-using terminal_user_interface::ncurses_helper::win_size_t;
-using terminal_user_interface::ncurses_helper::NCursesObject;
 using terminal_user_interface::__test::NCursesObjectStub;
 using terminal_user_interface::__test::SceneStub;
 

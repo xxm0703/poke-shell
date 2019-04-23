@@ -2,11 +2,17 @@
 #include "__test/test_helper.hh"
 #include "shell_ui/title.hh"
 
+#include "ncurses_helper/windows.hh"
+
 using namespace terminal_user_interface;
 using namespace terminal_user_interface::shell_ui;
 using terminal_user_interface::ncurses_helper::win_size_t;
 using terminal_user_interface::ncurses_helper::win_coord_t;
 using terminal_user_interface::ncurses_helper::cur_coord_t;
+using terminal_user_interface::ncurses_helper::get_window_height;
+using terminal_user_interface::ncurses_helper::get_window_width;
+using terminal_user_interface::ncurses_helper::get_window_begy;
+using terminal_user_interface::ncurses_helper::get_window_begx;
 
 TEST_CASE("Display the title of the game", "[shell_ui::Title]") {
     SECTION("setup") {
@@ -19,8 +25,8 @@ TEST_CASE("Display the title of the game", "[shell_ui::Title]") {
         SECTION("with default arguments") {
             Title title;
             win = title.get_win();
-            REQUIRE(getbegy(win) == 0);
-            REQUIRE(getbegx(win) == 0);
+            REQUIRE(get_window_begy(win) == 0);
+            REQUIRE(get_window_begx(win) == 0);
         }
 
         SECTION("with custom coordinates") {
@@ -29,8 +35,8 @@ TEST_CASE("Display the title of the game", "[shell_ui::Title]") {
 
             Title title(start_y, start_x);
             win = title.get_win();
-            REQUIRE(getbegy(win) == start_y);
-            REQUIRE(getbegx(win) == start_x);
+            REQUIRE(get_window_begy(win) == start_y);
+            REQUIRE(get_window_begx(win) == start_x);
         }
 
         SECTION("defaults dimensions of window to title sting dimensions") {
@@ -39,8 +45,8 @@ TEST_CASE("Display the title of the game", "[shell_ui::Title]") {
 
             Title title(start_y, start_x);
             win = title.get_win();
-            REQUIRE(getmaxy(win) == Title::nrows);
-            REQUIRE(getmaxx(win) == Title::row_len);
+            REQUIRE(get_window_height(win) == Title::nrows);
+            REQUIRE(get_window_width(win) == Title::row_len);
         }
     }
 

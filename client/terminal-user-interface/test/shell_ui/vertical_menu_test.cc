@@ -4,6 +4,7 @@
 
 #include <algorithm>
 
+#include "ncurses_helper/windows.hh"
 #include "std_helper/string.hh"
 
 using namespace terminal_user_interface;
@@ -11,6 +12,10 @@ using namespace terminal_user_interface::shell_ui;
 using terminal_user_interface::ncurses_helper::win_size_t;
 using terminal_user_interface::ncurses_helper::win_coord_t;
 using terminal_user_interface::ncurses_helper::cur_coord_t;
+using terminal_user_interface::ncurses_helper::get_window_height;
+using terminal_user_interface::ncurses_helper::get_window_width;
+using terminal_user_interface::ncurses_helper::get_window_begy;
+using terminal_user_interface::ncurses_helper::get_window_begx;
 
 TEST_CASE("Display a vertical multiple-choice menu", "[shell_ui::VerticalMenu]") {
     SECTION("setup") {
@@ -25,8 +30,8 @@ TEST_CASE("Display a vertical multiple-choice menu", "[shell_ui::VerticalMenu]")
         SECTION("with default arguments") {
             VerticalMenu menu(options);
             win = menu.get_win();
-            REQUIRE(getbegy(win) == 0);
-            REQUIRE(getbegx(win) == 0);
+            REQUIRE(get_window_begy(win) == 0);
+            REQUIRE(get_window_begx(win) == 0);
         }
         
         SECTION("fulfills the minimum width and height requirements") {
@@ -35,8 +40,8 @@ TEST_CASE("Display a vertical multiple-choice menu", "[shell_ui::VerticalMenu]")
 
             VerticalMenu menu(options, height, width);
             win = menu.get_win();
-            REQUIRE(getmaxy(win) >= options.size());
-            REQUIRE(getmaxx(win) >= longest_option.length());
+            REQUIRE(get_window_height(win) >= options.size());
+            REQUIRE(get_window_width(win) >= longest_option.length());
         }
 
         SECTION("always evens out the width") {
@@ -47,8 +52,8 @@ TEST_CASE("Display a vertical multiple-choice menu", "[shell_ui::VerticalMenu]")
 
             VerticalMenu menu(options, 0, width);
             win = menu.get_win();
-            REQUIRE(getmaxx(win) % 2 == 0);
-            REQUIRE(getmaxx(win) == expected_width);
+            REQUIRE(get_window_width(win) % 2 == 0);
+            REQUIRE(get_window_width(win) == expected_width);
         }
     }
 

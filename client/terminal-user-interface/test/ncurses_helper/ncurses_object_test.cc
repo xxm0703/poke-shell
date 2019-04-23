@@ -11,10 +11,6 @@
 
 using namespace terminal_user_interface;
 using namespace terminal_user_interface::ncurses_helper;
-using terminal_user_interface::ncurses_helper::win_coord_t;
-using terminal_user_interface::ncurses_helper::win_size_t;
-using terminal_user_interface::ncurses_helper::get_window_height;
-using terminal_user_interface::ncurses_helper::get_window_width;
 using terminal_user_interface::__test::NCursesObjectStub;
 
 TEST_CASE("NCursesObject represents an ncurses window with some content", "[ncurses_helper::NCursesObject]") {
@@ -92,13 +88,13 @@ TEST_CASE("NCursesObject represents an ncurses window with some content", "[ncur
                 win_coord_t move_y = 9;
                 win_coord_t move_x = 8;
 
-                REQUIRE(getbegy(stub_win) == start_y);
-                REQUIRE(getbegx(stub_win) == start_x);
+                REQUIRE(get_window_begy(stub_win) == start_y);
+                REQUIRE(get_window_begx(stub_win) == start_x);
 
                 stub.move_window(move_y, move_x);
                 // ensure stub window's cursor has been reset
-                REQUIRE(getbegy(stub_win) == move_y);
-                REQUIRE(getbegx(stub_win) == move_x);
+                REQUIRE(get_window_begy(stub_win) == move_y);
+                REQUIRE(get_window_begx(stub_win) == move_x);
             }
 
             SECTION("throws error on invalid coordinates") {
@@ -126,30 +122,30 @@ TEST_CASE("NCursesObject represents an ncurses window with some content", "[ncur
                 centered_x = ref_start_x + ref_width / 2 - width / 2;
 
                 SECTION("in both dimensions") {
-                    REQUIRE(getbegy(stub_win) == start_y);
-                    REQUIRE(getbegx(stub_win) == start_x);
+                    REQUIRE(get_window_begy(stub_win) == start_y);
+                    REQUIRE(get_window_begx(stub_win) == start_x);
 
                     stub.center_window(ref_win, true, true);
-                    REQUIRE(getbegy(stub_win) == centered_y);
-                    REQUIRE(getbegx(stub_win) == centered_x);
+                    REQUIRE(get_window_begy(stub_win) == centered_y);
+                    REQUIRE(get_window_begx(stub_win) == centered_x);
                 }
 
                 SECTION("only vertically") {
-                    REQUIRE(getbegy(stub_win) == start_y);
-                    REQUIRE(getbegx(stub_win) == start_x);
+                    REQUIRE(get_window_begy(stub_win) == start_y);
+                    REQUIRE(get_window_begx(stub_win) == start_x);
 
                     stub.center_window(ref_win, true, false);
-                    REQUIRE(getbegy(stub_win) == centered_y);
-                    REQUIRE(getbegx(stub_win) == start_x);
+                    REQUIRE(get_window_begy(stub_win) == centered_y);
+                    REQUIRE(get_window_begx(stub_win) == start_x);
                 }
 
                 SECTION("only horizontally") {
-                    REQUIRE(getbegy(stub_win) == start_y);
-                    REQUIRE(getbegx(stub_win) == start_x);
+                    REQUIRE(get_window_begy(stub_win) == start_y);
+                    REQUIRE(get_window_begx(stub_win) == start_x);
 
                     stub.center_window(ref_win, false, true);
-                    REQUIRE(getbegy(stub_win) == start_y);
-                    REQUIRE(getbegx(stub_win) == centered_x);
+                    REQUIRE(get_window_begy(stub_win) == start_y);
+                    REQUIRE(get_window_begx(stub_win) == centered_x);
                 }
 
                 delwin(ref_win);
@@ -171,11 +167,11 @@ TEST_CASE("NCursesObject represents an ncurses window with some content", "[ncur
                 SECTION("with valid input") {
                     win_coord_t move_y = 5;
                     REQUIRE_NOTHROW(stub.move_y(move_y));
-                    REQUIRE(getbegy(stub_win) == move_y);
+                    REQUIRE(get_window_begy(stub_win) == move_y);
 
                     win_coord_t move_x = 7;
                     REQUIRE_NOTHROW(stub.move_x(move_x));
-                    REQUIRE(getbegx(stub_win) == move_x);
+                    REQUIRE(get_window_begx(stub_win) == move_x);
                 }
 
                 SECTION("with invalid input") {
@@ -193,13 +189,13 @@ TEST_CASE("NCursesObject represents an ncurses window with some content", "[ncur
                     win_coord_t offset_y = 2;
                     stub.move_y(move_y);
                     REQUIRE_NOTHROW(stub.offset_y(offset_y));
-                    REQUIRE(getbegy(stub_win) == move_y + offset_y);
+                    REQUIRE(get_window_begy(stub_win) == move_y + offset_y);
 
                     win_coord_t move_x = 4;
                     win_coord_t offset_x = 4;
                     stub.move_x(move_x);
                     REQUIRE_NOTHROW(stub.offset_x(offset_x));
-                    REQUIRE(getbegx(stub_win) == move_x + offset_x);
+                    REQUIRE(get_window_begx(stub_win) == move_x + offset_x);
                 }
 
                 SECTION("with invalid input") {
@@ -230,14 +226,14 @@ TEST_CASE("NCursesObject represents an ncurses window with some content", "[ncur
 
                 SECTION("vertically") {
                     stub.center_y(ref_win);
-                    REQUIRE(getbegy(stub_win) == centered_y);
-                    REQUIRE(getbegx(stub_win) == start_x);
+                    REQUIRE(get_window_begy(stub_win) == centered_y);
+                    REQUIRE(get_window_begx(stub_win) == start_x);
                 }
 
                 SECTION("horizontally") {
                     stub.center_x(ref_win);
-                    REQUIRE(getbegy(stub_win) == start_y);
-                    REQUIRE(getbegx(stub_win) == centered_x);
+                    REQUIRE(get_window_begy(stub_win) == start_y);
+                    REQUIRE(get_window_begx(stub_win) == centered_x);
                 }
 
                 delwin(ref_win);
@@ -258,14 +254,14 @@ TEST_CASE("NCursesObject represents an ncurses window with some content", "[ncur
 
                 SECTION("vertically") {
                     stub.anchor_y(ref_win);
-                    REQUIRE(getbegy(stub_win) == anchored_y);
-                    REQUIRE(getbegx(stub_win) == start_x);
+                    REQUIRE(get_window_begy(stub_win) == anchored_y);
+                    REQUIRE(get_window_begx(stub_win) == start_x);
                 }
 
                 SECTION("horizontally") {
                     stub.anchor_x(ref_win);
-                    REQUIRE(getbegy(stub_win) == start_y);
-                    REQUIRE(getbegx(stub_win) == anchored_x);
+                    REQUIRE(get_window_begy(stub_win) == start_y);
+                    REQUIRE(get_window_begx(stub_win) == anchored_x);
                 }
 
                 delwin(ref_win);

@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "std_helper/string.hh"
+#include "ncurses_helper/windows.hh"
 
 using namespace terminal_user_interface;
 using namespace terminal_user_interface::shell_ui;
