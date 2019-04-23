@@ -32,27 +32,34 @@ namespace terminal_user_interface {
                 sprintf(msg, "invalid option index parsed (%d)", option_index);
                 throw std::invalid_argument(msg);
             }
-
             selected_option_ = option_index;
         }
 
-        void NCursesMenuObject::select_next_option() {
-            if (++selected_option_ == options_.size()) {
-                static constexpr size_t err_msg_size = 50;
-                char msg[err_msg_size];
+        void NCursesMenuObject::select_next_option(bool erroneous) {
+            if (static_cast<size_t>(selected_option_ + 1) == options_.size()) {
+                if (erroneous) {
+                    static constexpr size_t err_msg_size = 50;
+                    char msg[err_msg_size];
 
-                sprintf(msg, "cannot select next option (next is %d)", selected_option_);
-                throw std::invalid_argument(msg);
+                    sprintf(msg, "cannot select next option (next is %d)", selected_option_);
+                    throw std::invalid_argument(msg);
+                }
+            } else {
+                ++selected_option_;
             }
         }
 
-        void NCursesMenuObject::select_previous_option() {
-            if (selected_option_-- == 0) {
-                static constexpr size_t err_msg_size = 50;
-                char msg[err_msg_size];
+        void NCursesMenuObject::select_previous_option(bool erroneous) {
+            if (selected_option_ == 0) {
+                if (erroneous) {
+                    static constexpr size_t err_msg_size = 50;
+                    char msg[err_msg_size];
 
-                sprintf(msg, "cannot select previous option (previous is %d)", selected_option_);
-                throw std::invalid_argument(msg);
+                    sprintf(msg, "cannot select previous option (previous is %d)", selected_option_);
+                    throw std::invalid_argument(msg);
+                }
+            } else {
+                --selected_option_;
             }
         }
 

@@ -111,14 +111,25 @@ TEST_CASE("NCursesMenuObject extends NCursesObject, providing a selectable menu 
                 REQUIRE(stub.get_selected_option() == next_option);
             }
 
-            SECTION("throws error when it can't select the next option") {
+            SECTION("can't select the next option when there is none") {
                 menu_option_t last_option = options.size() - 1;
 
                 // Prerequisite: the last option is selected
                 stub.select_option(last_option);
                 REQUIRE(stub.get_selected_option() == last_option);
 
-                REQUIRE_THROWS_AS(stub.select_next_option(), std::invalid_argument);
+                REQUIRE_NOTHROW(stub.select_next_option(false));
+                REQUIRE(stub.get_selected_option() == last_option);
+            }
+
+            SECTION("throws error when marked as erroneous and it can't select the next option") {
+                menu_option_t last_option = options.size() - 1;
+
+                // Prerequisite: the last option is selected
+                stub.select_option(last_option);
+                REQUIRE(stub.get_selected_option() == last_option);
+
+                REQUIRE_THROWS_AS(stub.select_next_option(true), std::invalid_argument);
             }
         }
 
@@ -136,14 +147,25 @@ TEST_CASE("NCursesMenuObject extends NCursesObject, providing a selectable menu 
                 REQUIRE(stub.get_selected_option() == previous_option);
             }
 
-            SECTION("throws error when it can't select the previous option") {
+            SECTION("can't select the previous option when there is none") {
+                menu_option_t first_option = 0;
+
+                // Prerequisite: the last option is selected
+                stub.select_option(first_option);
+                REQUIRE(stub.get_selected_option() == first_option);
+
+                REQUIRE_NOTHROW(stub.select_previous_option(false));
+                REQUIRE(stub.get_selected_option() == first_option);
+            }
+
+            SECTION("throws error when marked as erroneous and it can't select the previous option") {
                 menu_option_t first_option = 0;
 
                 // Prerequisite: the first option is selected
                 stub.select_option(first_option);
                 REQUIRE(stub.get_selected_option() == first_option);
 
-                REQUIRE_THROWS_AS(stub.select_previous_option(), std::invalid_argument);
+                REQUIRE_THROWS_AS(stub.select_previous_option(true), std::invalid_argument);
             }
         }
     }
