@@ -11,8 +11,8 @@ NCURSES_HELPER__INCLUDE := $(patsubst %,$(INCLUDE)/$(NCURSES_HELPER__MODULE_NAME
 
 # C++ source files of 'ncurses_helper' module.
 # They are prepended their module's relative path to the main Makefile.
-NCURSES_HELPER__SRC := colors.cc windows.cc ncurses_object.cc ncurses_exception.cc \
-	ncurses_menu_object.cc
+NCURSES_HELPER__SRC := input.cc colors.cc windows.cc ncurses_object.cc \
+	ncurses_exception.cc ncurses_menu_object.cc
 NCURSES_HELPER__SRC := $(patsubst %,$(SRC)/$(NCURSES_HELPER__MODULE_NAME)/%,$(NCURSES_HELPER__SRC))
 
 # Object files of 'ncurses_helper' helper module.
