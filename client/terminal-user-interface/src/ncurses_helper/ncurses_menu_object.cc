@@ -36,6 +36,26 @@ namespace terminal_user_interface {
             selected_option_ = option_index;
         }
 
+        void NCursesMenuObject::select_next_option() {
+            if (++selected_option_ == options_.size()) {
+                static constexpr size_t err_msg_size = 50;
+                char msg[err_msg_size];
+
+                sprintf(msg, "cannot select next option (next is %d)", selected_option_);
+                throw std::invalid_argument(msg);
+            }
+        }
+
+        void NCursesMenuObject::select_previous_option() {
+            if (selected_option_-- == 0) {
+                static constexpr size_t err_msg_size = 50;
+                char msg[err_msg_size];
+
+                sprintf(msg, "cannot select previous option (previous is %d)", selected_option_);
+                throw std::invalid_argument(msg);
+            }
+        }
+
         void NCursesMenuObject::deselect() noexcept {
             selected_option_ = no_option_index;
         }

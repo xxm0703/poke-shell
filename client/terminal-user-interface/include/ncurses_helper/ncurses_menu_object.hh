@@ -17,6 +17,8 @@ namespace terminal_user_interface {
                     win_size_t = 0, win_size_t = 0, 
                     win_coord_t = 0, win_coord_t = 0);
             void select_option(menu_option_t);
+            void select_next_option();
+            void select_previous_option();
             void deselect() noexcept;
             bool is_selected() const noexcept;
             const std::vector<std::string>& get_options() const noexcept;
