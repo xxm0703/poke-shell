@@ -8,15 +8,16 @@
 #include "shell_ui/text.hh"
 #include "shell_ui/vertical_menu.hh"
 #include "ncurses_helper/ncurses_object.hh"
+#include "ncurses_helper/ncurses_menu_object.hh"
+#include "ncurses_helper/input.hh"
 #include "std_helper/string.hh"
 
 using terminal_user_interface::ncurses_helper::NCursesObject;
+using terminal_user_interface::ncurses_helper::NCursesMenuObject;
 
 namespace terminal_user_interface {
     namespace shell_ui {
         void MainMenuScene::init() {
-            SceneWithInput::init();
-
             auto title_ptr = std::make_shared<Title>();
             add_scene_object("title", title_ptr);
 
@@ -25,9 +26,12 @@ namespace terminal_user_interface {
             auto menu_ptr = std::make_shared<VerticalMenu>(options, 
                     0, longest_option.length() * 2);
             add_scene_object("menu", menu_ptr);
+            menu_ptr->select_option(0);
 
             auto copyright_ptr = std::make_shared<Text>("Copyright (C) 2019 Martin Jordanov");
             add_scene_object("copyright", copyright_ptr);
+
+            SceneWithInput::init();
         }
 
         void MainMenuScene::update() {
@@ -56,9 +60,23 @@ namespace terminal_user_interface {
         }
 
         void MainMenuScene::read_input() const {
-            while (!config::quit) {
-                if (getch() == 'q')
-                    config::quit = true;  // quit the program
+            auto menu = std::static_pointer_cast<NCursesMenuObject>(get_scene_object("menu"));
+
+            while (!config::g_quit) {
+                switch (getch()) {
+                case 'q':
+                    config::g_quit = true;  // quit the program
+                    break;
+                case 'w':
+                    menu->select_previous_option();
+                    break;
+                case 's':
+                    menu->select_next_option();
+                    break;
+                case ncurses_helper::ncurses_keycodes::key_enter:
+                    // TODO: execute option code here
+                    break;
+                }
             }
         }
     }  // namespace shell_ui

@@ -3,11 +3,7 @@
 
 #include <ncurses.h>
 #include "shell_ui/config.hh"
-#include "shell_ui/title.hh"
-#include "shell_ui/scene.hh"
 #include "shell_ui/scenes/main_menu_scene.hh"
-#include "ncurses_helper/colors.hh"
-#include "ncurses_helper/input.hh"
 
 using namespace terminal_user_interface;
 using namespace terminal_user_interface::shell_ui;
@@ -22,14 +18,14 @@ int main() {
     MainMenuScene menu;
     menu.init();
 
-    while (!config::quit) {
+    while (!config::g_quit) {
         menu.update();
-        std::this_thread::sleep_for(std::chrono::milliseconds(1000 / 6));
+        std::this_thread::sleep_for(std::chrono::milliseconds(
+                    config::ms_get_frame_period(config::g_frame_rate)));
     }
 
     menu.destroy();
     endwin();  // destroy main ncurses window
     return 0;
 }
-
 

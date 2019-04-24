@@ -1,8 +1,8 @@
 #include "ncurses_helper/ncurses_menu_object.hh"
 
-#include <cstdio>
 #include <algorithm>
 #include <string>
+#include <sstream>
 #include <stdexcept>
 #include <limits>
 
@@ -26,23 +26,23 @@ namespace terminal_user_interface {
 
         void NCursesMenuObject::select_option(menu_option_t option_index) {
             if (option_index >= options_.size()) {
-                static constexpr size_t err_msg_size = 50;
-                char msg[err_msg_size];
-
-                sprintf(msg, "invalid option index parsed (%d)", option_index);
-                throw std::invalid_argument(msg);
+                std::ostringstream msg;
+                msg << "invalid option index parsed (" << option_index << ")";
+                throw std::invalid_argument(msg.str());
             }
             selected_option_ = option_index;
         }
 
         void NCursesMenuObject::select_next_option(bool erroneous) {
-            if (static_cast<size_t>(selected_option_ + 1) == options_.size()) {
+            if (selected_option_ == no_option_index) {
+                if (erroneous)
+                    throw std::invalid_argument("no initial option selected");
+            } else if (static_cast<size_t>(selected_option_ + 1) == options_.size()) {
                 if (erroneous) {
-                    static constexpr size_t err_msg_size = 50;
-                    char msg[err_msg_size];
-
-                    sprintf(msg, "cannot select next option (next is %d)", selected_option_);
-                    throw std::invalid_argument(msg);
+                    std::ostringstream msg;
+                    msg << "cannot select next option (next is " 
+                        << selected_option_<< ")";
+                    throw std::invalid_argument(msg.str());
                 }
             } else {
                 ++selected_option_;
@@ -50,13 +50,15 @@ namespace terminal_user_interface {
         }
 
         void NCursesMenuObject::select_previous_option(bool erroneous) {
-            if (selected_option_ == 0) {
+            if (selected_option_ == no_option_index) {
+                if (erroneous)
+                    throw std::invalid_argument("no initial option selected");
+            } else if (selected_option_ == 0) {
                 if (erroneous) {
-                    static constexpr size_t err_msg_size = 50;
-                    char msg[err_msg_size];
-
-                    sprintf(msg, "cannot select previous option (previous is %d)", selected_option_);
-                    throw std::invalid_argument(msg);
+                    std::ostringstream msg;
+                    msg << "cannot select previous option (previous is " 
+                        << selected_option_<< ")";
+                    throw std::invalid_argument(msg.str());
                 }
             } else {
                 --selected_option_;

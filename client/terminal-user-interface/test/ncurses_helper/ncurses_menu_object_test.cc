@@ -131,6 +131,13 @@ TEST_CASE("NCursesMenuObject extends NCursesObject, providing a selectable menu 
 
                 REQUIRE_THROWS_AS(stub.select_next_option(true), std::invalid_argument);
             }
+
+            SECTION("throws error when marked as erroneous and no option is selected") {
+                // Prerequisite: no option is selected
+                REQUIRE(stub.is_selected() == false);
+
+                REQUIRE_THROWS_AS(stub.select_next_option(true), std::invalid_argument);
+            }
         }
 
         SECTION("can select previous option") {
@@ -164,6 +171,13 @@ TEST_CASE("NCursesMenuObject extends NCursesObject, providing a selectable menu 
                 // Prerequisite: the first option is selected
                 stub.select_option(first_option);
                 REQUIRE(stub.get_selected_option() == first_option);
+
+                REQUIRE_THROWS_AS(stub.select_previous_option(true), std::invalid_argument);
+            }
+
+            SECTION("throws error when marked as erroneous and no option is selected") {
+                // Prerequisite: no option is selected
+                REQUIRE(stub.is_selected() == false);
 
                 REQUIRE_THROWS_AS(stub.select_previous_option(true), std::invalid_argument);
             }

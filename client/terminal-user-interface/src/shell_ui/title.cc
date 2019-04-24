@@ -41,14 +41,14 @@ namespace terminal_user_interface {
 
             int ch;
             WINDOW *win = get_win();
-            color_pair_t color_pair = config::colored ? ncurses_helper::get_color_pair(
+            color_pair_t color_pair = config::g_colored ? ncurses_helper::get_color_pair(
                         letter_color_pair_name) : 0;
 
             for (register win_size_t row = 0; row < nrows; ++row) {
                 wmove(win, row, 0);
                 for (register win_size_t col = 0; col < row_len; ++col) {
                     ch = title[row][col];
-                    if (config::colored && ((row == 1 || row == nrows - 2)
+                    if (config::g_colored && ((row == 1 || row == nrows - 2)
                             && (col % card_len == upper_letter_index 
                                 || col % card_len == lower_letter_index))) {
                         ch |= A_BOLD;  // bold title letter
