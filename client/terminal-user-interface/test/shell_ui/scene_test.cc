@@ -28,13 +28,13 @@ TEST_CASE("A Scene has multiple NCursesObjects, which are controlled with indepe
         SECTION("successfully add multiple objects") {
             REQUIRE_NOTHROW(scene._ex_add_scene_object(object1_name, object1));
             REQUIRE_NOTHROW(scene._ex_add_scene_object(object2_name, object2));
-            REQUIRE(scene._ex_get_scene_object(object1_name) == object1);
-            REQUIRE(scene._ex_get_scene_object(object2_name) == object2);
+            REQUIRE(scene.get_scene_object(object1_name) == object1);
+            REQUIRE(scene.get_scene_object(object2_name) == object2);
         }
 
         SECTION("fails if an object is added multiple times") {
             REQUIRE_NOTHROW(scene._ex_add_scene_object(object1_name, object1));
-            REQUIRE(scene._ex_get_scene_object(object1_name) == object1);
+            REQUIRE(scene.get_scene_object(object1_name) == object1);
             REQUIRE_THROWS_AS(scene._ex_add_scene_object(object1_name, object1), 
                     std::runtime_error);
         }

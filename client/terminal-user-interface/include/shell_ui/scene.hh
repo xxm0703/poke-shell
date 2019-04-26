@@ -18,9 +18,9 @@ namespace terminal_user_interface {
             virtual void init() = 0;
             virtual void update() = 0;
             virtual void destroy() = 0;
-        protected:
             std::shared_ptr<ncurses_helper::NCursesObject> get_scene_object(
                     const std::string&) const;
+        protected:
             void add_scene_object(const std::string&, 
                     std::shared_ptr<ncurses_helper::NCursesObject>);
             // TODO: is this even useful

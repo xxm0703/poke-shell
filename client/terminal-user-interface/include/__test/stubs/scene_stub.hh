@@ -10,13 +10,11 @@
 
 namespace terminal_user_interface {
     namespace __test {
-        class SceneStub final: shell_ui::Scene {
+        class SceneStub final: public shell_ui::Scene {
         public:
             void init() final;
             void update() final;
             void destroy() final;
-            std::shared_ptr<ncurses_helper::NCursesObject> _ex_get_scene_object(
-                    const std::string&) const;
             void _ex_add_scene_object(const std::string&, 
                     std::shared_ptr<ncurses_helper::NCursesObject>);
         };  // class SceneStub
@@ -32,11 +30,6 @@ namespace terminal_user_interface {
 
         inline void SceneStub::destroy() {
             // do nothing
-        }
-
-        inline std::shared_ptr<ncurses_helper::NCursesObject> SceneStub::_ex_get_scene_object(
-                const std::string& name) const {
-            return get_scene_object(name);
         }
 
         inline void SceneStub::_ex_add_scene_object(const std::string& name, 
