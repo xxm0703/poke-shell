@@ -10,10 +10,6 @@ LOG_STAMP = \(log $(shell date '+%Y-%m-%d,%H:%M:%S')\)
 # All directories and files which contain the 
 # project's necessary C++ header files.
 INCLUDE := include
-# Furthermore, source files are also included because of the following reason: if
-# any header defines a template class/function, its implementing source code
-# must also be included. Otherwise, the linker reports a linking error.
-INCLUDE_SRC := src
 
 # All project executables should go into this directory.
 BIN := bin
@@ -50,8 +46,7 @@ TEST_STUBS = $(shell find $(INCLUDE)/__test/ -type f -name "*_stub.hh")
 
 # Compiler options.
 CXX := g++
-CXXFLAGS := -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic --std=c++14 \
-	-I $(INCLUDE) -I $(INCLUDE_SRC)
+CXXFLAGS := -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic --std=c++14 -I $(INCLUDE)
 
 # The project's helper modules.
 # They should be essential for every executable module.
