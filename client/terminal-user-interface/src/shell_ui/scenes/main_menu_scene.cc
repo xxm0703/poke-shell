@@ -3,17 +3,16 @@
 #include <memory>
 
 #include <ncurses.h>
+#include "shell_ui/scene.hh"
 #include "shell_ui/config.hh"
 #include "shell_ui/title.hh"
 #include "shell_ui/text.hh"
 #include "shell_ui/vertical_menu.hh"
 #include "ncurses_helper/ncurses_object.hh"
-#include "ncurses_helper/ncurses_menu_object.hh"
 #include "ncurses_helper/input.hh"
 #include "std_helper/string.hh"
 
 using terminal_user_interface::ncurses_helper::NCursesObject;
-using terminal_user_interface::ncurses_helper::NCursesMenuObject;
 
 namespace terminal_user_interface {
     namespace shell_ui {
@@ -21,9 +20,25 @@ namespace terminal_user_interface {
             auto title_ptr = std::make_shared<Title>();
             add_scene_object("title", title_ptr);
 
+            std::vector<std::function<void(Scene&)>> functions;
+            functions.push_back([](Scene& current_scene) {
+                    endwin();
+                    puts("register");
+                    exit(0);
+                    });
+            functions.push_back([](Scene& current_scene) {
+                    endwin();
+                    puts("login");
+                    exit(0);
+                    });
+            functions.push_back([](Scene& current_scene) {
+                    endwin();
+                    puts("exit");
+                    exit(0);
+                    });
             const std::vector<std::string> options{"Register", "Login", "Exit"};
             std::string longest_option = std_helper::get_longest_string(options);
-            auto menu_ptr = std::make_shared<VerticalMenu>(options, 
+            auto menu_ptr = std::make_shared<VerticalMenu>(functions, options, 
                     0, longest_option.length() * 2);
             add_scene_object("menu", menu_ptr);
             menu_ptr->select_option(0);
@@ -60,7 +75,7 @@ namespace terminal_user_interface {
         }
 
         void MainMenuScene::read_input() const {
-            auto menu = std::static_pointer_cast<NCursesMenuObject>(get_scene_object("menu"));
+            auto menu = std::static_pointer_cast<FunctionalMenu>(get_scene_object("menu"));
 
             while (!config::g_quit) {
                 switch (getch()) {
@@ -74,7 +89,7 @@ namespace terminal_user_interface {
                     menu->select_next_option();
                     break;
                 case ncurses_helper::ncurses_keycodes::key_enter:
-                    // TODO: execute option code here
+                    menu->execute_selected_option(const_cast<MainMenuScene&>(*this));
                     break;
                 }
             }
