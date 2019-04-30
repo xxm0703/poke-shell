@@ -24,35 +24,28 @@ using terminal_user_interface::ncurses_helper::win_coord_t;
 using terminal_user_interface::ncurses_helper::get_window_begy;
 using terminal_user_interface::ncurses_helper::get_window_begx;
 
-namespace {
-    win_coord_t move_coord = 8;
-    std::string example_object_name{"example_object"};
-
-    void _test_move_y(Scene& current_scene) {
-        auto example_object = current_scene.get_scene_object(example_object_name);
-
-        example_object->move_y(move_coord);
-    }
-
-    void _test_move_x(Scene& current_scene) {
-        auto example_object = current_scene.get_scene_object(example_object_name);
-
-        example_object->move_x(move_coord);
-    }
-}  // anonymous namespace
-
 TEST_CASE("Execute various functionality depending on a menu's selected choice", "[shell_ui::FunctionalMenu]") {
     SECTION("setup") {
         __test::ncurses_setup();
     }
 
     SceneStub scene;
+    std::string example_object_name{"example_object"};
     auto example_object = std::make_shared<NCursesObjectStub>(5, 5);
     scene._ex_add_scene_object(example_object_name, example_object);
 
+    win_coord_t move_coord = 8;
     std::vector<std::function<void(Scene&)>> functions;
-    functions.push_back(_test_move_y);
-    functions.push_back(_test_move_x);
+    functions.push_back([example_object_name, move_coord](Scene& current_scene) {
+                auto example_object_ptr = current_scene.get_scene_object(example_object_name);
+
+                example_object_ptr->move_y(move_coord);
+            });
+    functions.push_back([example_object_name, move_coord](Scene& current_scene) {
+                auto example_object_ptr = current_scene.get_scene_object(example_object_name);
+
+                example_object_ptr->move_x(move_coord);
+            });
     std::vector<std::string> options{"Move Y", "Move X"};
     FunctionalMenuStub functional_menu(functions, options);
 

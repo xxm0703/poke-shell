@@ -13,7 +13,8 @@ using terminal_user_interface::ncurses_helper::win_coord_t;
 
 namespace terminal_user_interface {
     namespace shell_ui {
-        FunctionalMenu::FunctionalMenu(const std::vector<std::function<void(Scene&)>>& functions,
+        FunctionalMenu::FunctionalMenu(
+                const std::vector<std::function<void(Scene&)>>& functions,
                 const std::vector<std::string>& options,
                 win_size_t height, win_size_t width,
                 win_coord_t start_y, win_coord_t start_x)

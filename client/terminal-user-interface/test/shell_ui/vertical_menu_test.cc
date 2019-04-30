@@ -3,7 +3,11 @@
 #include "shell_ui/vertical_menu.hh"
 
 #include <algorithm>
+#include <vector>
+#include <string>
+#include <functional>
 
+#include "shell_ui/scene.hh"
 #include "ncurses_helper/windows.hh"
 #include "std_helper/string.hh"
 
@@ -23,12 +27,13 @@ TEST_CASE("Display a vertical multiple-choice menu", "[shell_ui::VerticalMenu]")
     }
 
     WINDOW *win;
+    std::vector<std::function<void(Scene&)>> functions;
     std::vector<std::string> options{"Start", "Exit", "Credits", "Show"};
     std::string longest_option = std_helper::get_longest_string(options);
 
     SECTION("can construct object") {
         SECTION("with default arguments") {
-            VerticalMenu menu(options);
+            VerticalMenu menu(functions, options);
             win = menu.get_win();
             REQUIRE(get_window_begy(win) == 0);
             REQUIRE(get_window_begx(win) == 0);
@@ -38,7 +43,7 @@ TEST_CASE("Display a vertical multiple-choice menu", "[shell_ui::VerticalMenu]")
             win_size_t height = GENERATE(-21, 0, 2, 7);
             win_size_t width = GENERATE(-5, 0, 5, 12);
 
-            VerticalMenu menu(options, height, width);
+            VerticalMenu menu(functions, options, height, width);
             win = menu.get_win();
             REQUIRE(get_window_height(win) >= options.size());
             REQUIRE(get_window_width(win) >= longest_option.length());
@@ -50,7 +55,7 @@ TEST_CASE("Display a vertical multiple-choice menu", "[shell_ui::VerticalMenu]")
                     static_cast<win_size_t>(longest_option.length()));
             expected_width += expected_width % 2;
 
-            VerticalMenu menu(options, 0, width);
+            VerticalMenu menu(functions, options, 0, width);
             win = menu.get_win();
             REQUIRE(get_window_width(win) % 2 == 0);
             REQUIRE(get_window_width(win) == expected_width);
@@ -59,7 +64,7 @@ TEST_CASE("Display a vertical multiple-choice menu", "[shell_ui::VerticalMenu]")
 
     SECTION("can print a vertical menu on the screen") {
         SECTION("with default menu sizes") {
-            VerticalMenu menu(options);
+            VerticalMenu menu(functions, options);
             win = menu.get_win();
             menu.mvwprint();
             REQUIRE(getcury(win) == options.size() - 1);
@@ -72,7 +77,7 @@ TEST_CASE("Display a vertical multiple-choice menu", "[shell_ui::VerticalMenu]")
             REQUIRE(height > options.size());
             REQUIRE(width > longest_option.length());
 
-            VerticalMenu menu(options, height, width);
+            VerticalMenu menu(functions, options, height, width);
             win = menu.get_win();
             menu.mvwprint();
             REQUIRE(getcury(win) == options.size());

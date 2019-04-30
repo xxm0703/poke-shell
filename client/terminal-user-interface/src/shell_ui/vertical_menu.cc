@@ -18,10 +18,12 @@ using terminal_user_interface::ncurses_helper::get_window_width;
 
 namespace terminal_user_interface {
     namespace shell_ui {
-        VerticalMenu::VerticalMenu(const std::vector<std::string>& options,
+        VerticalMenu::VerticalMenu(
+                const std::vector<std::function<void(Scene&)>>& functions,
+                const std::vector<std::string>& options,
                 win_size_t height, win_size_t width,
                 win_coord_t start_y, win_coord_t start_x)
-            : NCursesMenuObject(options, 
+            : FunctionalMenu(functions, options, 
                     calc_height(height, options), calc_width(width, options),
                     start_y, start_x) {
         }

@@ -4,14 +4,17 @@
 #include <string>
 #include <vector>
 
-#include "ncurses_helper/ncurses_menu_object.hh"
+#include "shell_ui/scene.hh"
+#include "shell_ui/functional_menu.hh"
 #include "ncurses_helper/windows.hh"
 
 namespace terminal_user_interface {
     namespace shell_ui {
-        class VerticalMenu: public ncurses_helper::NCursesMenuObject {
+        class VerticalMenu: public FunctionalMenu {
         public:
-            explicit VerticalMenu(const std::vector<std::string>&,
+            explicit VerticalMenu(
+                    const std::vector<std::function<void(Scene&)>>&,
+                    const std::vector<std::string>&,
                     ncurses_helper::win_size_t = 0, ncurses_helper::win_size_t = 0,
                     ncurses_helper::win_coord_t = 0, ncurses_helper::win_coord_t = 0);
             void mvwprint(ncurses_helper::cur_coord_t = 0, 

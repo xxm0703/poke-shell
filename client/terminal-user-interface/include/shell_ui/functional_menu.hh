@@ -13,7 +13,8 @@ namespace terminal_user_interface {
     namespace shell_ui {
         class FunctionalMenu: public ncurses_helper::NCursesMenuObject {
         public:
-            explicit FunctionalMenu(const std::vector<std::function<void(Scene&)>>&,
+            explicit FunctionalMenu(
+                    const std::vector<std::function<void(Scene&)>>&,
                     const std::vector<std::string>&,
                     ncurses_helper::win_size_t = 0, ncurses_helper::win_size_t = 0,
                     ncurses_helper::win_coord_t = 0, ncurses_helper::win_coord_t = 0);
