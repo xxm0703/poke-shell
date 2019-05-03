@@ -9,7 +9,7 @@
 #include <vector>
 
 #include <ncurses.h>
-#include "ncurses_helper/ncurses_exception.hh"
+#include "ncurses_helper/exceptions/ncurses_exception.hh"
 
 #define _NULL_NAME "NULL"
 

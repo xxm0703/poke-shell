@@ -3,7 +3,7 @@
 #include "ncurses_helper/windows.hh"
 
 #include <ncurses.h>
-#include "ncurses_helper/ncurses_exception.hh"
+#include "ncurses_helper/exceptions/ncurses_exception.hh"
 
 using namespace terminal_user_interface;
 using namespace terminal_user_interface::ncurses_helper;

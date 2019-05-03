@@ -1,6 +1,6 @@
 #include "catch2/catch.hpp"
 #include "__test/test_helper.hh"
-#include "ncurses_helper/ncurses_exception.hh"
+#include "ncurses_helper/exceptions/ncurses_exception.hh"
 
 #include <stdexcept>
 

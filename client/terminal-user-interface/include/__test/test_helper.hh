@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-#include "ncurses_helper/ncurses_exception.hh"
+#include "ncurses_helper/exceptions/ncurses_exception.hh"
 
 namespace terminal_user_interface {
     namespace __test {

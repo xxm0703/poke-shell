@@ -3,7 +3,7 @@
 #include <ncurses.h>
 #include <stdexcept>
 
-#include "ncurses_helper/ncurses_exception.hh"
+#include "ncurses_helper/exceptions/ncurses_exception.hh"
 #include "ncurses_helper/windows.hh"
 
 namespace terminal_user_interface {

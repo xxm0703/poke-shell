@@ -6,7 +6,7 @@
 
 #include <ncurses.h>
 #include "__test/stubs/ncurses_helper/ncurses_object_stub.hh"
-#include "ncurses_helper/ncurses_exception.hh"
+#include "ncurses_helper/exceptions/ncurses_exception.hh"
 #include "ncurses_helper/windows.hh"
 
 using namespace terminal_user_interface;

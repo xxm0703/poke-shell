@@ -1,4 +1,4 @@
-#include "ncurses_helper/ncurses_exception.hh"
+#include "ncurses_helper/exceptions/ncurses_exception.hh"
 
 #include <sstream>
 #include <exception>

@@ -10,8 +10,8 @@ NCURSES_HELPER__INCLUDE := \
 	colors.hh \
 	windows.hh \
 	ncurses_object.hh \
-	ncurses_exception.hh \
-	ncurses_menu_object.hh
+	ncurses_menu_object.hh \
+	exceptions/ncurses_exception.hh
 NCURSES_HELPER__INCLUDE := $(patsubst %,$(INCLUDE)/$(NCURSES_HELPER__MODULE_NAME)/%,$(NCURSES_HELPER__INCLUDE))
 
 # C++ source files of 'ncurses_helper' module.
@@ -21,8 +21,8 @@ NCURSES_HELPER__SRC := \
 	colors.cc \
 	windows.cc \
 	ncurses_object.cc \
-	ncurses_exception.cc \
-	ncurses_menu_object.cc
+	ncurses_menu_object.cc \
+	exceptions/ncurses_exception.cc
 NCURSES_HELPER__SRC := $(patsubst %,$(SRC)/$(NCURSES_HELPER__MODULE_NAME)/%,$(NCURSES_HELPER__SRC))
 
 # Object files of 'ncurses_helper' helper module.

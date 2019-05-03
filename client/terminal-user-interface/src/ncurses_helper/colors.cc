@@ -5,7 +5,7 @@
 #include <unordered_map>
 
 #include <ncurses.h>
-#include "ncurses_helper/ncurses_exception.hh"
+#include "ncurses_helper/exceptions/ncurses_exception.hh"
 
 namespace terminal_user_interface {
     namespace ncurses_helper {
