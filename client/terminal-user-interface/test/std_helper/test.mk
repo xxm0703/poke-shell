@@ -1,10 +1,18 @@
 # C++ source files of 'std_helper' module's tests.
 # They are prepended their module's relative path to the main Makefile.
-STD_HELPER__TEST_SRC := string_test.cc
+STD_HELPER__TEST_SRC := \
+	string_test.cc
 STD_HELPER__TEST_SRC := $(patsubst %,$(TEST)/$(STD_HELPER__MODULE_NAME)/%,$(STD_HELPER__TEST_SRC))
 
 # Object files of 'std_helper' module's tests.
 STD_HELPER__TEST_OBJ := $(patsubst $(TEST)/%.cc,$(TEST_OBJ)/%.o,$(STD_HELPER__TEST_SRC))
+
+# Create required subdirectories for module's tests' object files
+STD_HELPER__TEST_OBJ_DIRS := $(subst $(TEST),$(TEST_OBJ),$(shell find $(TEST)/$(STD_HELPER__MODULE_NAME)/ -type d))
+$(foreach obj_dir,$(STD_HELPER__TEST_OBJ_DIRS),$(shell mkdir -p $(obj_dir)))
+# Create required subdirectories for module's tests' binaries
+STD_HELPER__TEST_BIN_DIRS := $(subst $(TEST),$(TEST_OUT),$(shell find $(TEST)/$(STD_HELPER__MODULE_NAME)/ -type d))
+$(foreach bin_dir,$(STD_HELPER__TEST_BIN_DIRS),$(shell mkdir -p $(bin_dir)))
 
 # C++ source files of 'std_helper' module's test stubs
 STD_HELPER__TEST_STUBS_SRC := $(shell find $(SRC)/$(TEST_MODULE)/stubs/$(STD_HELPER__MODULE_NAME)/ -type f -name '*.cc')

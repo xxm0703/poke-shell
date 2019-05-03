@@ -1,8 +1,5 @@
 #include "catch2/catch.hpp"
 #include "__test/test_helper.hh"
-#include "__test/stubs/ncurses_helper/ncurses_object_stub.hh"
-#include "__test/stubs/shell_ui/scene_stub.hh"
-#include "__test/stubs/shell_ui/functional_menu_stub.hh"
 #include "shell_ui/functional_menu.hh"
 
 #include <string>
@@ -10,6 +7,9 @@
 #include <vector>
 #include <functional>
 
+#include "__test/stubs/ncurses_helper/ncurses_object_stub.hh"
+#include "__test/stubs/shell_ui/scene_stub.hh"
+#include "__test/stubs/shell_ui/functional_menu_stub.hh"
 #include "shell_ui/scene.hh"
 #include "ncurses_helper/ncurses_object.hh"
 #include "ncurses_helper/windows.hh"

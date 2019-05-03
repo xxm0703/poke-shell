@@ -1,11 +1,12 @@
 #include "catch2/catch.hpp"
 #include "__test/test_helper.hh"
-#include "__test/stubs/ncurses_helper/ncurses_menu_object_stub.hh"
 #include "ncurses_helper/ncurses_menu_object.hh"
 
 #include <vector>
 #include <string>
 #include <stdexcept>
+
+#include "__test/stubs/ncurses_helper/ncurses_menu_object_stub.hh"
 
 using namespace terminal_user_interface;
 using namespace terminal_user_interface::ncurses_helper;
