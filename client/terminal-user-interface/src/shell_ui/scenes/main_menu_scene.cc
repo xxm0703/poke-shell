@@ -32,9 +32,7 @@ namespace terminal_user_interface {
                     exit(0);
                     });
             functions.push_back([](Scene& current_scene) {
-                    endwin();
-                    puts("exit");
-                    exit(0);
+                    config::g_quit = true;  // quit the program
                     });
             const std::vector<std::string> options{"Register", "Login", "Exit"};
             std::string longest_option = std_helper::get_longest_string(options);
@@ -79,9 +77,6 @@ namespace terminal_user_interface {
 
             while (!config::g_quit) {
                 switch (getch()) {
-                case 'q':
-                    config::g_quit = true;  // quit the program
-                    break;
                 case 'w':
                     menu->select_previous_option();
                     break;
