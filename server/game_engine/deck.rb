@@ -14,22 +14,31 @@ module Deck
 			end
 		end
 
-		def deal
+		def deal(players_count)
+			@deck.shuffle!
+			dealed = Array.new(players_count) {Array.new(2)}
 
+			(0...2).each { |i| (0...players_count).each { |j| dealed[j][i] = @deck.pop }}
 		end
 
 		def flop
-
+			clear
+			@deck.pop(3)
 		end
 
 		def turn
-
+			clear
+			@deck.pop
 		end
 
 		def river
-			
+			turn
 		end
 
+private
+
+		def clear
+			@deck.pop
+		end
 	end
 end
-Deck::Deck.new()
