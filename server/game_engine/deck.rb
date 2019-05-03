@@ -7,11 +7,8 @@ module Deck
 	class Deck
 		def initialize()
 			@deck = []
-			SUITS.each do |s|
-				RANKS.each do |r|
-					@deck.push Card.new(s,r)
-				end
-			end
+			@deck = RANKS.product(SUITS)
+			.map { |rank, suit| Card.new suit, rank }
 		end
 
 		def deal(players_count)
@@ -19,6 +16,7 @@ module Deck
 			dealed = Array.new(players_count) {Array.new(2)}
 
 			(0...2).each { |i| (0...players_count).each { |j| dealed[j][i] = @deck.pop }}
+			return dealed
 		end
 
 		def flop
@@ -42,3 +40,6 @@ private
 		end
 	end
 end
+
+# a = Deck::Deck.new
+# puts a.deal(2)
