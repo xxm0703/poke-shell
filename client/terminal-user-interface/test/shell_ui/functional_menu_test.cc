@@ -1,8 +1,8 @@
 #include "catch2/catch.hpp"
 #include "__test/test_helper.hh"
-#include "__test/stubs/ncurses_object_stub.hh"
-#include "__test/stubs/scene_stub.hh"
-#include "__test/stubs/functional_menu_stub.hh"
+#include "__test/stubs/ncurses_helper/ncurses_object_stub.hh"
+#include "__test/stubs/shell_ui/scene_stub.hh"
+#include "__test/stubs/shell_ui/functional_menu_stub.hh"
 #include "shell_ui/functional_menu.hh"
 
 #include <string>

@@ -33,16 +33,21 @@ TEST_CONFIG_FILE := $(TEST)/$(TEST_CONFIG_FILENAME).cc
 TEST_CONFIG_OBJ := $(TEST_OBJ)/$(TEST_CONFIG_FILENAME).o
 # Compiled config binary with empty example test for 'Catch2'
 TEST_CONFIG_BIN := $(TEST_OUT)/$(TEST_CONFIG_FILENAME)
-# File with helper functionality for unit tests
-TEST_HELPER_FILENAME = test_helper
-TEST_HELPER_FILE := $(TEST)/$(TEST_HELPER_FILENAME).cc
-# Compiled test helper object file
-TEST_HELPER_OBJ := $(TEST_OBJ)/$(TEST_HELPER_FILENAME).o
+
+# A module which contains source code for various helper functionalities,
+# required by unit tests
+TEST_MODULE := __test
+# All of test module's object files 
+# To be used when compiling executable module's unit tests
+TEST_MODULE_OBJ :=
+# A particular test helper file, which should be included in every unit test
+TEST_HELPER_FILE := $(SRC)/$(TEST_MODULE)/test_helper.cc
+# The compiled object file of the special test helper's source file
+TEST_HELPER_OBJ := $(patsubst $(SRC)/%.cc,$(OBJ)/%.o,$(TEST_HELPER_FILE))
+
 # Targets which compile the module's unit tests.
 # All of them are run with 'make test'.
 ALL_TEST_TARGETS :=
-# Object stubs which are utilized to test an abstract class.
-TEST_STUBS = $(shell find $(INCLUDE)/__test/ -type f -name "*_stub.hh")
 
 # Compiler options.
 CXX := g++
@@ -79,10 +84,6 @@ THIRD_PARTY_LIBS :=
 # variable's value.
 ALL_TARGETS :=
 
-# The C++ source files of the project's helper modules.
-# Each helper module should add its source files to this variable's value.
-HELPER_SRC :=
-
 # Helper modules' object files.
 # Each helper module should add its object files to this variable's value.
 HELPER_OBJ :=
@@ -104,7 +105,7 @@ THIRD_PARTY_LIBS_OBJ :=
 # Include all third party libraries' descriptions.
 include $(patsubst %,$(THIRD_PARTY_SRC)/%/module.mk,$(THIRD_PARTY_LIBS))
 
-.PHONY: all helper libs clean setup_testing test clean_tests
+.PHONY: all helper libs clean setup_testing test run_all_tests clean_tests
 
 all: $(ALL_TARGETS) 
 	@echo $(LOG_STAMP): Project compilation successful.
@@ -130,6 +131,8 @@ clean:
 # Include all executable modules' targets.
 include $(patsubst %,$(SRC)/%/target.mk,$(EXECUTABLE_MODULES))
 
+# Include test module's make target.
+include $(patsubst %,$(SRC)/%/module.mk,$(TEST_MODULE))
 # Include each module's tests' make targets.
 include $(patsubst %,$(TEST)/%/test.mk,$(HELPER_MODULES))
 include $(patsubst %,$(TEST)/%/test.mk,$(EXECUTABLE_MODULES))
@@ -161,12 +164,6 @@ $(TEST_CONFIG_OBJ): $(TEST_CONFIG_FILE)
 	mkdir -p $(TEST_OBJ)
 	$(CXX) $(CXXFLAGS) -o $@ -c $<
 	@echo $(LOG_STAMP): Test config file compiled successfully.
-
-# Compile test helper source file to object file.
-$(TEST_HELPER_OBJ): $(TEST_HELPER_FILE)
-	mkdir -p $(TEST_OBJ)
-	$(CXX) $(CXXFLAGS) -o $@ -c $<
-	@echo $(LOG_STAMP): Test helper file compiled successfully.
 
 # WARNING: ALWAYS hardcode the directories which are to be cleaned.
 # Using 'rm -r' with make variables may lead to removal of directories or

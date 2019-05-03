@@ -22,9 +22,6 @@ NCURSES_HELPER__OBJ := $(patsubst $(SRC)/%.cc,$(OBJ)/%.o,$(NCURSES_HELPER__SRC))
 NCURSES_HELPER__OBJ_DIRS := $(subst $(SRC),$(OBJ),$(shell find $(SRC)/$(NCURSES_HELPER__MODULE_NAME)/ -type d))
 $(foreach obj_dir,$(NCURSES_HELPER__OBJ_DIRS),$(shell mkdir -p $(obj_dir)))
 
-# Include helper module's source files in the project.
-HELPER_SRC += $(NCURSES_HELPER__SRC)
-
 # Include module's object files in the project.
 HELPER_OBJ += $(NCURSES_HELPER__OBJ)
 
