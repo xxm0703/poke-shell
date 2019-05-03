@@ -6,11 +6,14 @@ module Poker
 		cards.map { |e| e[0..-2] }
 	end
 
+	def Poker.higher_card(f, s)
+		best_index = RANKS.index f
+		current_index = RANKS.index s
+
+		best_index < current_index ? f : s
+	end
+
 	def Poker.high_card(best, current)
-		if best.class == Array || current.class == Array
-			best = best[high_card(best[0], best[1])]
-			current = current[high_card(current[0], current[1])]
-		end
 
 		best_index = RANKS.index best
 		current_index = RANKS.index current
@@ -26,12 +29,15 @@ module Poker
 	end
 
 	def Poker.pair_card(best, current)
+		best = get_rank(best).reduce('2C', &higher_card)
+		current = get_rank(current).reduce('2C', &higher_card)
+
 		best = get_rank(best)
 		current = get_rank(current)
-		if best.uniq.length == 1 || current.uniq.length == 1
-			if best.uniq.length != 1
+		if best.uniq.length != best.length || current.uniq.length != current.length
+			if best.uniq.length == best.length
 				return 1
-			elsif current.uniq.length != 1
+			elsif current.uniq.length == current.length
 				return 0
 			else
 				return high_card(best, current)
@@ -41,6 +47,7 @@ module Poker
 	end
 
 	def check_combination
+		best =
 		get_rank(best)
 		get_rank(current)
 	end
