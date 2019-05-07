@@ -28,10 +28,14 @@ module Poker
     -1
   end
 
-  def self.one_pair(cards)
-    find_duplicates(get_ranks(cards)).each_value { |v| return v if v.length == 2 }
+  def pair(cards, amount)
+    find_duplicates(get_ranks(cards)).each_value { |v| return v if v.length == amount }
 
     nil
+  end
+
+  def self.one_pair(cards)
+    pair(cards, 2)
   end
 
   def self.two_pair(cards)
@@ -46,13 +50,10 @@ module Poker
     f_pair + s_pair
   end
 
-  def self.tree_kind(cards)
-    find_duplicates(get_ranks(cards)).each_value { |v| return v if v.length == 3 }
-
-    nil
+  def self.three_kind(cards)
+    pair(cards, 3)
   end
 
-  
   # Possible breach (not always the best combination)
   def self.straight(cards)
     ranks = get_ranks(cards)
@@ -66,10 +67,21 @@ module Poker
   # Possible breach (not always the best combination)
   def self.flush(cards)
     find_duplicates(get_suits(cards)).each_value { |v| return v if v.length >= 5 }
-    
+
     nil
   end
-  
+
+  def full_house(cards)
+    pair = one_pair cards
+    return nil if pair.nil?
+
+    pair.each { |e| cards.delete_at e }
+
+    kind = three_kind cards
+    return nil if kind.nil?
+
+    pair + kind
+  end
 
   def check_combination
     # TODO
