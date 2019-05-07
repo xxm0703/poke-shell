@@ -83,6 +83,10 @@ module Poker
     (pair + kind).sort.reverse
   end
 
+  def self.four_kind(cards)
+    pair(cards, 4)
+  end
+
   def check_combination
     # TODO
   end
@@ -94,4 +98,4 @@ module Poker
   end
 end
 
-puts Poker.full_house([Card.new('JC'), Card.new('JH'), Card.new('AS'), Card.new('KS'), Card.new('AS'), Card.new('JS')]).to_s
+puts Poker.four_kind([Card.new('JC'), Card.new('JH'), Card.new('AS'), Card.new('JS'), Card.new('AS'), Card.new('JS')]).to_s
