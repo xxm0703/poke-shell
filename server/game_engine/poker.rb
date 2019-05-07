@@ -24,36 +24,25 @@ module Poker
     -1
   end
 
-  def self.pair_card(best, current)
-    best_ranks = get_ranks(best)
-    current_ranks = get_ranks(current)
+  def self.one_pair(cards)
+    # puts find_duplicates(cards)
+    return true if find_duplicates(cards).length == 1
 
-    if best_ranks.uniq.length != best_ranks.length ||
-       current_ranks.uniq.length != current_ranks.length
-
-      return 1 if best_ranks.uniq.length == best_ranks.length
-
-      return 0 if current_ranks.uniq.length == current_ranks.length
-
-      return high_card(best, current)
-
-	end
-    -1
+    false
   end
+
+  def self.two_pair(cards); end
 
   def check_combination
     # TODO
   end
 
-private
-
-  def find_pair(cards)
-	ranks = get_ranks(cards)
-	duplicate = ranks - ranks.uniq
-	cards.select { |e| e.rank == duplicate[0] }
+  def self.find_duplicates(cards)
+    ranks = get_ranks(cards)
+    duplicates = ranks - ranks.uniq
+    puts ranks - ranks.uniq
+    duplicates
   end
-
 end
 
-puts Poker.pair_card([Card.new('JS'), Card.new('JH')],
-                     [Card.new('AS'), Card.new('9C')])
+puts Poker.one_pair([Card.new('JS'), Card.new('JH')])
