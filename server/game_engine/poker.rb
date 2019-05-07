@@ -25,7 +25,7 @@ module Poker
   end
 
   def self.one_pair(cards)
-    find_duplicates(cards).each_value { |v| return v if v.length > 1 }
+    find_duplicates(cards).each_value { |v| return v if v.length == 2 }
 
     nil
   end
@@ -42,6 +42,12 @@ module Poker
     f_pair + s_pair
   end
 
+  def self.tree_kind(cards)
+    find_duplicates(cards).each_value { |v| return v if v.length == 3 }
+
+    nil
+  end
+
   def check_combination
     # TODO
   end
@@ -54,4 +60,4 @@ module Poker
   end
 end
 
-puts Poker.two_pair([Card.new('JS'), Card.new('JH'), Card.new('2C'), Card.new('10S'), Card.new('10H')]).to_s
+puts Poker.tree_kind([Card.new('JS'), Card.new('JH'), Card.new('10C'), Card.new('10S'), Card.new('10H')]).to_s
