@@ -1,56 +1,59 @@
+# frozen_string_literal: true
+
 module Poker
-	require_relative "deck.rb"
-	include Deck
+  require_relative 'deck.rb'
 
-	def Poker.get_rank(cards)
-		cards.map { |e| e[0..-2] }
+  WEAKEST = Card.new '2C'
+  STRONGEST = Card.new 'AS'
+
+  def self.get_ranks(cards)
+    cards.map(&:rank)
+  end
+
+  def self.high_card(best, current)
+    best = best.reduce(WEAKEST, :higher_card)
+    current = current.reduce(WEAKEST, :higher_card)
+
+    best_index = Card::RANKS.index best.rank
+    current_index = Card::RANKS.index current.rank
+
+    return 0 if best_index < current_index
+
+    return 1 if best_index > current_index
+
+    -1
+  end
+
+  def self.pair_card(best, current)
+    best_ranks = get_ranks(best)
+    current_ranks = get_ranks(current)
+
+    if best_ranks.uniq.length != best_ranks.length ||
+       current_ranks.uniq.length != current_ranks.length
+
+      return 1 if best_ranks.uniq.length == best_ranks.length
+
+      return 0 if current_ranks.uniq.length == current_ranks.length
+
+      return high_card(best, current)
+
 	end
+    -1
+  end
 
-	def Poker.higher_card(f, s)
-		best_index = RANKS.index f
-		current_index = RANKS.index s
+  def check_combination
+    # TODO
+  end
 
-		best_index < current_index ? f : s
-	end
+private
 
-	def Poker.high_card(best, current)
+  def find_pair(cards)
+	ranks = get_ranks(cards)
+	duplicate = ranks - ranks.uniq
+	cards.select { |e| e.rank == duplicate[0] }
+  end
 
-		best_index = RANKS.index best
-		current_index = RANKS.index current
-
-		if best_index < current_index
-			return 0
-		elsif best_index > current_index
-			return 1
-		else
-			return -1
-		end
-
-	end
-
-	def Poker.pair_card(best, current)
-		best = get_rank(best).reduce('2C', &higher_card)
-		current = get_rank(current).reduce('2C', &higher_card)
-
-		best = get_rank(best)
-		current = get_rank(current)
-		if best.uniq.length != best.length || current.uniq.length != current.length
-			if best.uniq.length == best.length
-				return 1
-			elsif current.uniq.length == current.length
-				return 0
-			else
-				return high_card(best, current)
-			end
-		end
-		return -1
-	end
-
-	def check_combination
-		best =
-		get_rank(best)
-		get_rank(current)
-	end
 end
 
-puts Poker.pair_card(['10S', 'JH'], ['9S', '9C'])
+puts Poker.pair_card([Card.new('JS'), Card.new('JH')],
+                     [Card.new('AS'), Card.new('9C')])

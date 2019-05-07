@@ -1,8 +1,6 @@
 module Deck
 	require_relative "card.rb"
 
-	SUITS = ['S', 'H', 'D', 'C']
-	RANKS = ['A', 'K', 'Q', 'J', '10', '9', '8', '7', '6', '5', '4', '3', '2']
 
 	class Deck
 		def initialize()
