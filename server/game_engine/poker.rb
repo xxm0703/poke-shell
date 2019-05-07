@@ -28,7 +28,7 @@ module Poker
     -1
   end
 
-  def pair(cards, amount)
+  def self.pair(cards, amount)
     find_duplicates(get_ranks(cards)).each_value { |v| return v if v.length == amount }
 
     nil
@@ -47,7 +47,7 @@ module Poker
     s_pair = one_pair cards
     return nil if s_pair.nil?
 
-    f_pair + s_pair
+    (f_pair + s_pair).sort.reverse
   end
 
   def self.three_kind(cards)
@@ -71,7 +71,7 @@ module Poker
     nil
   end
 
-  def full_house(cards)
+  def self.full_house(cards)
     pair = one_pair cards
     return nil if pair.nil?
 
@@ -80,7 +80,7 @@ module Poker
     kind = three_kind cards
     return nil if kind.nil?
 
-    pair + kind
+    (pair + kind).sort.reverse
   end
 
   def check_combination
@@ -94,4 +94,4 @@ module Poker
   end
 end
 
-puts Poker.flush([Card.new('10C'), Card.new('JH'), Card.new('QS'), Card.new('KS'), Card.new('AS'), Card.new('4S')]).to_s
+puts Poker.full_house([Card.new('JC'), Card.new('JH'), Card.new('AS'), Card.new('KS'), Card.new('AS'), Card.new('JS')]).to_s
