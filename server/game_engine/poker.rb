@@ -87,6 +87,17 @@ module Poker
     pair(cards, 4)
   end
 
+  def self.straight_flush(cards)
+    f = flush(cards)
+    s = straight(cards)
+
+    return nil if f.nil? || s.nil?
+
+    return f if (f - s).empty?
+
+    nil
+  end
+  
   def check_combination
     # TODO
   end
@@ -98,4 +109,4 @@ module Poker
   end
 end
 
-puts Poker.four_kind([Card.new('JC'), Card.new('JH'), Card.new('AS'), Card.new('JS'), Card.new('AS'), Card.new('JS')]).to_s
+puts Poker.straight_flush([Card.new('4C'), Card.new('5S'), Card.new('AS'), Card.new('KS'), Card.new('10S'), Card.new('JS')]).to_s
