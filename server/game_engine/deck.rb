@@ -1,42 +1,43 @@
+# frozen_string_literal: true
+
 module Deck
-	require_relative "card.rb"
+  require_relative 'card.rb'
 
+  class Deck
+    def initialize
+      @deck = []
+      @deck = RANKS.product(SUITS)
+                   .map { |rank, suit| Card.new suit, rank }
+    end
 
-	class Deck
-		def initialize()
-			@deck = []
-			@deck = RANKS.product(SUITS)
-			.map { |rank, suit| Card.new suit, rank }
-		end
+    def deal(players_count)
+      @deck.shuffle!
+      dealed = Array.new(players_count) { Array.new(2) }
 
-		def deal(players_count)
-			@deck.shuffle!
-			dealed = Array.new(players_count) {Array.new(2)}
+      (0...2).each { |i| (0...players_count).each { |j| dealed[j][i] = @deck.pop } }
+      dealed
+    end
 
-			(0...2).each { |i| (0...players_count).each { |j| dealed[j][i] = @deck.pop }}
-			return dealed
-		end
+    def flop
+      clear
+      @deck.pop(3)
+    end
 
-		def flop
-			clear
-			@deck.pop(3)
-		end
+    def turn
+      clear
+      @deck.pop
+    end
 
-		def turn
-			clear
-			@deck.pop
-		end
+    def river
+      turn
+    end
 
-		def river
-			turn
-		end
+    private
 
-private
-
-		def clear
-			@deck.pop
-		end
-	end
+    def clear
+      @deck.pop
+    end
+  end
 end
 
 # a = Deck::Deck.new

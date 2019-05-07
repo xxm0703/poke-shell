@@ -1,26 +1,28 @@
+# frozen_string_literal: true
+
 class Card
-	SUITS = ['S', 'H', 'D', 'C']
-	RANKS = ['A', 'K', 'Q', 'J', '10', '9', '8', '7', '6', '5', '4', '3', '2']
+  SUITS = %w[S H D C].freeze
+  RANKS = %w[A K Q J 10 9 8 7 6 5 4 3 2].freeze
 
-	attr_reader :rank
+  attr_reader :rank, :suit
 
-	def initialize(*args)
-		unless args.length == 1
-			@suit, @rank = args 
-		else
-			@suit = args[0][-1..-1]
-			@rank = args[0][0..-2]
-		end
-	end	
+  def initialize(*args)
+    if args.length == 1
+      @suit = args[0][-1..-1]
+      @rank = args[0][0..-2]
+    else
+      @suit, @rank = args
+     end
+  end
 
-	def to_s
-		@rank + @suit
-	end
+  def to_s
+    @rank + @suit
+  end
 
-	def higher_card(other)
-		best_index = RANKS.index @rank
-		current_index = RANKS.index other.rank
+  def higher_card(other)
+    best_index = RANKS.index @rank
+    current_index = RANKS.index other.rank
 
-		best_index < current_index ? self : other
-	end
+    best_index < current_index ? self : other
+  end
 end

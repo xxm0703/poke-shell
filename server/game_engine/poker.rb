@@ -10,6 +10,10 @@ module Poker
     cards.map(&:rank)
   end
 
+  def self.get_suits(cards)
+    cards.map(&:suit)
+  end
+
   def self.high_card(best, current)
     best = best.reduce(WEAKEST, :higher_card)
     current = current.reduce(WEAKEST, :higher_card)
@@ -25,7 +29,7 @@ module Poker
   end
 
   def self.one_pair(cards)
-    find_duplicates(cards).each_value { |v| return v if v.length == 2 }
+    find_duplicates(get_ranks(cards)).each_value { |v| return v if v.length == 2 }
 
     nil
   end
@@ -43,11 +47,13 @@ module Poker
   end
 
   def self.tree_kind(cards)
-    find_duplicates(cards).each_value { |v| return v if v.length == 3 }
+    find_duplicates(get_ranks(cards)).each_value { |v| return v if v.length == 3 }
 
     nil
   end
 
+  
+  # Possible breach (not always the best combination)
   def self.straight(cards)
     ranks = get_ranks(cards)
     sequence = []
@@ -57,16 +63,23 @@ module Poker
     end
   end
 
+  # Possible breach (not always the best combination)
+  def self.flush(cards)
+    find_duplicates(get_suits(cards)).each_value { |v| return v if v.length >= 5 }
+    
+    nil
+  end
+  
+
   def check_combination
     # TODO
   end
 
-  def self.find_duplicates(cards)
-    ranks = get_ranks(cards)
+  def self.find_duplicates(set)
     duplicates = Hash.new { [] }
-    ranks.each_with_index { |e, i| duplicates[e] = duplicates[e].unshift i }
+    set.each_with_index { |e, i| duplicates[e] = duplicates[e].unshift i }
     duplicates
   end
 end
 
-puts Poker.straight([Card.new('10S'), Card.new('JS'), Card.new('QH'), Card.new('KC'), Card.new('AS'), Card.new('4H')]).to_s
+puts Poker.flush([Card.new('10C'), Card.new('JH'), Card.new('QS'), Card.new('KS'), Card.new('AS'), Card.new('4S')]).to_s
