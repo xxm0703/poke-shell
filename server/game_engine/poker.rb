@@ -48,6 +48,15 @@ module Poker
     nil
   end
 
+  def self.straight(cards)
+    ranks = get_ranks(cards)
+    sequence = []
+    Card::RANKS.each do |e|
+      ranks.include?(e) ? sequence << ranks.index(e) : sequence.clear
+      return sequence.sort.reverse if sequence.length == 5
+    end
+  end
+
   def check_combination
     # TODO
   end
@@ -60,4 +69,4 @@ module Poker
   end
 end
 
-puts Poker.tree_kind([Card.new('JS'), Card.new('JH'), Card.new('10C'), Card.new('10S'), Card.new('10H')]).to_s
+puts Poker.straight([Card.new('10S'), Card.new('JS'), Card.new('QH'), Card.new('KC'), Card.new('AS'), Card.new('4H')]).to_s
