@@ -25,13 +25,22 @@ module Poker
   end
 
   def self.one_pair(cards)
-    # puts find_duplicates(cards)
-    return true if find_duplicates(cards).length == 1
+    find_duplicates(cards).each_value { |v| return v if v.length > 1 }
 
-    false
+    nil
   end
 
-  def self.two_pair(cards); end
+  def self.two_pair(cards)
+    f_pair = one_pair cards
+    return nil if f_pair.nil?
+
+    f_pair.each { |e| cards.delete_at e }
+
+    s_pair = one_pair cards
+    return nil if s_pair.nil?
+
+    f_pair + s_pair
+  end
 
   def check_combination
     # TODO
@@ -39,10 +48,10 @@ module Poker
 
   def self.find_duplicates(cards)
     ranks = get_ranks(cards)
-    duplicates = ranks - ranks.uniq
-    puts ranks - ranks.uniq
+    duplicates = Hash.new { [] }
+    ranks.each_with_index { |e, i| duplicates[e] = duplicates[e].unshift i }
     duplicates
   end
 end
 
-puts Poker.one_pair([Card.new('JS'), Card.new('JH')])
+puts Poker.two_pair([Card.new('JS'), Card.new('JH'), Card.new('2C'), Card.new('10S'), Card.new('10H')]).to_s
