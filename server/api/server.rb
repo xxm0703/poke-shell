@@ -46,7 +46,7 @@ post '/register' do
   unless check_encoding(user.password) && check_encoding(user.username)
     status 411
     return { status: 411,
-      message: 'Username and password should use only letters, digits and underscore' }.to_json
+             message: 'Username and password should use only letters, digits and underscore' }.to_json
   end
 
   if user.save!
@@ -107,6 +107,18 @@ get '/exit_table' do
   room = user.room
   { status: 405, message: 'You are not in a room' } if room.nil?
   room.update(entered: room.entered - 1)
+
+  room.delete if room.entered.zero?
+
   user.update(room_id: nil)
   { 'status': 0, 'message': 'Success' }.to_json
+end
+
+$tmp = 5
+
+get '/' do
+  user = User.find(params[:token])
+  room = user.room
+  $tmp += 1
+  { users: room.users, tmp: $tmp }.to_json
 end
