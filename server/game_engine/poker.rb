@@ -58,8 +58,12 @@ module Poker
   def self.straight(cards)
     ranks = get_ranks(cards)
     sequence = []
-    Card::RANKS.each do |e|
+    
+    Card::RANKS.cycle(2) do |e|
+      sequence.clear if sequence.length > 1 && e.eql?('K')
+
       ranks.include?(e) ? sequence << ranks.index(e) : sequence.clear
+      
       return sequence.sort.reverse if sequence.length == 5
     end
   end
@@ -87,6 +91,7 @@ module Poker
     pair(cards, 4)
   end
 
+  # Possible breach (not always the best combination)
   def self.straight_flush(cards)
     f = flush(cards)
     s = straight(cards)
@@ -97,7 +102,15 @@ module Poker
 
     nil
   end
-  
+
+  def self.royal_flush(cards)
+    sf = straight_flush(cards)
+
+    return sf if get_ranks(cards).include?('A') && !sf.nil?
+
+    nil
+  end
+
   def check_combination
     # TODO
   end
@@ -109,4 +122,4 @@ module Poker
   end
 end
 
-puts Poker.straight_flush([Card.new('4C'), Card.new('5S'), Card.new('AS'), Card.new('KS'), Card.new('10S'), Card.new('JS')]).to_s
+puts Poker.royal_flush([Card.new('4C'), Card.new('QS'), Card.new('AS'), Card.new('KS'), Card.new('10S'), Card.new('JS')]).to_s
