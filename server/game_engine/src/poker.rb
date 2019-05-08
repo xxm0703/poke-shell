@@ -3,7 +3,6 @@
 # This is the poker module
 module Poker
   require_relative 'deck.rb'
-  # include Deck
 
   WEAKEST = Card.new '2C'
   STRONGEST = Card.new 'AS'
@@ -43,9 +42,10 @@ module Poker
     f_pair = one_pair cards
     return nil if f_pair.nil?
 
-    f_pair.each { |e| cards_copy.delete_at e }
+    # Invalid value
+    cards_copy[f_pair[0]] = Card.new 'XX'
 
-    s_pair = one_pair cards
+    s_pair = one_pair cards_copy
     return nil if s_pair.nil?
 
     (f_pair + s_pair).sort.reverse
@@ -119,8 +119,7 @@ module Poker
     HAND_STRENGTH.each_with_index do |f, i|
       tmp = Poker.send(f, a)
 
-      return Deck::Hand.new(tmp, (10 - i)) unless tmp.nil?
-
+      return Combination.new(tmp, (10 - i)) unless tmp.nil?
     end
   end
 
@@ -130,8 +129,3 @@ module Poker
     duplicates
   end
 end
-puts Poker.eval_combination
-# puts Poker.royal_flush(a).to_s
-# puts Poker.full_house(a).to_s
-# puts Poker.two_pair(a).to_s
-# puts a

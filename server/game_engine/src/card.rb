@@ -11,12 +11,17 @@ class Card
       @suit = args[0][-1..-1]
       @rank = args[0][0..-2]
     else
-      @suit, @rank = args
+      @rank, @suit = args
      end
   end
 
   def to_s
     @rank + @suit
+  end
+
+  def ==(other)
+    @rank == other.rank &&
+      @suit == other.suit
   end
 
   def <=>(other)
