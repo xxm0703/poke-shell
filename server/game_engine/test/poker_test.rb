@@ -57,9 +57,9 @@ class TestPoker < Test::Unit::TestCase
     hand[0] = Card.new '9D'
     assert_nil(Poker.four_kind(hand))
   end
-end
 
-# puts Poker.eval_combination
-# puts Poker.royal_flush(a).to_s
-# puts Poker.full_house(a).to_s
-# puts a
+  def test_eval_combination
+    hand = [Card.new('2S'), Card.new('QS'), Card.new('JS'), Card.new('7S'), Card.new('4S'), Card.new('JD')]
+    assert_equal(Combination.new([4, 3, 2, 1, 0], 6), Poker.eval_combination(hand))
+  end
+end

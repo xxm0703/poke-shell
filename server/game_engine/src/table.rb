@@ -2,6 +2,8 @@
 
 # Stores the strongest combination
 class Combination
+  attr_reader :combination, :rating
+
   def initialize(combination, rating)
     @combination = combination
     @rating = rating
@@ -15,6 +17,11 @@ class Combination
     else
       0
     end
+  end
+
+  def ==(other)
+    @rating == other.rating &&
+      @combination == other.combination
   end
 
   def to_s

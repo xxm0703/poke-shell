@@ -3,6 +3,7 @@
 # This is the poker module
 module Poker
   require_relative 'deck.rb'
+  require_relative 'table.rb'
 
   WEAKEST = Card.new '2C'
   STRONGEST = Card.new 'AS'
@@ -113,11 +114,11 @@ module Poker
     nil
   end
 
-  def self.eval_combination
-    a = [Card.new('JC'), Card.new('QS'), Card.new('JS'), Card.new('AS'), Card.new('JS'), Card.new('JS')]
+  def self.eval_combination(card_set)
+    # a = [Card.new('JC'), Card.new('QS'), Card.new('JS'), Card.new('AS'), Card.new('JS'), Card.new('JS')]
 
     HAND_STRENGTH.each_with_index do |f, i|
-      tmp = Poker.send(f, a)
+      tmp = Poker.send(f, card_set)
 
       return Combination.new(tmp, (10 - i)) unless tmp.nil?
     end
