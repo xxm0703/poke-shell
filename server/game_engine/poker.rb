@@ -1,10 +1,24 @@
 # frozen_string_literal: true
 
+# This is the poker module
 module Poker
   require_relative 'deck.rb'
+  # include Deck
 
   WEAKEST = Card.new '2C'
   STRONGEST = Card.new 'AS'
+
+  HAND_STRENGTH = %i[
+    royal_flush
+    straight_flush
+    four_kind
+    full_house
+    flush
+    straight
+    three_kind
+    two_pair
+    one_pair
+  ].freeze
 
   def self.get_ranks(cards)
     cards.map(&:rank)
@@ -12,20 +26,6 @@ module Poker
 
   def self.get_suits(cards)
     cards.map(&:suit)
-  end
-
-  def self.high_card(best, current)
-    best = best.reduce(WEAKEST, :higher_card)
-    current = current.reduce(WEAKEST, :higher_card)
-
-    best_index = Card::RANKS.index best.rank
-    current_index = Card::RANKS.index current.rank
-
-    return 0 if best_index < current_index
-
-    return 1 if best_index > current_index
-
-    -1
   end
 
   def self.pair(cards, amount)
@@ -39,10 +39,11 @@ module Poker
   end
 
   def self.two_pair(cards)
+    cards_copy = cards.dup
     f_pair = one_pair cards
     return nil if f_pair.nil?
 
-    f_pair.each { |e| cards.delete_at e }
+    f_pair.each { |e| cards_copy.delete_at e }
 
     s_pair = one_pair cards
     return nil if s_pair.nil?
@@ -58,12 +59,12 @@ module Poker
   def self.straight(cards)
     ranks = get_ranks(cards)
     sequence = []
-    
+
     Card::RANKS.cycle(2) do |e|
       sequence.clear if sequence.length > 1 && e.eql?('K')
 
       ranks.include?(e) ? sequence << ranks.index(e) : sequence.clear
-      
+
       return sequence.sort.reverse if sequence.length == 5
     end
   end
@@ -76,10 +77,11 @@ module Poker
   end
 
   def self.full_house(cards)
+    cards_copy = cards.dup
     pair = one_pair cards
     return nil if pair.nil?
 
-    pair.each { |e| cards.delete_at e }
+    pair.each { |e| cards_copy.delete_at e }
 
     kind = three_kind cards
     return nil if kind.nil?
@@ -111,8 +113,15 @@ module Poker
     nil
   end
 
-  def check_combination
-    # TODO
+  def self.eval_combination
+    a = [Card.new('JC'), Card.new('QS'), Card.new('JS'), Card.new('AS'), Card.new('JS'), Card.new('JS')]
+
+    HAND_STRENGTH.each_with_index do |f, i|
+      tmp = Poker.send(f, a)
+
+      return Deck::Hand.new(tmp, (10 - i)) unless tmp.nil?
+
+    end
   end
 
   def self.find_duplicates(set)
@@ -121,5 +130,8 @@ module Poker
     duplicates
   end
 end
-
-puts Poker.royal_flush([Card.new('4C'), Card.new('QS'), Card.new('AS'), Card.new('KS'), Card.new('10S'), Card.new('JS')]).to_s
+puts Poker.eval_combination
+# puts Poker.royal_flush(a).to_s
+# puts Poker.full_house(a).to_s
+# puts Poker.two_pair(a).to_s
+# puts a

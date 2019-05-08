@@ -19,6 +19,14 @@ class Card
     @rank + @suit
   end
 
+  def <=>(other)
+    best_index = RANKS.index @rank
+    current_index = RANKS.index other.rank
+
+    best_index < current_index ? 1 :
+    best_index == current_index ? 0 : -1
+  end
+
   def higher_card(other)
     best_index = RANKS.index @rank
     current_index = RANKS.index other.rank

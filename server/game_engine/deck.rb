@@ -38,6 +38,27 @@ module Deck
       @deck.pop
     end
   end
+
+  class Hand
+    def initialize(combination, rating)
+      @combination = combination
+      @rating = rating
+    end
+
+    def <=>(other)
+      if @rating < other.rating
+        -1
+      elsif @rating > other.rating
+        1
+      else
+        0
+      end
+    end
+
+    def to_s
+      @combination.to_s + ' ' + @rating.to_s
+    end
+  end
 end
 
 # a = Deck::Deck.new
