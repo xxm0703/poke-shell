@@ -3,18 +3,17 @@ require 'rubygems'
 require 'active_record'
 require_relative "card_deck"
 
-enable :session
+enable :sessions
 
-current_dir = Dir.pwd
-Dir["#{current_dir}/models/*.rb"].each { |file| require file }
+current_dir = File.join(File.dirname(__FILE__), '../../')
 
-ActiveRecord::Base.establish_connection(
- { :adapter => 'postgresql',
-   :database => 'development',
-   :host => 'localhost',
-   :username => 'postgres',
-   :password => "martin20" }
-)
+# ActiveRecord::Base.establish_connection(
+#  { :adapter => 'postgresql',
+#    :database => 'development',
+#    :host => 'localhost',
+#    :username => 'postgres',
+#    :password => "martin20" }
+# )
 
 get '/' do
 	@link = "click me!"
