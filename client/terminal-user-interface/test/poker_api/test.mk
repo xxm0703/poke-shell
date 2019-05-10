@@ -1,6 +1,7 @@
 # C++ source files of 'poker_api' module's tests.
 # They are prepended their module's relative path to the main Makefile.
-POKER_API__TEST_SRC :=
+POKER_API__TEST_SRC := \
+	authentication_test.cc
 POKER_API__TEST_SRC := $(patsubst %,$(TEST)/$(POKER_API__MODULE_NAME)/%,$(POKER_API__TEST_SRC))
 
 # Object files of 'poker_api' module's tests.

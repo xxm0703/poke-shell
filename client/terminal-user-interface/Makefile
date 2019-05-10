@@ -66,7 +66,7 @@ EXECUTABLE_MODULES := shell_ui
 
 # Extra libraries, if required by the project.
 # Each module should add its required libraries to this variable's value.
-LIBS := -lncurses -pthread
+LIBS := -lncurses -pthread -lcurl
 
 # All C++ source files of third party libraries should go into this directory.
 THIRD_PARTY_SRC := lib
