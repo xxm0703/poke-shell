@@ -7,6 +7,7 @@ require 'json'
 
 current_dir = File.dirname(__FILE__)
 Dir["#{current_dir}/models/*.rb"].each { |file| require file }
+require "#{current_dir}/../game_engine/src/table.rb"
 
 ActiveRecord::Base.establish_connection(
   adapter: 'postgresql',
@@ -19,12 +20,7 @@ ActiveRecord::Base.establish_connection(
 enable :sessions
 
 before do
-  s_rd_pipe, a_wr_pipe = IO.pipe
-  a_rd_pipe, s_wr_pipe = IO.pipe
-  `#{File.join(current_dir, '/../bin/')}start_game #{s_rd_pipe} #{s_wr_pipe}`
-  s_rd_pipe.close
-  s_wr_pipe.close
-
+  $games = Hash.new { Game.new }
   content_type :json
 end
 
@@ -90,12 +86,14 @@ get '/join_table' do
     room.save
     user.room = room
     user.save
+  else
+    room = user.room
   end
 
+  $games[room.id].players.push Player.new(user.id, user.balance)
+  puts $games[room.id].players
   # Just for testing
-  until Room.find(room.id).full
-    puts Room.find(room.id).entered.to_s + user.username
-  end
+  # puts $games until Room.find(room.id).full
 
   { status: 0, room_id: room.id, 'people': User
     .where(room_id: room.id)
@@ -108,13 +106,25 @@ get '/exit_table' do
   { status: 405, message: 'You are not in a room' } if room.nil?
   room.update(entered: room.entered - 1)
 
-  room.delete if room.entered.zero?
+  $games[room.id].players.delete_if { |u| u.id == user.id }
+
+  if room.entered.zero?
+    room.delete
+    $games[room.id] = Game.new
+  end
 
   user.update(room_id: nil)
   { 'status': 0, 'message': 'Success' }.to_json
 end
 
-$tmp = 5
+get '/deal' do
+  user = User.find(params[:token])
+  player = $games[user.room.id].find params[:token]
+
+  raise Exception if player.nil?
+
+  return { status: 0, hand: player.hand, token: user.id } unless player.hand.empty?
+end
 
 get '/' do
   user = User.find(params[:token])

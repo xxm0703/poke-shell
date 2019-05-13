@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative './deck.rb'
+
 # Stores the strongest combination
 class Combination
   attr_reader :combination, :rating
@@ -32,7 +34,7 @@ end
 # Representation of one player
 class Player
   attr_accessor :combination
-  attr_reader :id
+  attr_reader :id, :hand
 
   def initialize(id, balance)
     @id = id
@@ -61,6 +63,7 @@ class Game
   attr_accessor :players
 
   def initialize
+    @deck = Deck.new
     @whole_pot = 0
     @current_pot = 0
     @players = []
@@ -70,7 +73,12 @@ class Game
     @players[@players.index player_id].pay_pot @current_pot
   end
 
+  def find(token)
+    puts "#{@players.select { |p| p.id == token }[0]} #{@players}"
+  end
+
   def <<(player)
-    @players << player
+    @players.push player
+    puts @players
   end
 end

@@ -14,11 +14,8 @@ class Deck
     @deck.shuffle!
   end
 
-  def deal(players_count)
-    dealed = Array.new(players_count) { Array.new(2) }
-
-    (0...2).each { |i| (0...players_count).each { |j| dealed[j][i] = @deck.pop } }
-    dealed
+  def deal
+    @deck.pop 2
   end
 
   def flop
