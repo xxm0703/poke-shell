@@ -19,8 +19,8 @@ ActiveRecord::Base.establish_connection(
 
 enable :sessions
 
+$games = Hash.new { |h, k| h[k] = Game.new }
 before do
-  $games = Hash.new { Game.new }
   content_type :json
 end
 
@@ -54,7 +54,6 @@ rescue ActiveRecord::RecordNotUnique
   { 'status': 422, 'message': 'Username already taken' }.to_json
 rescue Exception
   status 400
-  { 'status': 400, 'message': user.errors.to_a }.to_json
 end
 
 post '/log' do
@@ -90,10 +89,8 @@ get '/join_table' do
     room = user.room
   end
 
-  $games[room.id].players.push Player.new(user.id, user.balance)
-  puts $games[room.id].players
-  # Just for testing
-  # puts $games until Room.find(room.id).full
+  $games[room.id] << Player.new(user.id, user.balance)
+  puts $games.to_s
 
   { status: 0, room_id: room.id, 'people': User
     .where(room_id: room.id)
@@ -119,11 +116,15 @@ end
 
 get '/deal' do
   user = User.find(params[:token])
-  player = $games[user.room.id].find params[:token]
+  game = $games[user.room.id]
+  player = game.find params[:token]
 
   raise Exception if player.nil?
 
-  return { status: 0, hand: player.hand, token: user.id } unless player.hand.empty?
+  return { status: 0, hand: player.hand, token: user.id }.to_json unless player.hand.empty?
+
+  player.deal_cards game.deck.deal
+  { status: 0, hand: player.hand, token: user.id }.to_json
 end
 
 get '/' do

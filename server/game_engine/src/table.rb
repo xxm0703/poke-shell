@@ -60,7 +60,7 @@ end
 
 # Represents a poker table
 class Game
-  attr_accessor :players
+  attr_accessor :players, :deck
 
   def initialize
     @deck = Deck.new
@@ -74,11 +74,12 @@ class Game
   end
 
   def find(token)
-    puts "#{@players.select { |p| p.id == token }[0]} #{@players}"
+    index = @players.map(&:id).find_index(token.to_i)
+    index.nil? ? nil : @players[index]
   end
 
   def <<(player)
-    @players.push player
-    puts @players
+    @players << player unless @players.include? player
+    puts @players.to_s
   end
 end
