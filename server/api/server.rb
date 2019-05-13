@@ -127,6 +127,29 @@ get '/deal' do
   { status: 0, hand: player.hand, token: user.id }.to_json
 end
 
+get '/bet' do
+  user = User.find(params[:token])
+  game = $games[user.room.id]
+  player = game.find params[:token]
+
+  unless params[:bet].nil?
+    bet = params[:bet].to_i
+    raise Exception if bet < game.current_bet
+    game.current_bet = bet
+
+  
+end
+
+get '/fold' do
+  user = User.find(params[:token])
+  game = $games[user.room.id]
+  player = game.find params[:token]
+
+  game.whole_pot += player.current_pot
+  player.pay_pot
+  game.delete player
+end
+
 get '/' do
   user = User.find(params[:token])
   room = user.room

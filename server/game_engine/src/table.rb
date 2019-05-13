@@ -48,9 +48,9 @@ class Player
     @id == other.id
   end
 
-  def pay_pot(amount)
-    @balance = balance - amount + @current_pot
-    @current_pot = amount
+  def pay_pot
+    @balance = balance - @current_pot
+    @current_pot = 0
   end
 
   def deal_cards(cards)
@@ -60,17 +60,17 @@ end
 
 # Represents a poker table
 class Game
-  attr_accessor :players, :deck
+  attr_accessor :players, :deck, :current_bet, :whole_pot
 
   def initialize
     @deck = Deck.new
     @whole_pot = 0
-    @current_pot = 0
+    @current_bet = 0
     @players = []
   end
 
   def player_pay(player_id)
-    @players[@players.index player_id].pay_pot @current_pot
+    @players[@players.index player_id].current_pot = @current_bet
   end
 
   def find(token)
