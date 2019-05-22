@@ -141,6 +141,16 @@ get '/bet' do
   end
 end
 
+get '/flop' do
+  user = User.find(params[:token])
+  game = $games[user.room.id]
+  player = game.find params[:token]
+
+  game.table ||= game.deck.flop
+
+  { status: 0, table: game.table, token: user.id }.to_json
+end
+
 
 get '/fold' do
   user = User.find(params[:token])
