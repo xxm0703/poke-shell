@@ -19,6 +19,10 @@ class Card
     @rank + @suit
   end
 
+  # def to_json
+  #   {}
+  # end
+
   def ==(other)
     @rank == other.rank &&
       @suit == other.suit

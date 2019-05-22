@@ -134,11 +134,13 @@ get '/bet' do
 
   unless params[:bet].nil?
     bet = params[:bet].to_i
-    raise Exception if bet < game.current_bet
-    game.current_bet = bet
+    raise ArgumentError if bet < game.current_bet
 
-  
+    game.current_bet = bet
+    player.current_bet = bet
+  end
 end
+
 
 get '/fold' do
   user = User.find(params[:token])
@@ -147,6 +149,8 @@ get '/fold' do
 
   game.whole_pot += player.current_pot
   player.pay_pot
+  user.balance = player.balance
+  user.save!
   game.delete player
 end
 

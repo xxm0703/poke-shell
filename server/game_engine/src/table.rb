@@ -40,6 +40,7 @@ class Player
     @id = id
     @balance = balance
     @current_pot = 0
+    @game_pot = 0
     @combination = nil
     @hand = []
   end
@@ -49,7 +50,14 @@ class Player
   end
 
   def pay_pot
-    @balance = balance - @current_pot
+    next_stage
+    @balance -= @game_pot
+    @game_pot = 0
+    @current_pot = 0
+  end
+
+  def next_stage
+    @game_pot += @current_pot
     @current_pot = 0
   end
 
@@ -60,9 +68,10 @@ end
 
 # Represents a poker table
 class Game
-  attr_accessor :players, :deck, :current_bet, :whole_pot
+  attr_accessor :players, :deck, :current_bet, :whole_pot, :table
 
   def initialize
+    @table = nil
     @deck = Deck.new
     @whole_pot = 0
     @current_bet = 0

@@ -10,7 +10,7 @@ class Deck
     @deck = []
     @deck = Card::RANKS.product(Card::SUITS)
                        .map { |rank, suit| Card.new rank, suit }
-
+                       
     @deck.shuffle!
   end
 
