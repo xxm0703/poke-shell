@@ -151,6 +151,18 @@ get '/flop' do
   { status: 0, table: game.table, token: user.id }.to_json
 end
 
+get '/turn' do
+  user = User.find(params[:token])
+  game = $games[user.room.id]
+  player = game.find params[:token]
+
+  if game.table.size < 3
+    { status: 403, message: 'Wrong order of requests' }
+  else
+    game.table << game.deck.turn if game.table.size < 4
+    { status: 0, table: game.table, token: user.id }.to_json
+  end
+end
 
 get '/fold' do
   user = User.find(params[:token])
