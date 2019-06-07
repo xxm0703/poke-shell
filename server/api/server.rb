@@ -4,10 +4,13 @@ require 'sinatra'
 require 'active_record'
 require 'rubygems'
 require 'json'
+require 'argon2'
 
 current_dir = File.dirname(__FILE__)
 Dir["#{current_dir}/models/*.rb"].each { |file| require file }
 require "#{current_dir}/../game_engine/src/table.rb"
+
+hasher = Argon2::Password.new
 
 ActiveRecord::Base.establish_connection(
   adapter: 'postgresql',
@@ -37,9 +40,11 @@ end
 
 # TODO: permit only some params
 post '/register' do
-  user = User.new(params)
+  user_params = params.dup
+  user_params[:password] = hasher.create params[:password]
+  user = User.new(user_params)
 
-  unless check_encoding(user.password) && check_encoding(user.username)
+  unless check_encoding(params[:password]) && check_encoding(params[:username])
     status 411
     return { status: 411,
              message: 'Username and password should use only letters, digits and underscore' }.to_json
@@ -52,13 +57,13 @@ post '/register' do
 rescue ActiveRecord::RecordNotUnique
   status 422
   { 'status': 422, 'message': 'Username already taken' }.to_json
-rescue Exception
-  status 400
+# rescue Exception
+#   status 400
 end
 
 post '/log' do
   user = User.find_by username: params[:username]
-  if user.nil? == true || user.password != params[:password]
+  if user.nil? == true || user.password != hasher.create(params[:password])
     status 408
     { 'status': 408, 'message': 'Username or password, not correct' }.to_json
   else
