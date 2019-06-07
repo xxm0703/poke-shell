@@ -128,6 +128,11 @@ get '/deal' do
 
   return { status: 0, hand: player.hand, token: user.id }.to_json unless player.hand.empty?
 
+  until game.current_player == game.players.index(player)
+  end
+
+  game.next_player
+
   player.deal_cards game.deck.deal
   { status: 0, hand: player.hand, token: user.id }.to_json
 end
