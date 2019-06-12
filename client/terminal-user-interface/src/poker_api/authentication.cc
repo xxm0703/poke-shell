@@ -21,13 +21,12 @@ namespace terminal_user_interface {
         json register_user(url_t target_url, username_t username, 
                 display_name_t display_name, 
                 password_t password, password_t password_confirmation) noexcept {
-            static size_t static_post_data_size = std::strlen("display_name=&username=&password=&password_confirmation=");
+            static size_t static_post_data_size = std::strlen("display_name=&username=&password=");
 
             size_t post_data_size = static_post_data_size 
                 + username.length()
                 + display_name.length() 
-                + password.length() 
-                + password_confirmation.length();
+                + password.length();
             auto post_data = std::unique_ptr<char[]>(new char[post_data_size + 1]);
             CURL *curl;
             CURLcode res;
@@ -35,9 +34,9 @@ namespace terminal_user_interface {
 
             // Format data to POST to server
             std::sprintf(post_data.get(), 
-                    "display_name=%s&username=%s&password=%s&password_confirmation=%s",
+                    "display_name=%s&username=%s&password=%s",
                     display_name.c_str(), username.c_str(), 
-                    password.c_str(), password_confirmation.c_str());
+                    password.c_str());
 
             curl_global_init(CURL_GLOBAL_ALL);  // initialize cURL global config
             curl = curl_easy_init();
