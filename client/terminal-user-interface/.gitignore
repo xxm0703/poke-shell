@@ -1,0 +1,9 @@
+# Compiled object files
+tmp/obj/**/*.o
+
+# Compiled binaries
+bin/
+
+# Other temporary files
+tmp/streams/*
+
