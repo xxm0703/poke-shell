@@ -4,11 +4,13 @@
 #include <ncurses.h>
 #include "shell_ui/config.hh"
 #include "shell_ui/scenes/main_menu_scene.hh"
+#include "std_helper/program_options.hh"
 
 using namespace terminal_user_interface;
 using namespace terminal_user_interface::shell_ui;
 
-int main() {
+int main(int argc, char *argv[]) {
+    std_helper::ProgramOptions program_options(argc, argv);
     initscr();  // initialize main ncurses window
     cbreak();
     noecho();

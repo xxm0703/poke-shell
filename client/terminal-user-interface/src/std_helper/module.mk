@@ -6,13 +6,15 @@ STD_HELPER__MODULE_NAME := std_helper
 # which each header provides. Source files are recompiled if any one of these 
 # headers is altered.
 STD_HELPER__INCLUDE := \
-	string.hh
+	string.hh \
+	program_options.hh
 STD_HELPER__INCLUDE := $(patsubst %,$(INCLUDE)/$(STD_HELPER__MODULE_NAME)/%,$(STD_HELPER__INCLUDE))
 
 # C++ source files of 'std_helper' module.
 # They are prepended their module's relative path to the main Makefile.
 STD_HELPER__SRC := \
-	string.cc
+	string.cc \
+	program_options.cc
 STD_HELPER__SRC := $(patsubst %,$(SRC)/$(STD_HELPER__MODULE_NAME)/%,$(STD_HELPER__SRC))
 
 # Object files of 'std_helper' helper module.

@@ -3,6 +3,9 @@
 #include <ncurses.h>
 #include "shell_ui/title.hh"
 #include "ncurses_helper/colors.hh"
+#include "poker_api/authentication.hh"
+
+using terminal_user_interface::poker_api::url_t;
 
 namespace terminal_user_interface {
     namespace shell_ui {
@@ -10,6 +13,7 @@ namespace terminal_user_interface {
             bool g_colored;  // globally indicate whether terminal supports colors
             bool g_quit = false;  // globally indicate whether to quit the program
             int g_frame_rate = 12;  // window refresh rate
+            url_t g_api_url;  // URL to query web API
 
             void setup_colors() {
                 if (has_colors()) {  // terminal supports colors
