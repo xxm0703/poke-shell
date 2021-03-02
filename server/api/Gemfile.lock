@@ -1,13 +1,13 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    activemodel (5.2.3)
-      activesupport (= 5.2.3)
-    activerecord (5.2.3)
-      activemodel (= 5.2.3)
-      activesupport (= 5.2.3)
+    activemodel (5.2.4.5)
+      activesupport (= 5.2.4.5)
+    activerecord (5.2.4.5)
+      activemodel (= 5.2.4.5)
+      activesupport (= 5.2.4.5)
       arel (>= 9.0)
-    activesupport (5.2.3)
+    activesupport (5.2.4.5)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 0.7, < 2)
       minitest (~> 5.1)
@@ -16,7 +16,7 @@ GEM
     argon2 (2.0.2)
       ffi (~> 1.9)
       ffi-compiler (>= 0.1)
-    concurrent-ruby (1.1.5)
+    concurrent-ruby (1.1.8)
     ffi (1.11.1)
     ffi-compiler (1.0.1)
       ffi (>= 1.0.0)
@@ -24,9 +24,9 @@ GEM
     haml (5.1.1)
       temple (>= 0.8.0)
       tilt
-    i18n (1.6.0)
+    i18n (1.8.9)
       concurrent-ruby (~> 1.0)
-    minitest (5.11.3)
+    minitest (5.14.4)
     mustermann (1.0.3)
     pg (1.1.4)
     rack (2.2.3)
@@ -44,7 +44,7 @@ GEM
     temple (0.8.1)
     thread_safe (0.3.6)
     tilt (2.0.9)
-    tzinfo (1.2.5)
+    tzinfo (1.2.9)
       thread_safe (~> 0.1)
 
 PLATFORMS
